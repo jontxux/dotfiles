@@ -116,7 +116,7 @@ function! StripTrailingWhitespace()
     %s/\s\+$//e
 endfunction
 
-autocmd BufWritePre * call StripTrailingWhitespace()
+" autocmd BufWritePre * call StripTrailingWhitespace()
 " }}}
 
 " format file {{{
@@ -140,7 +140,7 @@ let g:coc_global_extensions = [
       \ 'coc-sh',
       \ 'coc-clangd',
       \ 'coc-perl',
-      \ 'coc-python',
+      \ 'coc-pyright',
       \ 'coc-json',
       \ 'coc-snippets',
       \ 'coc-vimlsp',
