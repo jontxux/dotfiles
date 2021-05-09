@@ -38,12 +38,18 @@ export TERMINAL="urxvtc"
 export EDITOR="/usr/local/bin/vim"
 export VISUAL="/usr/local/bin/vim"
 export PATH="/home/jb/.local/bin/":$PATH
-alias eguraldia="curl wttr.in"
+alias speedtest="curl -s https://raw.githubusercontent.com/sivel/speedtest-cli/master/speedtest.py | python -"
 alias tb="netcat termbin.com 9999"
 alias tbc="netcat termbin.com 9999 | xclip -selection c"
 #source /home/jb/.cargo/env
 
 vman() { man $* | vim -Rc 'set filetype=man' -; }
+
+dexpand() {curl -sLI $1 | grep -i location | awk '{print $2}' | tail -1}
+
+dshorten() {curl -w "\n" -s -d format=simple -d url=$1 https://is.gd/create.php}
+
+weather() {curl wttr.in/$1}
 
 transfer(){
     if [ $# -eq 0 ];then echo "No arguments specified.\nUsage:\n transfer <file|directory>\n ... | transfer <file_name>">&2;

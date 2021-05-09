@@ -15,19 +15,23 @@ set smtp_pass = $my_pass
 set editor="vim +8"
 set timeout = 30
 set mail_check = 5
-set edit_headers=yes
-set sort="reverse-date-received"
+set edit_headers = yes
+set copy = no # Para que no aparezca el archivo sent
+set sort = "reverse-date-received"
 unset imap_passive
 bind index G imap-fetch-mail # Refrescar email
 set mailcap_path 	= ~/dotfiles/mutt/mailcap
 auto_view text/html
+macro pager U <pipe-entry>'urlview'<enter> 'Seguir enlaces con urlview'
 
-macro index,pager U "<enter-command>set pipe_decode = yes<enter><pipe-message>urlview<enter><enter-command>set pipe_decode= no<enter>""view URLs" # Abrir urls
+
+
 
 # Ejemplos colores https://gist.github.com/LukeSmithxyz/de94948264649a9264193e96f5610c44
 
-color index blue black "~N"
-color index blue black "~O"
+color index blue black "~N" # Nuevo correo
+color index blue black "~O" # Correo sin abrir
+# color index cyan black "~X 1-" # Archivos adjuntos, al activar se ralentiza mucho
 color body color208 default "[\-\.+_a-zA-Z0-9]+@[\-\.a-zA-Z0-9]+" # Email addresses
 color body green default "(https?|ftp)://[\-\.,/%~_:?&=\#a-zA-Z0-9]+" # URL
 color body green default "\`[^\`]*\`" # Green text between ` and `

@@ -1,0 +1,10 @@
+= Debug =
+Ver lo que contiene un objeto:
+{{{python
+import pprint
+pprint.pprint(vars(<objeto>))
+}}}
+= Crawler =
+[[https://www.scrapingbee.com/blog/crawling-python/|ejemplos python crawler]]
+= Excel =
+[[openpyxl]]

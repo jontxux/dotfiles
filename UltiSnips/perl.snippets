@@ -10,6 +10,10 @@ snippet sort "sort {..} @array"
 ${1:@array} = sort { $a ${2:cmp} $b } $1;
 endsnippet
 
+snippet uniq "keys { map {$_ => 1} @array}" b
+my ${1:@unique} = keys { map { $_ => 1 } ${2:@array} }->%*;
+endsnippet
+
 snippet SQL "<<'SQL'; {...} SQL"
 <<'SQL';
 $0

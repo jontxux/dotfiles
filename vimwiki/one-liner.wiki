@@ -27,3 +27,7 @@ perl -lne 'END { print $. }'
 # enumerar todas las palabras
 perl -pe 's/(\w+)/++$i.".$1"/ge'
   }}}
+Sumar precio csv airbnb
+{{{bash
+cat airbnb_tax_1_2020-12_2020.csv | perl -F, -anle 'if (/reser/i){$sum += @F[scalar(@F) - 1]}END{print $sum}'
+}}}

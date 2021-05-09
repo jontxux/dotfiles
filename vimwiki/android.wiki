@@ -1,0 +1,16 @@
+= adb =
+[[https://www.xatakandroid.com/tutoriales/como-eliminar-aplicaciones-tu-android-que-no-se-dejan-borrar-inhabilitar|desinstalar aplicacion]]
+`adb devices` Compobar que esta conectado
+`adb shell pm list packages ` listar paquetes instalados podemos filtrar con grep
+`adb shell pm uninstall -k --user 0 'nombre-del-paquete'` Para desinstalar el paquete que queramos
+`adb backup -apk -shared -all -f backup-lineage-18.1.adb` Copia de seguridad
+`adb restore /ruta/del/fichero.ab` Recuperar copia de seguridad
+`adb install <nombre.apk>` Instalar dicho apk
+= Compartir archivo =
+`go-mtpfs <carpeta>` montar el directorio de android
+= termux =
+[[https://github.com/adi1090x/termux-omz|tema material]]
+- Almacenamiento disponible sin root
+{{{bash
+termux-setup-storage #asegurarse que termux tiene permisos de almacenamiento
+}}}

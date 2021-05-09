@@ -92,3 +92,43 @@ sub send_mail {
 	$smtp->quit();
 }
 }}}
+=== Email con python ===
+{{{python
+import smtplib
+
+
+def sendemail(from_addr,
+              to_addr_list,
+              cc_addr_list,
+              subject,
+              message,
+              login,
+              password,
+              smtpserver='smtp.gmail.com:587'):
+    header = 'From: %s\n' % from_addr
+    header += 'To: %s\n' % ','.join(to_addr_list)
+    header += 'Cc: %s\n' % ','.join(cc_addr_list)
+    header += 'Subject: %s\n\n' % subject
+    message = header + message
+
+    server = smtplib.SMTP(smtpserver)
+    server.starttls()
+    server.login(login, password)
+    problems = server.sendmail(from_addr, to_addr_list, message)
+    server.quit()
+    return problems
+
+
+salida = sendemail(from_addr='jonbergerandi@gmail.com',
+                   to_addr_list=['jonbergerandi@gmail.com'],
+                   cc_addr_list=['jonbergerandi@gmail.com'],
+                   subject='prueba',
+                   message='prueba',
+                   login='jonbergerandi@gmail.com',
+                   password='<contraseña>')
+
+if salida is not None:
+    print(salida)
+else:
+    print("No ha devuelto nada")
+}}}

@@ -61,6 +61,8 @@ convert source.jpg -monochrome destination.jpg
 #separate into gray channels:
 convert source.jpg -separate destination.jpg
 #However, if you want two colors only (black and white), then you need to threshold. For example, to select the color where above will be white and below will be black.
+# para extrar letras
+convert image3.png -threshold 50% result.png
 convert <input> -threshold xx% <output>
 }}}
 *Añadir un borde transparente de 1 pixel alrededor de una imagen*
@@ -74,6 +76,10 @@ convert -bordercolor "#000000" -border 10x10 image.png image-borde.png
 *Crear un negativo de una imagen*
 {{{bash
 convert -negate image.png image-negate.png
+}}}
+*Cambiar el color*
+{{{bash
+convert imagen_entrada.jpg -fuzz 5% -fill nuevo_color -opaque color_origen imagen_salida.jpg
 }}}
 === Rotaciones ===
 *Rotar una imagen en vertical*
@@ -101,4 +107,15 @@ identify -verbose image.png
 *Conocer la lista de colores utilizados en una imagen.*
 {{{bash
 identify -list color image.png
+}}}
+= Comandos guapizados =
+*Extraer palabras*
+{{{bash
+import png:- | convert - -threshold 50% png:- | tesseract --dpi 300 stdin stdout 2> /dev/null
+}}}
+*detectar color pixel*
+{{{bash
+eval $(xdotool getmouselocation --shell)
+IMAGE=$(import -window root -depth 8 -crop 1x1+$X+$Y txt:-)
+COLOR=$(echo $IMAGE | grep -oP '#\w+')
 }}}

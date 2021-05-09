@@ -99,6 +99,11 @@ bindsym XF86AudioMute exec pactl set-sink-mute 0 toggle # mute sound
 bindsym XF86MonBrightnessUp exec xbacklight -inc 20
 bindsym XF86MonBrightnessDown exec xbacklight -dec 20
 
+for_window [title="video - mpv"] floating enable
+for_window [title="video - mpv"] sticky enable
+for_window [title="video - mpv"] border pixel 1
+bindsym $mod+c exec --no-startup-id camtoggle
+
 #######
 #THEME#
 #######

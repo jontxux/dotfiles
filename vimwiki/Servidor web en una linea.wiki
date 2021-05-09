@@ -1,0 +1,41 @@
+= socat =
+{{{bash
+socat \
+    -v -d -d \
+    TCP-LISTEN:1234,crlf,reuseaddr,fork \
+    SYSTEM:"
+        echo HTTP/1.1 200 OK;
+        echo Content-Type\: text/html;
+        echo;
+        cat index.html;
+    "
+}}}
+= netcat =
+{{{bash
+while true; do (echo -e 'HTTP/1.1 200 OK\r\n'; echo -e "\n\tMy website has date function" ; echo -e "\t$(date)\n") | nc -lp 8080; done
+}}}
+= python =
+{{{bash
+python3 -m http.server 8000
+}}}
+- https
+{{{bash
+openssl req -sha512 -new -x509 -days 365 -nodes -out cert.pem -keyout cert.pem
+}}}
+{{{python
+from http.server import HTTPServer, SimpleHTTPRequestHandler
+import ssl
+
+httpd = HTTPServer(('localhost', 443), SimpleHTTPRequestHandler)
+httpd.socket = ssl.wrap_socket(httpd.socket, certfile='cert.pem', server_side=True)
+httpd.serve_forever()
+}}}
+= ruby =
+{{{ruby
+ruby -rwebrick -e "WEBrick::HTTPServer.new(:Port => 8000, :DocumentRoot => Dir.pwd).start"
+}}}
+= whatch =
+{{{bash
+# Para ir actualizando la pagina cada 4 segundos
+watch -n 4 -d 'echo "<!DOCTYPE HTML><html><head><meta http-equiv=\"refresh\" content=\"5\" charset=\"UTF-8\"></head><body><pre>" > index.html && { date; echo $'\n'; df -h; echo $'\n'; top -b -n 1; }  >> index.html && echo "</pre></body></html>" >> index.html'
+}}}
