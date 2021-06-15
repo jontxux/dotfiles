@@ -69,3 +69,66 @@ Format dd/mm/yyyy hh:MM:ss Z:Z - 09/11/2016 10:56:30 +02:00
 
 = go-ole =
 - Format para guardar con go-ole [[https://docs.microsoft.com/es-es/office/vba/api/Excel.XlFileFormat|formatos ole]]
+= html template =
+{{{go
+package main
+
+import (
+	"bytes"
+	"fmt"
+	"html/template"
+	"log"
+	"os"
+)
+
+func main() {
+
+	const tpl = `
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>{{.Title}}</title>
+	</head>
+	<body>
+		{{range .Items}}<div>{{ . }}</div>{{else}}<div><strong>no rows</strong></div>{{end}}
+	</body>
+</html>`
+
+	check := func(err error) {
+		if err != nil {
+			log.Fatal(err)
+		}
+	}
+	t, err := template.New("webpage").Parse(tpl)
+	check(err)
+
+	data := struct {
+		Title string
+		Items []string
+	}{
+		Title: "My page",
+		Items: []string{
+			"My photos",
+			"My blog",
+		},
+	}
+
+	err = t.Execute(os.Stdout, data)
+	check(err)
+
+	noItems := struct {
+		Title string
+		Items []string
+	}{
+		Title: "My another page",
+		Items: []string{},
+	}
+
+	var tplhtml bytes.Buffer
+	err = t.Execute(&tplhtml, noItems)
+	check(err)
+	prueba := tplhtml.String()
+	fmt.Println(prueba)
+}
+}}}
