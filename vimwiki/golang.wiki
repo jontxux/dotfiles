@@ -132,3 +132,100 @@ func main() {
 	fmt.Println(prueba)
 }
 }}}
+= chromedp =
+{{{go
+package main
+
+import (
+	"context"
+	"flag"
+	"fmt"
+	"log"
+	"time"
+
+	"github.com/chromedp/cdproto/page"
+	"github.com/chromedp/chromedp"
+	"github.com/chromedp/chromedp/kb"
+)
+
+func main() {
+
+	wordPtr := flag.Bool("gui", false, "a bool")
+	flag.Parse()
+	var ctx context.Context
+	var cancel context.CancelFunc
+	fmt.Println("word:", *wordPtr)
+	if *wordPtr {
+		ctx, cancel = chromedp.NewExecAllocator(context.Background(), append(chromedp.DefaultExecAllocatorOptions[:], chromedp.Flag("headless", false))...)
+		defer cancel()
+		ctx, cancel = chromedp.NewContext(ctx)
+		defer cancel()
+	} else {
+		ctx, cancel = chromedp.NewContext(context.Background())
+		defer cancel()
+
+	}
+
+	chromedp.ListenTarget(ctx, func(ev interface{}) {
+		if _, ok := ev.(*page.EventJavascriptDialogOpening); ok {
+			t := page.HandleJavaScriptDialog(false)
+			go func() {
+				if err := chromedp.Run(ctx, t); err != nil {
+					// handle error
+				}
+
+				// ok
+			}()
+		}
+	})
+	if err := chromedp.Run(ctx,
+		chromedp.Navigate("https://extranet2.crm.euskaltel.es/Net.Ap.Acceso/acceso.aspx?target=Login"),
+		chromedp.WaitReady("txtUsuario", chromedp.ByID),
+		chromedp.SendKeys("txtUsuario", <"Usuario">, chromedp.ByID),
+		chromedp.SendKeys("txtPassword", <"Contraseña">, chromedp.ByID),
+		chromedp.Click("btnEntrar", chromedp.ByID),
+	); err != nil {
+		log.Println(err)
+	}
+
+	// time.Sleep(60 * time.Second)
+	hoy := time.Now()
+	ayer := hoy.AddDate(0, 0, -1)
+	hoyStr := hoy.Format("02/01/2006")
+	ayerStr := ayer.Format("02/01/2006")
+	if err := chromedp.Run(ctx,
+		chromedp.WaitVisible("IMGSCROLL", chromedp.ByID),
+		chromedp.Navigate("https://extranet2.crm.euskaltel.es/Net.Ap.WebInstaladores/WebInstaladores.aspx?target=WebInstaladoresBuscar"),
+	); err != nil {
+		log.Println(err)
+	}
+	if err := chromedp.Run(ctx,
+		chromedp.WaitReady("txtCodigoOs", chromedp.ByID),
+		chromedp.SendKeys("selectFiltroFecha", "Entre", chromedp.ByID),
+		chromedp.SendKeys("txtFechaCita", ayerStr, chromedp.ByID),
+		chromedp.SendKeys("txtFechaCitaHasta", hoyStr, chromedp.ByID),
+		chromedp.KeyEvent(kb.Escape),
+	); err != nil {
+		log.Println(err)
+	}
+	if err := chromedp.Run(ctx,
+		chromedp.SendKeys("AqCtrlBindableTipoTarea", "TECNICO", chromedp.ByID),
+		chromedp.SendKeys("AqCtrlBindableCatalogo", "MSHF", chromedp.ByID),
+		chromedp.SendKeys("AqCtrlBindableTipo", "FLUJO", chromedp.ByID),
+		chromedp.SendKeys("AqCtrlBindableEstado", "Completada", chromedp.ByID),
+	); err != nil {
+		log.Println(err)
+	}
+	var res string
+	for {
+		if err := chromedp.Run(ctx,
+			page.SetDownloadBehavior(page.SetDownloadBehaviorBehaviorAllow).WithDownloadPath("."),
+			chromedp.WaitVisible("btnExportarExcel", chromedp.ByID),
+			chromedp.EvaluateAsDevTools(`document.querySelector("#btnExportarExcel").click()`, &res),
+		); err != nil {
+			log.Println(err)
+		}
+		time.Sleep(time.Minute)
+	}
+}
+}}}
