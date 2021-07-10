@@ -67,6 +67,16 @@ Format dd/mm/yyyy hh:MM:ss Z:Z - 09/11/2016 10:56:30 +02:00
 */
 }}}
 
+= leer archivo =
+{{{go
+content, err := ioutil.ReadFile("thermopylae.txt")
+
+ if err != nil {
+      log.Fatal(err)
+ }
+
+fmt.Println(string(content))
+}}}
 = go-ole =
 - Format para guardar con go-ole [[https://docs.microsoft.com/es-es/office/vba/api/Excel.XlFileFormat|formatos ole]]
 = html template =

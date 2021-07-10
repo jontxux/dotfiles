@@ -25,6 +25,29 @@ Plug 'tpope/vim-obsession'
 Plug 'jiangmiao/auto-pairs'
 Plug 'preservim/tagbar'
 Plug 'machakann/vim-highlightedyank'
+Plug 'fatih/vim-go'
+let g:go_doc_keywordprg_enabled = 0
+let g:go_highlight_function_calls = 1
+let g:go_highlight_array_whitespace_error = 1
+let g:go_highlight_chan_whitespace_error = 1
+let g:go_highlight_extra_types = 1
+let g:go_highlight_space_tab_error = 1
+let g:go_highlight_trailing_whitespace_error = 1
+let g:go_highlight_operators = 1
+let g:go_highlight_functions = 1
+let g:go_highlight_function_parameters = 1
+let g:go_highlight_function_calls = 1
+let g:go_highlight_types = 1
+let g:go_highlight_fields = 1
+let g:go_highlight_build_constraints = 1
+let g:go_highlight_generate_tags = 0
+let g:go_highlight_string_spellcheck = 1
+let g:go_highlight_format_strings = 1
+let g:go_highlight_variable_declarations = 1
+let g:go_highlight_variable_assignments = 1
+let g:go_highlight_diagnostic_errors = 1
+let g:go_highlight_diagnostic_warnings = 1
+let g:go_highlight_operators = 1
 Plug 'vim-scripts/restore_view.vim'
 Plug 'yko/mojo.vim'
 let mojo_highlight_data = 1
@@ -145,6 +168,8 @@ let g:coc_global_extensions = [
       \ 'coc-json',
       \ 'coc-snippets',
       \ 'coc-vimlsp',
+      \ 'coc-java',
+      \ 'coc-go',
       \ ]
 set updatetime=0
 
@@ -165,8 +190,22 @@ function! s:show_documentation()
     endif
 endfunction
 
+" Remap <C-f> and <C-b> for scroll float windows/popups.
+if has('nvim-0.4.0') || has('patch-8.2.0750')
+  nnoremap <silent><nowait><expr> <C-f> coc#float#has_scroll() ? coc#float#scroll(1) : "\<C-f>"
+  nnoremap <silent><nowait><expr> <C-b> coc#float#has_scroll() ? coc#float#scroll(0) : "\<C-b>"
+  inoremap <silent><nowait><expr> <C-f> coc#float#has_scroll() ? "\<c-r>=coc#float#scroll(1)\<cr>" : "\<Right>"
+  inoremap <silent><nowait><expr> <C-b> coc#float#has_scroll() ? "\<c-r>=coc#float#scroll(0)\<cr>" : "\<Left>"
+  vnoremap <silent><nowait><expr> <C-f> coc#float#has_scroll() ? coc#float#scroll(1) : "\<C-f>"
+  vnoremap <silent><nowait><expr> <C-b> coc#float#has_scroll() ? coc#float#scroll(0) : "\<C-b>"
+endif
+
+" Symbol renaming.
+nmap <leader>rn <Plug>(coc-rename)
+
 " Highlight the symbol and its references when holding the cursor.
 autocmd CursorHold * silent call CocActionAsync('highlight')
+autocmd BufWritePre *.go :silent call CocAction('runCommand', 'editor.action.organizeImport')
 " }}}
 
 " fzf {{{
@@ -187,33 +226,33 @@ nnoremap <C-p> :Files<CR>
 
 " Sesiones {{{
 
-if !isdirectory($HOME."/.vim/sessions")
-    call mkdir($HOME."/.vim/sessions", "p")
-endif
+" if !isdirectory($HOME."/.vim/sessions")
+"     call mkdir($HOME."/.vim/sessions", "p")
+" endif
 
-au VimLeave * call VimLeave()
-" au VimEnter * call VimEnter()
-let g:PathToSessions = $HOME . "/.vim/sessions/"
+" au VimLeave * call VimLeave()
+" " au VimEnter * call VimEnter()
+" let g:PathToSessions = $HOME . "/.vim/sessions/"
 
-function! VimEnter()
-    if argc() == 0
-        let LoadLastSession = confirm("Restore last session?", "&Yes\n&No")
-        if LoadLastSession == 1
-            exe "source " . g:PathToSessions . "LastSession.vim"
-        endif
-    endif
-endfunction
+" function! VimEnter()
+"     if argc() == 0
+"         let LoadLastSession = confirm("Restore last session?", "&Yes\n&No")
+"         if LoadLastSession == 1
+"             exe "source " . g:PathToSessions . "LastSession.vim"
+"         endif
+"     endif
+" endfunction
 
-function! VimLeave(...)
-    exe "NERDTreeClose"
-    exe "Obsession " . g:PathToSessions . "LastSession.vim"
-    if a:0 != ""
-        execute "Obsession " . g:PathToSessions . a:0 . ".vim"
-    endif
-endfunction
+" function! VimLeave(...)
+"     exe "NERDTreeClose"
+"     exe "Obsession " . g:PathToSessions . "LastSession.vim"
+"     if a:0 != ""
+"         execute "Obsession " . g:PathToSessions . a:0 . ".vim"
+"     endif
+" endfunction
 
-" A command for setting the session name
-command! -nargs=1 SaveSession :call VimLeave(<args>)
+" " A command for setting the session name
+" command! -nargs=1 SaveSession :call VimLeave(<args>)
 "}}}
 
 " Gui config {{{

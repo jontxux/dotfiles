@@ -8,3 +8,20 @@ sudo make install
 }}}
 == calcular ==
 En modo insert {{{<C-r>=}}}
+== funciones con python ==
+- La parte de vim va indentado pero python3 << tiene la misma indentación que la funcion
+{{{vim
+function! ObtenerFecha()
+   echo 'prueba' 
+python3 << EOF
+import vim
+import datetime
+import locale
+
+fecha = datetime.datetime.now()
+locale.setlocale(locale.LC_ALL, ("es_ES", "UTF-8"))
+fecha_str = fecha.strftime("%d %B %Y")
+vim.current.buffer.append(fecha_str)
+EOF
+endfunction
+}}}

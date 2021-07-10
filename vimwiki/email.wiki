@@ -2,6 +2,32 @@
 [[https://www.linuxito.com/gnu-linux/nivel-medio/102-enviar-correo-con-netcat-telnet|ejemplo mandar email pero el puerto con gmail es 587]]
 [[https://www.youtube.com/watch?v=8xYxx3MbaF4|ejemplo mail con telnet]]
 [[https://www.youtube.com/watch?v=Hv3Ueqnbvd8|gmail telnet reciente]]
+{{{bash
+telnet smtp.gmail.com 587
+Trying 64.233.167.108...
+Connected to smtp.gmail.com.
+Escape character is '^]'.
+220 smtp.gmail.com ESMTP a11sm320029wrr.48 - gsmtp
+helo google
+250 smtp.gmail.com at your service
+starttls auth login # Aunque devuelva syntax error va asi
+555 5.5.2 Syntax error. a11sm320029wrr.48 - gsmtp
+auth login
+334 VXNlcm5hbWU6
+am9uYmVyZ2VyYW5kaUBnbWFpbC5jb20K # usuario en base64
+334 UGFzc3dvcmQ6
+am94ZW0xZWwK # password en base64
+235 2.7.0 Accepted
+MAIL FROM:<jonbergerandi@gmail.com>
+250 2.1.0 OK a11sm320029wrr.48 - gsmtp
+RCPT TO:<jonbergerandi@gmail.com>
+250 2.1.5 OK a11sm320029wrr.48 - gsmtp
+DATA
+354  Go ahead a11sm320029wrr.48 - gsmtp
+Esto es una prueba jejeej.
+.
+250 2.0.0 OK  1622481573 a11sm320029wrr.48 - gsmtp
+}}}
 === Ejemplo openssl ===
 openssl s_client -connect {{server_name}}:{{server_port}} -crlf -quiet -starttls smtp
 auth login
