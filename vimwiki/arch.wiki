@@ -9,11 +9,16 @@
 == Problem ==
 In Arch Linux mkinitcpio -p linux
 
+{{{bash
+sudo mkinitcpio -p linux
+}}}
+
 shows
 
 {{{
 Possibly missing firmware for module: aic94xx
 Possibly missing firmware for module: wd719x
+Possibly missing firmware for module: xhci_pci
 }}}
 
 == Solve ==
@@ -27,7 +32,17 @@ git clone https://aur.archlinux.org/wd719x-firmware.git
 cd wd719x-firmware
 makepkg -sri
 }}}
+{{{bash
+git clone https://aur.archlinux.org/upd72020x-fw.git
+cd upd72020x-fw
+makepkg -sri
+}}}
+
 and then mkinitcpio -p linux again.
+
+{{{bash
+sudo mkinitcpio -p linux
+}}}
 
 Reference
 https://wiki.archlinux.org/index.php/Mkinitcpio
