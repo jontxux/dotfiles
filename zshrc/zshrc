@@ -42,6 +42,7 @@ export PATH=$PATH:$HOME/go/bin
 export PATH=$PATH:$HOME/go/src
 export GO111MODULE=on
 alias speedtest="curl -s https://raw.githubusercontent.com/sivel/speedtest-cli/master/speedtest.py | python -"
+alias vi="vim"
 alias tb="netcat termbin.com 9999"
 alias tbc="netcat termbin.com 9999 | xclip -selection c"
 #source /home/jb/.cargo/env
