@@ -1,3 +1,8 @@
-nnoremap <buffer> <F2> :Autoformat<CR>
-nnoremap <buffer> <F5> :w<CR>:te python3 %<CR>i
-
+nnoremap <buffer> <F5> :w<CR>:!python3 %<CR>
+setlocal shiftwidth=4
+setlocal tabstop=4
+setlocal colorcolumn=80
+setlocal expandtab
+if executable('yapf')
+    setlocal formatprg=yapf
+endif

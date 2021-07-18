@@ -1,1 +1,4 @@
-nnoremap <buffer> <F2> :Autoformat<CR>
+setlocal shiftwidth=2
+setlocal tabstop=2
+setlocal colorcolumn=80
+setlocal noexpandtab

@@ -1,1 +1,3 @@
-nnoremap <buffer> <F2> :Autoformat<CR>
+if executable('sqlformat')
+    setlocal formatprg=sqlformat\ -k\ upper\ -r\ %
+endif

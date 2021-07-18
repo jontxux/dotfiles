@@ -1,129 +1,73 @@
 call plug#begin('~/.local/share/nvim/plugged')
 
-"""""""""" Plugins """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-
-
-"""""""""""""""""""""""""" Herramientas
 Plug 'easymotion/vim-easymotion'
 Plug 'scrooloose/nerdtree'
 Plug 'jiangmiao/auto-pairs'
 Plug 'tpope/vim-commentary'
-Plug 'ctrlpvim/ctrlp.vim'
 Plug 'vim-airline/vim-airline'
-Plug 'ervandew/supertab'
-Plug 'dense-analysis/ale'
+let g:airline#extensions#tabline#enabled = 1
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+Plug 'junegunn/fzf.vim'
 Plug 'SirVer/ultisnips'
-Plug 'prabirshrestha/async.vim'
-Plug 'prabirshrestha/vim-lsp'
-Plug 'mattn/vim-lsp-settings'
-Plug 'thomasfaingnaert/vim-lsp-snippets'
-Plug 'thomasfaingnaert/vim-lsp-ultisnips'
-"======================= Completado
-Plug 'ncm2/ncm2'
-Plug 'roxma/nvim-yarp'
-Plug 'ncm2/ncm2-bufword'
-Plug 'ncm2/ncm2-path'
-""" Plug 'ncm2/ncm2-syntax' | Plug 'Shougo/neco-syntax'
-Plug 'ncm2/ncm2-ultisnips'
-Plug 'ncm2/ncm2-vim-lsp'
-Plug 'yuki-ycino/ncm2-dictionary'
-" ======================
-Plug 'alcesleo/vim-uppercase-sql'
-Plug 'Yggdroot/indentLine'
-Plug 'alvan/vim-closetag'
 Plug 'tpope/vim-surround'
 Plug 'ryanoasis/vim-devicons'
 Plug 'sheerun/vim-polyglot'
-Plug 'dbeniamine/cheat.sh-vim'
 Plug 'tpope/vim-repeat'
-Plug 'tpope/vim-afterimage'
-Plug 'editorconfig/editorconfig-vim'
-Plug 'vim-perl/vim-perl'
-Plug 'skaji/syntax-check-perl'
-Plug 'metakirby5/codi.vim'
 Plug 'majutsushi/tagbar'
 Plug 'vimwiki/vimwiki'
-Plug 'voldikss/vim-translator'
-Plug 'idanarye/vim-vebugger'
-Plug 'Shougo/vimproc.vim', {'do' : 'make'}
-Plug 'Chiel92/vim-autoformat'
-Plug 'c9s/perlomni.vim'
-Plug 'machakann/vim-highlightedyank'
+Plug 'neovim/nvim-lspconfig'
+Plug 'hrsh7th/nvim-compe'
 
-"""""""""""""""""""""""""" Esquema de colores
-" Plug 'flazz/vim-colorschemes'
+Plug 'fatih/vim-go'
+let g:go_doc_keywordprg_enabled = 0
+let g:go_highlight_function_calls = 1
+let g:go_highlight_array_whitespace_error = 1
+let g:go_highlight_chan_whitespace_error = 1
+let g:go_highlight_extra_types = 1
+let g:go_highlight_space_tab_error = 1
+let g:go_highlight_trailing_whitespace_error = 1
+let g:go_highlight_operators = 1
+let g:go_highlight_functions = 1
+let g:go_highlight_function_parameters = 1
+let g:go_highlight_function_calls = 1
+let g:go_highlight_types = 1
+let g:go_highlight_fields = 1
+let g:go_highlight_build_constraints = 1
+let g:go_highlight_generate_tags = 0
+let g:go_highlight_string_spellcheck = 1
+let g:go_highlight_format_strings = 1
+let g:go_highlight_variable_declarations = 1
+let g:go_highlight_variable_assignments = 1
+let g:go_highlight_diagnostic_errors = 1
+let g:go_highlight_diagnostic_warnings = 1
+let g:go_highlight_operators = 1
+
 Plug 'morhetz/gruvbox'
-
-"""""""""""""""""""""""""" Juegos vim
-Plug 'johngrib/vim-game-code-break'
-Plug 'johngrib/vim-game-snake'
 
 call plug#end()
 
-
-"""""""""""" Fin de config de Vundle y requerimientos de plugins """"""""""""""
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-"soporte de 256 colores en vim
-set t_Co=256
-
-"Color del fondo oscuro
-set background=dark
-
-
-"activacion resaltado de sintaxys
-syntax on
-""""""""""""""""""""""""""""""""""""" Visual """""""""""""""""""""""""""""""""""
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-
-colorscheme gruvbox
-
-"enumerar las lineas
+set mouse=a
 set number
 set relativenumber
-
-"Muestra la linea de status
-"teniendo Vim-Airline muestra la generada po dicho plugin
-set laststatus=2
-
-"Muestra comandos incompletos en esquina inferior derecha
-set showcmd
-
-"Esconde el modo actual ya que Vim-Airline tambien lo muestra.
-set noshowmode
-
-"Para que puedas borrar normal
-set backspace=indent,eol,start
-
-"Resalta la linea donde esta el cursorline"
 set cursorline
+set clipboard=unnamed,unnamedplus
 
-"NO corta las lineas largas para evitar scroll horizontal
-set nowrap
 
-"marca para indicar un quiebre de lineas largas
-set showbreak=↪
+set nowrap "Para que la linea se quede entera
+set nofoldenable "Al iniciar todo desplegado
+set noshowmode "Con airline no hace falta modo
 
-" para ver las opciones posibles aunqe en vim todabia no aparecen como neovim
-set wildmenu
 
-" Poder rehacer los cambios aun cerrando el archivo
-set undofile
-set undodir=~/.config/nvim/undodir
+set ignorecase "busquedas no distinguen mayusculas y minusculas
+set incsearch   "Muestra la concordancia de una busqueda mientras escribes.
+set hlsearch    "Resalta las busquedas
 
-" Poder hacer scroll en vim normal
-set mouse=a
+set background=dark
+colorscheme gruvbox
 
-" Dividir abajo
-set splitbelow
+let mapleader = ","
 
-" No seleccionar al autcompletar
-set completeopt=noinsert,menuone,noselect
 
-" No aparece el mensaje de coincidencia en autocompletado
-set shortmess+=c
-
-"""" Atajos utiles, cuando te equivocas escribiendo alguno de estos comandos
-"ejemplo :w para guardar, si escribes rapido posiblemente escribas :W
 cnoreabbrev W w
 cnoreabbrev W! w!
 cnoreabbrev Q! q!
@@ -135,123 +79,131 @@ cnoreabbrev WQ wq
 cnoreabbrev Q q
 cnoreabbrev Qall qall
 
-"""""""""""""""""""""""""""""""" backups """"""""""""""""""""""""""""""""""""""
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-set noswapfile "desactiva los archivos Swap
-set nobackup   "no se crean respaldos permanentes cuando se guarda un archivo
-set nowritebackup "no se crean respaldos temporales al guardar archivos
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
-
-
-
-"#############################################################################"
-"""""""""""""""""""""" Config varias """"""""""""""""""""""""""""""""""""""""""
-"" busquedas
-set ignorecase "busquedas no distinguen mayusculas y minusculas
-set incsearch   "Muestra la concordancia de una busqueda mientras escribes.
-set hlsearch    "Resalta las busquedas
-
-"##############################################################################"
-
-"==================== editorconfig ====================
-let g:EditorConfig_preserve_formatoptions = 1
-
-"==================== airline ====================
-" Para mostrar el buffer abierto arriba
-let g:airline#extensions#tabline#enabled = 1
-let g:airline_theme = 'gruvbox'
-
-"==================== xml ====================
-let g:closetag_shortcut = '>'
-let g:closetag_close_shortcut = '<leader>>'
-let g:closetag_filetypes = 'xml,html,xhtml'
-
-"==================== SuperTab ====================
-let g:SuperTabDefaultCompletionType = "<c-n>"
-
-"==================== EasyMotion ====================
-let g:EasyMotion_leader_key = ',,'
-
-"==================== Markdown ====================
-let g:polyglot_disabled = ['md', 'markdown']
-
-"==================== Leader ======================
-let mapleader = ","
-
-"==================== Perl ======================
-let g:ale_linters = {
-            \ 'perl': ['syntax-check', 'perlcritic'],
-            \}
-
-"==================== vim-translator ======================
-let g:translator_target_lang = 'es'
-
-"==================== vim-lsp ======================
-let g:lsp_diagnostics_enabled = 0
-
-let g:lsp_ultisnips_integration = 1
-autocmd BufEnter * call ncm2#enable_for_buffer()
-let ncm2#complete_length = [[1, 1]]
-let ncm2#popup_delay = 0
-" UltiSnips+NCM function parameter expansion
-
-" We don't really want UltiSnips to map these two, but there's no option for
-" that so just make it map them to a <Plug> key.
-let g:UltiSnipsExpandTrigger       = "<Plug>(ultisnips_expand_or_jump)"
-let g:UltiSnipsJumpForwardTrigger  = "<C-j>"
-" let g:UltiSnipsJumpForwardTrigger  = "<Plug>(ultisnips_expand_or_jump)"
-" Let UltiSnips bind the jump backward trigger as there's nothing special
-" about it.
-let g:UltiSnipsJumpBackwardTrigger = "<C-k>"
-
-" Try expanding snippet or jumping with UltiSnips and return <Tab> if nothing
-" worked.
-function! UltiSnipsExpandOrJumpOrTab()
-    call UltiSnips#ExpandSnippetOrJump()
-    if g:ulti_expand_or_jump_res > 0
-        return ""
-    else
-        return "\<C-y>"
-    endif
-endfunction
-
-" First try expanding with ncm2_ultisnips. This does both LSP snippets and
-" normal snippets when there's a completion popup visible.
-inoremap <silent> <expr> <Tab> ncm2_ultisnips#expand_or("\<Plug>(ultisnips_try_expand)")
-inoremap <silent> <expr> <C-y> ncm2_ultisnips#expand_or("\<Plug>(ultisnips_try_expand)")
-
-" If that failed, try the UltiSnips expand or jump function. This handles
-" short snippets when the completion popup isn't visible yet as well as
-" jumping forward from the insert mode. Writes <Tab> if there is no special
-" action taken.
-inoremap <silent> <Plug>(ultisnips_try_expand) <C-R>=UltiSnipsExpandOrJumpOrTab()<CR>
-
-" Select mode mapping for jumping forward with <Tab>.
-snoremap <silent> <C-y> <Esc>:call UltiSnips#ExpandSnippetOrJump()<cr>
-inoremap <expr> <CR> (pumvisible() ? "\<c-y>\<cr>" : "\<CR>")
-"==================== Terminal ====================
-augroup TerminalStuff
-    au!
-    autocmd TermOpen * setlocal nonumber norelativenumber signcolumn=no
-augroup END
-
-let g:term_buf = 0
-let g:term_win = 0
-function! TermToggle(height)
-    if win_gotoid(g:term_win)
-        exec "bdelete! " . g:term_buf
-        let g:term_buf = 0
-        let g:term_win = 0
-    else
-        botright new
-        exec "resize " . a:height
-        call termopen($SHELL, {"detach": 0})
-        let g:term_buf = bufnr("")
-        startinsert!
-        let g:term_win = win_getid()
-    endif
-endfunction
-
-nnoremap <leader>te :call TermToggle(12)<CR>
 tnoremap <Esc> <C-\><C-n>
+nnoremap <F11> :NERDTreeToggle<CR>
+nnoremap <F12> :TagbarToggle<CR>
+
+nnoremap <silent> <C-l> :bn!<CR>
+nnoremap <silent> <C-h> :bp!<CR>
+nnoremap ññ :b#<CR>
+nnoremap ñd :bd<CR>
+nnoremap ñD :bd!<CR>
+
+nnoremap <C-p> :Files<CR>
+nnoremap ñh :noh<CR>
+
+nnoremap ñv :e $MYVIMRC<CR>
+nnoremap ñV :so $MYVIMRC<CR>
+
+lua << EOF
+local nvim_lsp = require('lspconfig')
+
+-- Use an on_attach function to only map the following keys
+-- after the language server attaches to the current buffer
+local on_attach = function(client, bufnr)
+  local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
+  local function buf_set_option(...) vim.api.nvim_buf_set_option(bufnr, ...) end
+
+  --Enable completion triggered by <c-x><c-o>
+  buf_set_option('omnifunc', 'v:lua.vim.lsp.omnifunc')
+
+  -- Mappings.
+  local opts = { noremap=true, silent=true }
+
+  -- See `:help vim.lsp.*` for documentation on any of the below functions
+  buf_set_keymap('n', 'gD', '<Cmd>lua vim.lsp.buf.declaration()<CR>', opts)
+  buf_set_keymap('n', 'gd', '<Cmd>lua vim.lsp.buf.definition()<CR>', opts)
+  buf_set_keymap('n', 'K', '<Cmd>lua vim.lsp.buf.hover()<CR>', opts)
+  buf_set_keymap('n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<CR>', opts)
+  buf_set_keymap('n', '<C-k>', '<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
+  buf_set_keymap('n', '<leader>wa', '<cmd>lua vim.lsp.buf.add_workspace_folder()<CR>', opts)
+  buf_set_keymap('n', '<leader>wr', '<cmd>lua vim.lsp.buf.remove_workspace_folder()<CR>', opts)
+  buf_set_keymap('n', '<leader>wl', '<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>', opts)
+  buf_set_keymap('n', '<leader>D', '<cmd>lua vim.lsp.buf.type_definition()<CR>', opts)
+  buf_set_keymap('n', '<leader>rn', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
+  buf_set_keymap('n', '<leader>ca', '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
+  buf_set_keymap('n', 'gr', '<cmd>lua vim.lsp.buf.references()<CR>', opts)
+  buf_set_keymap('n', '<leader>e', '<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>', opts)
+  buf_set_keymap('n', '[d', '<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>', opts)
+  buf_set_keymap('n', ']d', '<cmd>lua vim.lsp.diagnostic.goto_next()<CR>', opts)
+  buf_set_keymap('n', '<leader>q', '<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>', opts)
+  buf_set_keymap("n", "<leader>f", "<cmd>lua vim.lsp.buf.formatting()<CR>", opts)
+
+end
+
+-- Use a loop to conveniently call 'setup' on multiple servers and
+-- map buffer local keybindings when the language server attaches
+local servers = { "clangd", "gopls", "tsserver" }
+for _, lsp in ipairs(servers) do
+  nvim_lsp[lsp].setup {
+    on_attach = on_attach,
+    flags = {
+      debounce_text_changes = 150,
+    }
+  }
+end
+EOF
+
+set completeopt=menuone,noselect
+
+lua << EOF
+-- Compe setup
+require'compe'.setup {
+  enabled = true;
+  autocomplete = true;
+  debug = false;
+  min_length = 1;
+  preselect = 'enable';
+  throttle_time = 80;
+  source_timeout = 200;
+  incomplete_delay = 400;
+  max_abbr_width = 100;
+  max_kind_width = 100;
+  max_menu_width = 100;
+  documentation = true;
+
+  source = {
+    path = true;
+    nvim_lsp = true;
+  };
+}
+
+local t = function(str)
+  return vim.api.nvim_replace_termcodes(str, true, true, true)
+end
+
+local check_back_space = function()
+    local col = vim.fn.col('.') - 1
+    if col == 0 or vim.fn.getline('.'):sub(col, col):match('%s') then
+        return true
+    else
+        return false
+    end
+end
+
+-- Use (s-)tab to:
+--- move to prev/next item in completion menuone
+--- jump to prev/next snippet's placeholder
+_G.tab_complete = function()
+  if vim.fn.pumvisible() == 1 then
+    return t "<C-n>"
+  elseif check_back_space() then
+    return t "<Tab>"
+  else
+    return vim.fn['compe#complete']()
+  end
+end
+_G.s_tab_complete = function()
+  if vim.fn.pumvisible() == 1 then
+    return t "<C-p>"
+  else
+    return t "<S-Tab>"
+  end
+end
+
+vim.api.nvim_set_keymap("i", "<Tab>", "v:lua.tab_complete()", {expr = true})
+vim.api.nvim_set_keymap("s", "<Tab>", "v:lua.tab_complete()", {expr = true})
+vim.api.nvim_set_keymap("i", "<S-Tab>", "v:lua.s_tab_complete()", {expr = true})
+vim.api.nvim_set_keymap("s", "<S-Tab>", "v:lua.s_tab_complete()", {expr = true})
+EOF
