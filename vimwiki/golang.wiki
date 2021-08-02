@@ -79,6 +79,23 @@ fmt.Println(string(content))
 }}}
 = go-ole =
 - Format para guardar con go-ole [[https://docs.microsoft.com/es-es/office/vba/api/Excel.XlFileFormat|formatos ole]]
+= excelize =
+{{{go
+func conv(i int) string {
+	// Pasamos el indice de numero a cadena
+
+	if i <= 0 {
+		return ""
+	}
+
+	j := (i - 1) % 26
+	l := "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+	s := conv((i - j) / 26)
+
+	return s + string(l[j])
+}
+
+}}}
 = html template =
 {{{go
 package main
@@ -239,3 +256,100 @@ func main() {
 	}
 }
 }}}
+
+- Comprobar si existe elemento
+{{{go
+package main
+
+import (
+	"context"
+	"fmt"
+	"log"
+
+	"github.com/chromedp/cdproto/cdp"
+	"github.com/chromedp/chromedp"
+)
+
+func main() {
+	opts := append(
+		chromedp.DefaultExecAllocatorOptions[:],
+		chromedp.ProxyServer("socks5://127.0.0.1:9050"),
+	)
+
+	ctx, cancel := chromedp.NewExecAllocator(
+		context.Background(),
+		opts...,
+	)
+
+	ctx, cancel = chromedp.NewContext(ctx)
+	defer cancel()
+
+	var nodes []*cdp.Node
+
+	if err := chromedp.Run(ctx,
+		chromedp.Navigate("https://ifconfig.me"),
+		chromedp.WaitReady("ip_address", chromedp.ByID),
+		chromedp.Nodes("ip_address", &nodes, chromedp.AtLeast(0)),
+	); err != nil {
+		log.Println(err)
+	}
+
+	if len(nodes) > 0 {
+		var texto string
+		if err := chromedp.Run(ctx,
+			chromedp.Text("ip_address", &texto, chromedp.ByID),
+		); err != nil {
+			log.Println(err)
+		}
+
+		fmt.Println(texto)
+	} else {
+		fmt.Println("No se encontro el elemento")
+	}
+
+}
+}}}
+- Recorrer tabla chromedp
+{{{go
+package main
+
+import (
+	"context"
+	"fmt"
+	"log"
+
+	"github.com/chromedp/cdproto/cdp"
+	"github.com/chromedp/chromedp"
+)
+
+func main() {
+
+	ctx, cancel := chromedp.NewContext(context.Background())
+	defer cancel()
+
+	var nodes []*cdp.Node
+
+	if err := chromedp.Run(ctx,
+		chromedp.Navigate("https://www.divxtotal.ch/?s=mr+robot"),
+		chromedp.WaitReady("/html/body/div/div/div[3]/div[1]/div[2]/div[2]/div[1]/table", chromedp.BySearch),
+		chromedp.Nodes("/html/body/div/div/div[3]/div[1]/div[2]/div[2]/div[1]/table/tbody/tr", &nodes, chromedp.BySearch),
+	); err != nil {
+		log.Println(err)
+	}
+
+	fmt.Println(len(nodes))
+	const tabla = `/html/body/div/div/div[3]/div[1]/div[2]/div[2]/div[1]/table/tbody/tr[%d]/td[1]`
+
+	for i := 1; i <= len(nodes); i++ {
+		var texto string
+		if err := chromedp.Run(ctx,
+			chromedp.Text(fmt.Sprintf(tabla, i), &texto, chromedp.BySearch),
+		); err != nil {
+			log.Println(err)
+		}
+		fmt.Println(texto)
+
+	}
+}
+}}}
+
