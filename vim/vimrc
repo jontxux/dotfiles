@@ -112,6 +112,9 @@ cnoreabbrev Q q
 cnoreabbrev Qall qall
 " }}}
 
+command SudoWrite :execute ':silent w !sudo tee % > /dev/null' | :edit!
+command SudoRead :execute ':silent r !sudo cat %' | :1d 
+
 tnoremap <Esc> <C-\><C-n>
 nnoremap <F11> :NERDTreeToggle<CR>
 nnoremap <F12> :TagbarToggle<CR>
