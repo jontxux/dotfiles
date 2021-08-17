@@ -7,7 +7,8 @@ ssh <usuario>@<direccion>
 {{{bash
 ssh-keygen
 ssh-copy-id <usuario>@<direccion>
-# o cat ~/.ssh/id_rsa.pub | ssh $username@$ssh_hostk "cat - >> ~/.ssh/authorized_keys"
+# o 
+cat ~/.ssh/id_rsa.pub | ssh $username@$ssh_hostk "cat - >> ~/.ssh/authorized_keys"
 }}}
 ===== Copia disco duro remoto =====
 {{{bash
@@ -39,6 +40,7 @@ scp /home/jb/Documentos/prueba.c pi@192.168.0.100:/home/pi/Documentos
 
 # Cliente a servidor
 cat file | ssh ajw@dogmatix "cat > remote"
+tar -cz . | ssh me@school -- 'tar -C/path/to/target/dir -xz'
 # o
 ssh ajw@dogmatix "cat > remote" < file
 # Servidor a cliente

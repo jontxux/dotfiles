@@ -1,5 +1,12 @@
+function! DebugGdlv() abort
+    call system("go build")
+    let l:paquete = system("go mod why | tail -1 | tr -d '\n'")
+    " echo l:paquete
+    call system("gdlv debug " . l:paquete . " &")
+endfunction
 nnoremap <buffer> <F5> :GoRun<CR>
-nnoremap <buffer> <F3> :GoDebugStart<CR>
+" nnoremap <buffer> <F3> :GoDebugStart<CR>
+nnoremap <buffer> <F3> :call DebugGdlv()<CR>
 " Se ejecuta despues de haber empezado el debugger :GoDebugStart
 let g:go_debug_mappings = {
  \ '(go-debug-continue)':   {'key': '<F4>'},

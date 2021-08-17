@@ -30,3 +30,7 @@ torsocks ssh usuario@ejiehaunae9Eex4Hio.onion
 - Si queremos conectarnos con termux podemos instalar orbot
 	- Activamos el vpn para conectarnos desde termux
 	- Le damos iniciar
+=== Chromium ===
+{{{bash
+chromium --proxy-server="socks5://127.0.0.1:9050" --host-resolver-rules="MAP * 0.0.0.0 , EXCLUDE myproxy"
+}}}
