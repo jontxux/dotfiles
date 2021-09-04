@@ -25,6 +25,7 @@ Plug 'tpope/vim-obsession'
 Plug 'jiangmiao/auto-pairs'
 Plug 'preservim/tagbar'
 Plug 'machakann/vim-highlightedyank'
+Plug 'airblade/vim-gitgutter'
 Plug 'fatih/vim-go'
 let g:go_doc_keywordprg_enabled = 0
 let g:go_highlight_function_calls = 1
