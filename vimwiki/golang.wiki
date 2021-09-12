@@ -352,4 +352,30 @@ func main() {
 	}
 }
 }}}
+- Defer panic
+{{{go
+func prueba() (err error) {
+	defer func() {
+		if r := recover(); r != nil {
+			fmt.Println("ha fallado")
+			switch r.(type) {
+			case string:
+				err = fmt.Errorf("Prueba")
+			case error:
+				err = fmt.Errorf("error")
+			default:
+				// Fallback err (per specs, error strings should be lowercase w/o punctuation
+				err = errors.New("unknown panic")
+			}
+		}
+
+	}()
+	if 1 == 1 {
+		panic("prueba")
+	}
+	time.Sleep(time.Second)
+
+	return err
+}
+}}}
 
