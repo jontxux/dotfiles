@@ -67,6 +67,82 @@ Format dd/mm/yyyy hh:MM:ss Z:Z - 09/11/2016 10:56:30 +02:00
 */
 }}}
 
+= ssh =
+- Subir archivo a sftp
+{{{go
+package main
+
+import (
+	"fmt"
+	"io/ioutil"
+	"log"
+	"os"
+
+	"github.com/pkg/sftp"
+	"golang.org/x/crypto/ssh"
+)
+
+func SSHCopyFile(srcPath, dstPath string) error {
+
+	f, _ := ioutil.ReadFile("/home/jb/.ssh/id_rsa")
+	signer, err := ssh.ParsePrivateKey(f)
+	if err != nil {
+		log.Fatal(err)
+	}
+	auths := []ssh.AuthMethod{ssh.PublicKeys(signer)}
+	config := &ssh.ClientConfig{
+		User:            "usuario",
+		Auth:            auths,
+		HostKeyCallback: ssh.InsecureIgnoreHostKey(),
+		// Auth: []ssh.AuthMethod{
+		// 	ssh.Password("contraseña"),
+		// },
+		// HostKeyCallback: ssh.InsecureIgnoreHostKey(),
+	}
+
+	client, err := ssh.Dial("tcp", "192.168.0.100:22", config)
+	if err != nil {
+		fmt.Println(err)
+		return err
+	}
+	defer client.Close()
+
+	// open an SFTP session over an existing ssh connection.
+	sftp, err := sftp.NewClient(client)
+	if err != nil {
+		return err
+	}
+	defer sftp.Close()
+
+	// Open the source file
+	srcFile, err := os.Open(srcPath)
+	if err != nil {
+		return err
+	}
+	defer srcFile.Close()
+
+	// Create the destination file
+	dstFile, err := sftp.Create(dstPath)
+	if err != nil {
+		return err
+	}
+	defer dstFile.Close()
+
+	// write to file
+	if _, err := dstFile.ReadFrom(srcFile); err != nil {
+		return err
+	}
+	return nil
+}
+func main() {
+	SSHCopyFile("prueba.txt", "prueba.txt")
+}
+}}}
+
+= request =
+- https://curl.trillworks.com/#go
+- [[https://stackoverflow.com/questions/50483866/get-cookie-from-golang-post|Como obtener cookies]]
+
 = leer archivo =
 {{{go
 content, err := ioutil.ReadFile("thermopylae.txt")
@@ -81,19 +157,6 @@ fmt.Println(string(content))
 - Format para guardar con go-ole [[https://docs.microsoft.com/es-es/office/vba/api/Excel.XlFileFormat|formatos ole]]
 = excelize =
 {{{go
-func conv(i int) string {
-	// Pasamos el indice de numero a cadena
-
-	if i <= 0 {
-		return ""
-	}
-
-	j := (i - 1) % 26
-	l := "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-	s := conv((i - j) / 26)
-
-	return s + string(l[j])
-}
 
 }}}
 = html template =
