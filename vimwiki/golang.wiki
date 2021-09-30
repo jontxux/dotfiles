@@ -89,11 +89,16 @@ func SSHCopyFile(srcPath, dstPath string) error {
 	if err != nil {
 		log.Fatal(err)
 	}
+	hostKeyCallback, err := knownhosts.New("/home/jb/.ssh/known_hosts")
+	if err != nil {
+		log.Fatal("could not create hostkeycallback function: ", err)
+	}
 	auths := []ssh.AuthMethod{ssh.PublicKeys(signer)}
 	config := &ssh.ClientConfig{
 		User:            "usuario",
 		Auth:            auths,
-		HostKeyCallback: ssh.InsecureIgnoreHostKey(),
+		// HostKeyCallback: ssh.InsecureIgnoreHostKey(),
+		HostKeyCallback: hostKeyCallback,
 		// Auth: []ssh.AuthMethod{
 		// 	ssh.Password("contraseña"),
 		// },
