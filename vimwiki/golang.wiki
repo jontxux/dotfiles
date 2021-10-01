@@ -160,6 +160,88 @@ fmt.Println(string(content))
 }}}
 = go-ole =
 - Format para guardar con go-ole [[https://docs.microsoft.com/es-es/office/vba/api/Excel.XlFileFormat|formatos ole]]
+{{{go
+package main
+
+import (
+	"errors"
+	"fmt"
+	"log"
+	"os"
+
+	ole "github.com/go-ole/go-ole"
+	"github.com/go-ole/go-ole/oleutil"
+)
+
+func send(html, asunto string, archivos []string, para, copia string) (err error) {
+	fmt.Println("Enviando correo")
+	defer func() {
+		if r := recover(); r != nil {
+			fmt.Println(r)
+			// find out exactly what the error was and set err
+			switch x := r.(type) {
+			case string:
+				err = errors.New(x)
+			case error:
+				err = x
+			default:
+				// Fallback err (per specs, error strings should be lowercase w/o punctuation
+				err = errors.New("unknown panic")
+			}
+		}
+	}()
+	ole.CoInitialize(0)
+	unknown, err := oleutil.CreateObject("Outlook.Application")
+	if err != nil {
+		log.Print(err)
+		return err
+	}
+	outlook, err := unknown.QueryInterface(ole.IID_IDispatch)
+	if err != nil {
+		log.Print(err)
+		return err
+	}
+	newmail := oleutil.MustCallMethod(outlook, "CreateItem", "0").ToIDispatch()
+
+	if asunto != "" {
+		oleutil.MustPutProperty(newmail, "Subject", asunto)
+	}
+
+	if para != "" {
+		oleutil.MustPutProperty(newmail, "To", para)
+	}
+
+	if copia != "" {
+		oleutil.MustPutProperty(newmail, "CC", copia)
+	}
+
+	if html != "" {
+		oleutil.MustPutProperty(newmail, "HTMLBody", html)
+	}
+
+	for _, archivo := range archivos {
+		if _, err := os.Stat(archivo); os.IsNotExist(err) {
+			fmt.Printf("No se ha podido añadir el archivo%s\n", archivo)
+			continue
+		}
+		newAtt := oleutil.MustGetProperty(newmail, "Attachments").ToIDispatch()
+		
+		oleutil.MustCallMethod(newAtt, "Add", archivo)
+	}
+
+	oleutil.MustCallMethod(newmail, "Display")
+	oleutil.MustCallMethod(newmail, "Send")
+	// fmt.Println("Correo enviado")
+	if err == nil {
+		fmt.Println("Correo enviado")
+		return err
+	} else {
+		fmt.Println("No se pudo mandar el correo")
+		return err
+	}
+
+}
+}}}
 = excelize =
 {{{go
 
