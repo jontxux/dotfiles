@@ -20,6 +20,7 @@ let g:UltiSnipsExpandTrigger="<tab>"
 let g:UltiSnipsJumpForwardTrigger="<tab>"
 let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
 Plug 'morhetz/gruvbox'
+Plug 'sonph/onehalf', { 'rtp': 'vim' }
 Plug 'sheerun/vim-polyglot'
 Plug 'vim-airline/vim-airline'
 let g:airline#extensions#tabline#enabled = 1
@@ -103,7 +104,8 @@ set incsearch   "Muestra la concordancia de una busqueda mientras escribes.
 set hlsearch    "Resalta las busquedas
 
 set background=dark
-colorscheme gruvbox
+" colorscheme gruvbox
+colorscheme onehalfdark
 
 let mapleader = ","
 let &t_SI = "\<Esc>[6 q"
