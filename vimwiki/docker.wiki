@@ -9,12 +9,13 @@
 ----
 === Instalación ===
 {{{bash
-sudo aptitude install docker-compose # con eso andamos
+curl -L get.docker.com -o docker-install.sh
+sudo bash docker-install.sh
 
 # Para no tener que ejecutar siempre con sudo
-sudo groupadd docker
 sudo usermod -aG docker $USER
-newgrp docker 
+
+sudo pip3 install docker-compose
 }}}
 [[https://blog.jessfraz.com/post/docker-containers-on-the-desktop/|Ejemplos guapos]] #Hay que añadirle xhost +local:root
 *Ejemplo:*
