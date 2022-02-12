@@ -77,3 +77,7 @@ ssh -o ProxyCommand="socat STDIO SOCKS4A:localhost:%h:%p,socksport=9050" pi@k4r4
 # Otra alternativa con nc.openbsd
 ssh -o ProxyCommand="nc.openbsd -X 5 -x 127.0.0.1:9050 %h %p" pi@k4r4aibvo4vg6ckslpdvejciasmmsnpb2plwkgkode6vbicq2bg3vdyd.onion
 }}}
+===== Copia de seguridad con rsync =====
+{{{bash
+rsync -av -e 'ssh -p22' pi:/mnt/usb /data/backups/
+}}}
