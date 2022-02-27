@@ -46,6 +46,32 @@ static ip_address=192.168.0.100/24
 static routers=192.168.0.1
 }}}
 
+= home assistant =
+- Configurar home assistant
+[[https://github.com/home-assistant/supervised-installer|instalación home assistant]]
+- hay que tener docker instalado
+{{{bash
+sudo apt-get install \
+apparmor \
+jq \
+wget \
+curl \
+udisks2 \
+libglib2.0-bin \
+network-manager \
+dbus -y
+}}}
+
+[[https://github.com/home-assistant/os-agent/releases/latest|descargar la ultima version de os-agent]]
+{{{bash
+sudo dpkg -i os-agent_1.0.0_linux_x86_64.deb
+}}}
+
+{{{bash
+wget https://github.com/home-assistant/supervised-installer/releases/latest/download/homeassistant-supervised.deb
+dpkg -i homeassistant-supervised.deb
+}}}
+
 = pines =
  {{{bash
  gpio readall # sudo apt-get install rpi.gpio
