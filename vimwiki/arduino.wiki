@@ -1,0 +1,27 @@
+= Lectura terminal =
+{{{bash
+# Si ponemos 9600 en el programa de arduino
+# tendremos que poner Serial.begin(9600);
+stty -F /dev/ttyACM0 raw 115200
+cat /dev/ttyACM0
+}}}
+
+= permisos =
+{{{bash
+sudo chmod a+rw /dev/ttyACM0
+}}}
+
+= subir =
+{{{bash
+# en caso de que sea arduino uno sustituir por leonardo
+arduino-cli upload -b arduino:avr:leonardo -p /dev/ttyACM0
+arduino-cli upload -b arduino:avr:leonardo -p /dev/ttyACM0
+}}}
+
+= buscar librearias =
+{{{bash
+arduino-cli lib search keyboard 
+arduino-cli lib install keyboard
+}}}
+
+[[https://arduino.github.io/arduino-cli/0.21/|Documentacion]]
