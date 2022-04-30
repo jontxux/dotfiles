@@ -28,3 +28,8 @@ docker run -it \
     --name tor-browser \
     jess/tor-browser
 }}}
+
+actualizar el docker-compose
+{{{bash
+docker-compose up --force-recreate --build -d
+}}}

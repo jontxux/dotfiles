@@ -14,7 +14,7 @@ set $down j
 set $up k
 set $right l
 # Your preferred terminal emulator
-set $term alacritty
+set $term gnome-terminal
 # Your preferred application launcher
 # Note: pass the final command to swaymsg so that the resulting window can be opened
 # on the original workspace that the command was run on.
@@ -201,6 +201,17 @@ mode "resize" {
 }
 bindsym $mod+r mode "resize"
 
+mode "volume" {
+    bindsym $left  exec pactl set-sink-mute @DEFAULT_SINK@ toggle
+    bindsym $up exec pactl set-sink-volume @DEFAULT_SINK@ +5%
+    bindsym $down exec pactl set-sink-volume @DEFAULT_SINK@ -5%
+    bindsym $right exec pactl set-sink-volume @DEFAULT_SINK@ 100%
+
+    bindsym Return mode "default"
+    bindsym Escape mode "default"
+}
+bindsym $mod+Shift+v mode "volume"
+
 #
 # Status Bar:
 #
@@ -223,17 +234,14 @@ bar {
 
 default_border pixel 3
 
-exec_always killall pulseaudio
-exec_always sh -c "pulseaudio --daemonize"
-# default_border normal 0
-# hide_edge_borders smart 
-# for_window [class="Yad"] floating enable
-# for_window [class="^.*"] border pixel 3
-
 input * {
     xkb_layout "es"
     xkb_variant "qwerty,,typewriter"
    # xkb_options "grp:win_space_toggle"
 }
+
+exec_always killall pulseaudio
+exec_always sh -c "pulseaudio --daemonize"
+
 
 include /etc/sway/config.d/*
