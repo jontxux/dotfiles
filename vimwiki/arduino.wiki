@@ -13,8 +13,9 @@ sudo chmod a+rw /dev/ttyACM0
 
 = subir =
 {{{bash
+arduino-cli board list # Para saber que placa tenemos conectado
 # en caso de que sea arduino uno sustituir por leonardo
-arduino-cli upload -b arduino:avr:leonardo -p /dev/ttyACM0
+arduino-cli compile -b arduino:avr:leonardo 
 arduino-cli upload -b arduino:avr:leonardo -p /dev/ttyACM0
 }}}
 
