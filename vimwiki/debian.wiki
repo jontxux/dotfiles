@@ -34,6 +34,15 @@ sudo aptitude install fonts-indic
 - clang-format
 - pulseaudio # si no en i3blocks lo del audio dara error
 
+==== deshabilitar suspension ====
+{{{bash
+# deshabilitar
+sudo systemctl mask sleep.target suspend.target hibernate.target hybrid-sleep.target
+# habilitar
+sudo systemctl unmask sleep.target suspend.target hibernate.target hybrid-sleep.target
+}}}
+[[https://www.tecmint.com/disable-suspend-and-hibernation-in-linux/|sacado de esta pagina]]
+
 ==== instalacion debian despues de instalar firmware-realtek si falta rtl8125a-3 ====
 {{{bash
 cd /lib/firmware/rtl_nic/
