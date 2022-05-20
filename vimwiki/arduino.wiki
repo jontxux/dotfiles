@@ -10,6 +10,11 @@ cat /dev/ttyACM0
 {{{bash
 sudo chmod a+rw /dev/ttyACM0
 }}}
+- Para no estar con problemas de dar permisos otra opcion
+{{{bash
+sudo usermod -a -G dialout $USER
+# y despues reiniciar
+}}}
 
 = subir =
 {{{bash
