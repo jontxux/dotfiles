@@ -7,6 +7,7 @@ sudo aptitude install fonts-nanum
 sudo aptitude install fonts-nanum-extra 
 sudo aptitude install fonts-telu-extra 
 sudo aptitude install fonts-indic 
+sudo apt install ttf-mscorefonts-installer
 }}}
 == programas ==
 - xorg
@@ -49,3 +50,8 @@ cd /lib/firmware/rtl_nic/
 sudo wget https://git.kernel.org/pub/scm/linux/kernel/git/firmware/linux-firmware.git/plain/rtl_nic/rtl8125a-3.fw
 }}}
 https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=947356
+
+- Si sale el error: Failed to check for processor microcode upgrades.
+{{{bash
+sudo sed -i 's/$nrconf{ucodehints} = 0;/#$nrconf{ucodehints} = 0;/' /etc/needrestart/needrestart.conf
+}}}
