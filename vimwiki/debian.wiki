@@ -55,3 +55,30 @@ https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=947356
 {{{bash
 sudo sed -i 's/$nrconf{ucodehints} = 0;/#$nrconf{ucodehints} = 0;/' /etc/needrestart/needrestart.conf
 }}}
+
+==== gsettings ====
+- Poner tema oscuro
+{{{bash
+gsettings set org.gnome.desktop.interface gtk-theme Adwaita-dark
+gsettings set org.gnome.desktop.interface color-scheme prefer-dark
+}}}
+
+- deshabilitar parpadeo cursor gnome-terminal
+{{{bash
+gsettings set org.gnome.Terminal.Legacy.Profile:/org/gnome/terminal/legacy/profiles:/:$(gsettings get org.gnome.Terminal.ProfilesList default|tr -d \')/ cursor-blink-mode off
+}}}
+
+- deshabilitar comfirmacion cierre gnome-terminal
+{{{bash
+gsettings set org.gnome.Terminal.Legacy.Settings confirm-close false
+}}}
+
+- deshabilitar ventana de apagar 60 segundos
+{{{bash
+gsettings set org.gnome.SessionManager logout-prompt false
+}}}
+
+- Cerrar ventana con mas de un atajo
+{{{bash
+gsettings set org.gnome.desktop.wm.keybindings close "['<Alt>F4', '<Super><Shift>q']"
+}}}
