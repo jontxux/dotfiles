@@ -8,6 +8,14 @@ sudo make install
 }}}
 == calcular ==
 En modo insert {{{<C-r>=}}}
+sumar <C-a>
+restar <C-x>
+- sort ordena y sort u ordena y elemina duplicados
+:sort u
+- sin ordenar
+:%!awk '\!_[$0]++'
+- ejecutar la linea actual
+:.w !bash
 == funciones con python ==
 - La parte de vim va indentado pero python3 << tiene la misma indentación que la funcion
 {{{vim

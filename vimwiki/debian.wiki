@@ -68,6 +68,11 @@ gsettings set org.gnome.desktop.interface color-scheme prefer-dark
 gsettings set org.gnome.Terminal.Legacy.Profile:/org/gnome/terminal/legacy/profiles:/:$(gsettings get org.gnome.Terminal.ProfilesList default|tr -d \')/ cursor-blink-mode off
 }}}
 
+- fuente para gnome-terminal
+{{{bash
+gsettings set org.gnome.Terminal.Legacy.Profile:/org/gnome/terminal/legacy/profiles:/:$(gsettings get org.gnome.Terminal.ProfilesList default|tr -d \')/ font 'DejaVuSansMono Nerd Font Mono 13'
+}}}
+
 - deshabilitar comfirmacion cierre gnome-terminal
 {{{bash
 gsettings set org.gnome.Terminal.Legacy.Settings confirm-close false
@@ -75,10 +80,16 @@ gsettings set org.gnome.Terminal.Legacy.Settings confirm-close false
 
 - deshabilitar ventana de apagar 60 segundos
 {{{bash
+# No lo estoy usando
 gsettings set org.gnome.SessionManager logout-prompt false
 }}}
 
 - Cerrar ventana con mas de un atajo
 {{{bash
 gsettings set org.gnome.desktop.wm.keybindings close "['<Alt>F4', '<Super><Shift>q']"
+}}}
+
+- botones minimizar maximizar cerrar
+{{{bash
+gsettings set org.gnome.desktop.wm.preferences button-layout 'appmenu:minimize,maximize,close'
 }}}
