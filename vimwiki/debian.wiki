@@ -2,11 +2,6 @@
 == fuentes ==
 {{{bash
 # fuentes para que no aparezcan raro
-sudo aptitude install fonts-thai-tlwg-ttf 
-sudo aptitude install fonts-nanum
-sudo aptitude install fonts-nanum-extra 
-sudo aptitude install fonts-telu-extra 
-sudo aptitude install fonts-indic 
 sudo apt install ttf-mscorefonts-installer
 }}}
 == programas ==
