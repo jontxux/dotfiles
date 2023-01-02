@@ -88,3 +88,7 @@ gsettings set org.gnome.desktop.wm.keybindings close "['<Alt>F4', '<Super><Shift
 {{{bash
 gsettings set org.gnome.desktop.wm.preferences button-layout 'appmenu:minimize,maximize,close'
 }}}
+
+- apagar sin sudo
+- poner lo siguiente en /etc/sudoers.d/apagado jb    ALL=(ALL) NOPASSWD: /sbin/poweroff, /sbin/reboot, /sbin/shutdown
+- [[https://techglimpse.com/ubuntu-sudoers-nopasswd-option-not-working/]]
