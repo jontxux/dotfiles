@@ -71,6 +71,7 @@ set ttimeoutlen=50 "Tiempo escape
 set timeoutlen=1000 "Tiempo siguiente comando
 set showcmd "Muestra comando incompleto
 set wildmenu "Autocompletado menu
+set wildoptions=pum
 set mouse=a "Soporte mouse
 set cursorline "Resalta la linea que estoy
 set backspace=indent,eol,start "Para poder borrar con backspace
