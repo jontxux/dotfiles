@@ -86,3 +86,6 @@ chown www-data:www-data setup-nextcloud.php
 a2ensite nextcloud.conf
 
 systemctl reload apache2
+
+- subir fichero mediante curl
+{{{curl -u "usuario:contraseña" "https://nextcloud.jontxux.duckdns.org/remote.php/webdav/ruta/fichero}}}

@@ -94,6 +94,7 @@ convert -flop image.png image-inversee.png
 *Usar el GUI de ImageMagick*
 {{{bash
 display image.png
+convert image.jpg -crop 1:1 JPG:- | display
 }}}
 == Información ==
 *Obtener información de una imagen.*
@@ -118,4 +119,20 @@ import png:- | convert - -threshold 50% png:- | tesseract --dpi 300 stdin stdout
 eval $(xdotool getmouselocation --shell)
 IMAGE=$(import -window root -depth 8 -crop 1x1+$X+$Y txt:-)
 COLOR=$(echo $IMAGE | grep -oP '#\w+')
+}}}
+
+*iman*
+{{{bash
+convert <imagen entrada> -resize 850x850 -stroke 'gray'  -fill None  -strokewidth 3 -draw 'translate 325,323  circle 100,100 498,50' -quality 100 <imagen salida>
+}}}
+
+*densidad para imprimir*
+{{{bash
+convert -units PixelsPerInch <imagen entrada> -density 300 <imagen salida>
+}}}
+
+*rellenar*
+{{{bash
+convert input.jpg -gravity center -background black -extent 1400x1400  output.jpg
+convert -size 1400x1400 canvas:gray -gravity center bautizo-cortado.jpg -composite out.jpg
 }}}
