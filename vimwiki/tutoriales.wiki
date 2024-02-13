@@ -1,7 +1,0 @@
-= turoriales =
-http://www.redantigua.com/curso-perl/index.html
-[[http://platea.pntic.mec.es/jdelucas/perl.htm]]
-http://flanagan.ugr.es/perl/index2.htm
-[[file:/home/jb/Documentos/tutoriales/perl/www.programacionfacil.com/perl/start.html|perl para linux]]
-[[file:/home/jb/Documentos/tutoriales/perl/Perl-One-Liners.pdf|pdf perl one liners]]
-[[file:/home/jb/Documentos/tutoriales/perl/tutorial_perl.pdf|pdf perl general conceptos]]

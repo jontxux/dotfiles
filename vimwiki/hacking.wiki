@@ -1,5 +1,0 @@
-= hacking herramientas =
-- [[https://github.com/htr-tech/zphisher|zphiser]]
-- [[https://github.com/UndeadSec/EvilURL|EvilUrl]]
-- [[https://github.com/gophish/gophish|gophish]]
-- [[https://github.com/hashcat/hashcat|hashcat]]

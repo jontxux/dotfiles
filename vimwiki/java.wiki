@@ -1,3 +1,0 @@
-= Selenium =
-[[https://www.selenium.dev/documentation/es/webdriver/|api selenium]]
-[[https://es.stackoverflow.com/questions/63763/como-genero-un-jar-en-eclipse-con-todas-las-librerias/63773|Generar archivo jar sin dependencias]]

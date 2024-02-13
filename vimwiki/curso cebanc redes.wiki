@@ -1,7 +1,0 @@
-= curso servidores web =
-[[http://cursos.cdea.cebanc.com/moodle/|Lo primero entrar a moodle]] 732z783Y
-[[https://drive.google.com/drive/folders/1ypsND7TPcgG87urQZNpO4jMKzlZjgqfH|Google drive con todos los archivos]]
-[[https://drive.google.com/drive/folders/1-tk_vRYRbD25WqiqjXdUqGqOgoQAdLCX|Google drive con todos los videos]]
-[[https://classroom.google.com/u/0/c/MTQ2Nzc2OTgzMjMz|Classroom]]
-[[fuentes]]
-[[https://sites.google.com/site/desplieguedeaplicacionesweb/tema-3-servicios-de-transferencia-de-ficheros-ftp/practica-proftpd-con-usuarios-virtuales-en-mysql|Instalación proftpd-mysql]]

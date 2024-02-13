@@ -1,7 +1,0 @@
-= Digispark =
-Es un mini arduino que se pueden hacer cosas increibles
-- [[https://thehackerway.com/2017/07/10/badusb-ultra-low-cost/|Ejemplo de como emular teclado]]
-- [[https://malduino.com/converter/index.html|Traducir USB-Rubber-Ducky a arduino]]
-- [[https://github.com/hak5darren/USB-Rubber-Ducky/wiki/Payloads|Payloads de USB-Rubber-Ducky]]
-- [[https://github.com/CedArctic/DigiSpark-Scripts|DigiSpark-Scripts]]
-- [[http://digistump.com/wiki/digispark/tutorials/connecting|Arduino IDE configuracion]] (Despues iniciar con sudo si no salta error)

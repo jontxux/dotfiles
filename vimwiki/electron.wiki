@@ -1,4 +1,0 @@
-= Electron =
-https://github.com/electron/electron/issues/17972
-- sudo chown root chrome-sandbox
-- sudo chmod 4755 chrome-sandbox
