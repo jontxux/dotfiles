@@ -1,66 +1,9 @@
-[submodule "vim/pack/default/start/auto-pairs"]
-	path = vim/pack/default/start/auto-pairs
-	url = https://github.com/jiangmiao/auto-pairs
-[submodule "vim/pack/default/start/nerdtree"]
-	path = vim/pack/default/start/nerdtree
-	url = https://github.com/preservim/nerdtree
-[submodule "vim/pack/default/start/vim-commentary"]
-	path = vim/pack/default/start/vim-commentary
-	url = https://github.com/tpope/vim-commentary
-[submodule "vim/pack/default/start/vim-devicons"]
-	path = vim/pack/default/start/vim-devicons
-	url = https://github.com/ryanoasis/vim-devicons
-[submodule "vim/pack/default/start/vim-polyglot"]
-	path = vim/pack/default/start/vim-polyglot
-	url = https://github.com/sheerun/vim-polyglot
-[submodule "vim/pack/default/start/vim-surround"]
-	path = vim/pack/default/start/vim-surround
-	url = https://github.com/tpope/vim-surround
-[submodule "vim/pack/default/start/vimwiki"]
-	path = vim/pack/default/start/vimwiki
-	url = https://github.com/vimwiki/vimwiki
-[submodule "vim/pack/default/start/tagbar"]
-	path = vim/pack/default/start/tagbar
-	url = https://github.com/majutsushi/tagbar
-[submodule "vim/pack/default/start/vim-autoformat"]
-	path = vim/pack/default/start/vim-autoformat
-	url = https://github.com/Chiel92/vim-autoformat
-[submodule "vim/pack/theme/start/gruvbox"]
-	path = vim/pack/theme/start/gruvbox
-	url = https://github.com/morhetz/gruvbox
-[submodule "vim/pack/default/start/vim-highlightedyank"]
-	path = vim/pack/default/start/vim-highlightedyank
-	url = https://github.com/machakann/vim-highlightedyank
-[submodule "vim/pack/debugger/start/vim-vebugger"]
-	path = vim/pack/debugger/start/vim-vebugger
-	url = https://github.com/idanarye/vim-vebugger
-[submodule "vim/pack/debugger/start/vimproc.vim"]
-	path = vim/pack/debugger/start/vimproc.vim
-	url = https://github.com/Shougo/vimproc.vim
-[submodule "vim/pack/default/vim-misc"]
-	path = vim/pack/default/vim-misc
-	url = https://github.com/xolox/vim-misc
-[submodule "vim/pack/default/start/fzf"]
-	path = vim/pack/default/start/fzf
-	url = https://github.com/junegunn/fzf
-[submodule "vim/pack/default/start/fzf.vim"]
-	path = vim/pack/default/start/fzf.vim
-	url = https://github.com/junegunn/fzf.vim
-[submodule "vim/pack/default/start/vim-obsession"]
-	path = vim/pack/default/start/vim-obsession
-	url = https://github.com/tpope/vim-obsession
-[submodule "vim/pack/default/start/vim-airline"]
-	path = vim/pack/default/start/vim-airline
-	url = https://github.com/vim-airline/vim-airline
-[submodule "vim/pack/lsp/start/coc.nvim"]
-	path = vim/pack/lsp/start/coc.nvim
-	url = https://github.com/neoclide/coc.nvim
-[submodule "vim/pack/git/start/vim-fugitive"]
-	path = vim/pack/git/start/vim-fugitive
-	url = https://github.com/tpope/vim-fugitive
-[submodule "vim/pack/default/start/restore_view.vim"]
-	path = vim/pack/default/start/restore_view.vim
-	url = https://github.com/vim-scripts/restore_view.vim
 [submodule "vim/pack/plugins/start/vim-commentary"]
 	path = vim/pack/plugins/start/vim-commentary
 	url = https://github.com/tpope/vim-commentary.git
+[submodule "vim/pack/plugins/start/auto-pairs"]
+	path = vim/pack/plugins/start/auto-pairs
+	url = https://github.com/jiangmiao/auto-pairs.git
+[submodule "vim/pack/plugins/start/vim-highlightedyank"]
+	path = vim/pack/plugins/start/vim-highlightedyank
+	url = https://github.com/machakann/vim-highlightedyank
