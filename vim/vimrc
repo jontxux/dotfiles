@@ -94,3 +94,5 @@ let &t_EI = "\<Esc>[2 q"
 if has("autocmd")
   au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
 endif
+
+filetype plugin indent on
