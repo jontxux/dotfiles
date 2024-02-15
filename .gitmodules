@@ -7,3 +7,6 @@
 [submodule "vim/pack/plugins/start/vim-highlightedyank"]
 	path = vim/pack/plugins/start/vim-highlightedyank
 	url = https://github.com/machakann/vim-highlightedyank
+[submodule "vim/pack/plugins/start/vim-wayland-clipboard"]
+	path = vim/pack/plugins/start/vim-wayland-clipboard
+	url = https://github.com/jasonccox/vim-wayland-clipboard.git
