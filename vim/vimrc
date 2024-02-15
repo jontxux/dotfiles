@@ -1,98 +1,65 @@
-" Para que Vim se comporte como se espera en otros editores
-set nocompatible
+" Configuraciones básicas
+set nocompatible                " Vim no se comporta de manera compatible con Vi antiguo
+set encoding=utf-8              " Codificación de archivos a UTF-8
+set fileencoding=utf-8          " Codificación de archivos a UTF-8
+set mouse=a                     " Habilitar el soporte para el mouse en todos los modos
+set clipboard=unnamedplus,unnamed " Usar el portapapeles del sistema
+set ttyfast                     " Hacer que Vim sea más receptivo
+set history=1000                " Guardar más líneas en el historial
+set hidden                      " Ocultar buffers no utilizados sin cerrarlos
+set wildmenu                    " Mejorar la interfaz de autocompletado
+set wildmode=full               " Completar la próxima parte de la cadena completa
+set wildoptions=pum             " Mostrar menú emergente para autocompletado
 
-" Habilitar el portapapeles del sistema
-set clipboard=unnamedplus,unnamed
+" Configuraciones de búsqueda
+set ignorecase                  " Búsquedas ignoran mayúsculas y minúsculas...
+set smartcase                   " ...a menos que contengan mayúsculas
+set hlsearch                    " Resaltar búsquedas
+set incsearch                   " Búsqueda incremental: resaltar coincidencias mientras se escribe
 
-" Mostrar números de línea relativos
-set relativenumber
+" Configuraciones de interfaz
+set relativenumber              " Mostrar números de línea relativos
+set number                      " Mostrar el número de línea actual
+set ruler                       " Mostrar la línea de comando con información útil
+set laststatus=2                " Siempre mostrar la línea de estado
+set statusline=%f\ [%Y]\ %h%m%r%=%l,%c\ %P " Configurar la línea de estado
+set scrolloff=5                 " Añadir un pequeño margen en la parte superior e inferior de la ventana
+set list                        " Mostrar caracteres invisibles
+set listchars=tab:»·,trail:·,nbsp:· " Configurar cómo se muestran los caracteres invisibles
 
-" Mostrar el número de línea actual
-set number
+" Configuraciones específicas del terminal para el cursor
+let &t_SI = "\<Esc>[6 q"        " Cambiar el cursor a forma de línea en modo inserción
+let &t_EI = "\<Esc>[2 q"        " Cambiar el cursor a forma de bloque en modo normal
 
-" Habilitar soporte para el mouse en todos los modos
-set mouse=a
+" Configuraciones de edición y teclado
+set backspace=indent,eol,start  " Permitir el uso de la tecla backspace en todos los modos
+set autowriteall                " Guardar automáticamente al cambiar de archivo
+set expandtab                   " Convertir tabulaciones en espacios
+set tabstop=4                   " Un tab son cuatro espacios
+set shiftwidth=4                " Indentación de 4 espacios para el autoindentado
+set autoindent                  " Autoindentar nuevas líneas
+set smartindent                 " Indentación inteligente
 
-" Búsquedas que ignoran mayúsculas y minúsculas, a menos que se use una mayúscula
-set ignorecase
-set smartcase
+" Configuraciones de sintaxis y coloreado
+syntax on                       " Activar coloreado de sintaxis si está disponible
+set t_Co=256                    " Usar 256 colores, útil para temas
 
-" Resaltar búsquedas
-set hlsearch
-
-" Hacer que la búsqueda sea más dinámica
-set incsearch
-
-" Permitir el uso de la tecla backspace en todos los modos
-set backspace=indent,eol,start
-
-" Activar el uso de 256 colores, útil para temas y sintaxis
-set t_Co=256
-
-" Mejorar la interfaz de autocompletado
-set wildmenu
-set wildmode=full
-set wildoptions=pum
-
-" Mostrar una barra de comandos que se expande a medida que se escribe
-" set cmdheight=2
-
-" Añadir un pequeño margen en la parte superior e inferior de la ventana
-set scrolloff=5
-
-" Asegurarse de que Vim lee y escribe archivos con codificación UTF-8
-set encoding=utf-8
-set fileencoding=utf-8
-
-" Habilitar el uso de la rueda del mouse en Vim
-set mouse=a
-
-" Hacer que Vim sea más receptivo
-set ttyfast
-
-" Habilitar el guardado y cargado automático del historial de comandos, búsqueda, etc.
-set history=1000
-
-" Realzar la sintaxis, si está disponible
-if has("syntax")
-  syntax on
+" Verificar si existe el directorio 'undodir' y crearlo si no existe
+if !isdirectory($HOME . '/.vim/undodir')
+  call mkdir($HOME . '/.vim/undodir', 'p')
 endif
 
-" Configurar los espacios por tabulación y la indentación automática
-set tabstop=4
-set shiftwidth=4
-set expandtab
-set autoindent
-set smartindent
+" Configuraciones de undofile, backup y swap
+set undofile                    " Habilitar archivos de deshacer para poder deshacer después de cerrar y reabrir archivos
+set undodir=~/.vim/undodir      " Especificar el directorio para almacenar archivos de deshacer
+set nobackup                    " Deshabilitar la creación de archivos de backup
+set nowritebackup               " Deshabilitar backups al escribir
+set noswapfile                  " Deshabilitar archivos swap
 
-set laststatus=2
-set statusline=%f\ [%Y]\ %h%m%r%=%l,%c\ %P
-
-" Ocultar buffers no utilizados en lugar de cerrarlos
-set hidden
-
-" Mostrar la línea de comando con información útil
-set ruler
-
-" Mostrar coincidencias mientras se escribe la búsqueda
-set incsearch
-
-" Permitir el cambio entre archivos sin guardar
-set autowriteall
-
-" Resaltar la línea donde se encuentra el cursor
-" set cursorline
-
-" Ajustar cómo se muestran los caracteres de fin de línea y tabulación
-set list
-set listchars=tab:»·,trail:·,nbsp:·
-let &t_SI = "\<Esc>[6 q"
-let &t_EI = "\<Esc>[2 q"
-
-
-" Guardar y restaurar la posición del cursor al abrir archivos
+" Autocomandos
 if has("autocmd")
+  " Guardar y restaurar la posición del cursor al abrir archivos
   au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
 endif
 
-filetype plugin indent on
+filetype plugin indent on       " Habilitar detección de tipo de archivo y aplicar indentación específica
