@@ -10,3 +10,6 @@
 [submodule "vim/pack/plugins/start/vim-wayland-clipboard"]
 	path = vim/pack/plugins/start/vim-wayland-clipboard
 	url = https://github.com/jasonccox/vim-wayland-clipboard.git
+[submodule "zsh/zsh-syntax-highlighting"]
+	path = zsh/zsh-syntax-highlighting
+	url = https://github.com/zsh-users/zsh-syntax-highlighting.git
