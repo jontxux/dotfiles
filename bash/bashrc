@@ -188,7 +188,7 @@ mpvbg() {
   nohup mpv "$@" > /dev/null 2>&1 &
 }
 
-subir() { 
+subir() {
   [ "$#" -eq 1 ] && echo "https://pixeldrain.com/u/$(curl -s -T "$1" https://pixeldrain.com/api/file/ | jq -r '.id')" || echo "Uso: subir <ruta_del_archivo>"; 
 }
 
