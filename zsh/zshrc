@@ -73,7 +73,7 @@ ZSH_THEME="agnoster" # set by `omz`
 # Custom plugins may be added to $ZSH_CUSTOM/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(vi-mode zsh-syntax-highlighting)
+plugins=(vi-mode extract zsh-syntax-highlighting)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -103,6 +103,117 @@ source $ZSH/oh-my-zsh.sh
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 prompt_context() {}
+
+# -------------------------
+# Alias Útiles
+# -------------------------
+alias reboot='sudo reboot'
+alias shutdown='sudo shutdown'
+alias actualizar='sudo aptitude update && sudo aptitude safe-upgrade -y'
+
+# -------------------------
+# Configuraciones de Entorno Wayland
+# -------------------------
+export GDK_BACKEND=wayland
+export QT_QPA_PLATFORM=wayland
+# export GDK_SCALE=2
+# export GDK_DPI_SCALE=0.5
+
+# -------------------------
+# Configuraciones de Entorno
+# -------------------------
+export PATH=$PATH:/usr/libexec/imv
+export GTK_THEME=Adwaita:dark
+export QT_QPA_PLATFORMTHEME=qt5ct
+export MOZ_ENABLE_WAYLAND=1
+export EDITOR=vim
+export VISUAL=vim
+export BROWSER=qutebrowser
+
+# -------------------------
+# Funciones Personalizadas
+# -------------------------
+
+# Función para buscar archivos por nombre
+buscar() {
+  if [ -n "$1" ]; then
+    find . -type f -iname "*$1*"
+  else
+    echo "Uso: buscar <nombre_archivo>"
+  fi
+}
+
+comprimir() {
+    if [ $# -lt 2 ]; then
+        echo "Uso: comprimir <nombre_archivo_comprimido> <archivo/directorio...>"
+        return 1
+    fi
+
+    local nombre_archivo_comprimido="$1"  # El primer argumento es el nombre del archivo comprimido
+    local archivos_a_comprimir=("${@:2}")  # Todos los argumentos después del primero son los archivos/directorios a comprimir
+
+    case "${nombre_archivo_comprimido##*.}" in
+        tar)
+            tar cf "$nombre_archivo_comprimido" "${archivos_a_comprimir[@]}"
+            ;;
+        gz)
+            tar czf "$nombre_archivo_comprimido" "${archivos_a_comprimir[@]}"
+            ;;
+        bz2)
+            tar cjf "$nombre_archivo_comprimido" "${archivos_a_comprimir[@]}"
+            ;;
+        xz)
+            tar cJf "$nombre_archivo_comprimido" "${archivos_a_comprimir[@]}"
+            ;;
+        zip)
+            zip -r "$nombre_archivo_comprimido" "${archivos_a_comprimir[@]}"
+            ;;
+        7z)
+            7z a "$nombre_archivo_comprimido" "${archivos_a_comprimir[@]}"
+            ;;
+        *)
+            echo "Extensión de archivo no soportada: ${nombre_archivo_comprimido##*.}"
+            return 1
+            ;;
+    esac
+
+    echo "Archivos comprimidos en '$nombre_archivo_comprimido'."
+}
+
+# Función para montar un dispositivo USB
+montar_usb() {
+    local dispositivo="${1:-/dev/sdb1}"  # Utiliza /dev/sdb1 como valor predeterminado si no se proporciona ningún argumento
+
+    echo "Montando dispositivo $dispositivo..."
+    # Monta el dispositivo usando udisksctl
+    udisksctl mount -b "$dispositivo"
+}
+
+# Función para desmontar un dispositivo USB
+desmontar_usb() {
+    local dispositivo="${1:-/dev/sdb1}"  # Utiliza /dev/sdb1 como valor predeterminado si no se proporciona ningún argumento
+
+    echo "Desmontando dispositivo $dispositivo..."
+    # Desmonta el dispositivo usando udisksctl
+    udisksctl unmount -b "$dispositivo" && echo "Dispositivo $dispositivo desmontado con éxito." || return 1
+
+    # Apaga el dispositivo para asegurar una extracción segura
+    echo "Apagando dispositivo $dispositivo..."
+    udisksctl power-off -b "$dispositivo" && echo "Dispositivo $dispositivo apagado con éxito." || return 1
+}
+
+get_pixel_color() {
+    local GEOMETRY=$(slurp -p -b 00000000 -c 00000000 -w 2)
+    grim -g "$GEOMETRY" -t ppm - | convert - -format "%[pixel:p{0,0}]" info:
+}
+
+mpvbg() {
+  nohup mpv "$@" > /dev/null 2>&1 &
+}
+
+subir() {
+  [ "$#" -eq 1 ] && echo "https://pixeldrain.com/u/$(curl -s -T "$1" https://pixeldrain.com/api/file/ | jq -r '.id')" || echo "Uso: subir <ruta_del_archivo>"; 
+}
 
 # -------------------------
 # Inicialización de Otras Herramientas
