@@ -1,0 +1,9 @@
+# Intenta primero descargar 1080p con audio en formato webm
+-f (bv[ext=webm][height=1080]+ba[ext=webm])/bestvideo[ext=webm]+bestaudio[ext=webm]/bestvideo+bestaudio/best
+
+# Restringe los nombres de archivos para evitar problemas con el sistema de archivos
+--restrict-filenames
+
+# Configura el nombre del archivo de salida para usar el título del video y su extensión
+-o %(title)s.%(ext)s
+
