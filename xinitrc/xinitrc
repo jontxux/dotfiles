@@ -1,8 +1,0 @@
-#!/bin/sh
-
-xrdb -load .Xresources
-numlockx&
-urxvtd&
-setxkbmap -layout es
-setxkbmap -option 'grp:alt_shift_toggle'
-exec i3
