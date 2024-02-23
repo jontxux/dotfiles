@@ -122,7 +122,6 @@ export QT_QPA_PLATFORM=wayland
 # -------------------------
 # Configuraciones de Entorno
 # -------------------------
-export PATH=$PATH:/usr/libexec/imv
 export GTK_THEME=Adwaita:dark
 export QT_QPA_PLATFORMTHEME=qt5ct
 export MOZ_ENABLE_WAYLAND=1
