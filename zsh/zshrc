@@ -76,6 +76,7 @@ ZSH_THEME="agnoster" # set by `omz`
 plugins=(vi-mode extract zsh-syntax-highlighting)
 
 source $ZSH/oh-my-zsh.sh
+source ~/.local/share/lscolors.sh
 
 # User configuration
 
@@ -110,24 +111,6 @@ prompt_context() {}
 alias reboot='sudo reboot'
 alias shutdown='sudo shutdown'
 alias actualizar='sudo aptitude update && sudo aptitude safe-upgrade -y'
-
-# -------------------------
-# Configuraciones de Entorno Wayland
-# -------------------------
-export GDK_BACKEND=wayland
-export QT_QPA_PLATFORM=wayland
-# export GDK_SCALE=2
-# export GDK_DPI_SCALE=0.5
-
-# -------------------------
-# Configuraciones de Entorno
-# -------------------------
-export GTK_THEME=Adwaita:dark
-export QT_QPA_PLATFORMTHEME=qt5ct
-export MOZ_ENABLE_WAYLAND=1
-export EDITOR=vim
-export VISUAL=vim
-export BROWSER=qutebrowser
 
 # -------------------------
 # Funciones Personalizadas
