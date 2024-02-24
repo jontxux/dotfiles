@@ -74,6 +74,7 @@ crear_enlaces() {
     crear_enlace ~/dotfiles/bash/bashrc ~/.bashrc
     crear_enlace ~/dotfiles/bash/profile ~/.profile
     crear_enlace ~/dotfiles/zsh/zshrc ~/.zshrc
+    crear_enlace ~/dotfiles/zsh/zprofile ~/.zprofile
     crear_enlace ~/dotfiles/qutebrowser/config.py ~/.config/qutebrowser/config.py
     crear_enlace ~/dotfiles/yt-dlp/config ~/.config/yt-dlp/config
     crear_enlace ~/dotfiles/diff-so-fancy/diff-so-fancy /usr/local/bin/diff-so-fancy sudo
