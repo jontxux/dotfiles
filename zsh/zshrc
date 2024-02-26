@@ -78,6 +78,9 @@ plugins=(vi-mode extract zsh-syntax-highlighting)
 source $ZSH/oh-my-zsh.sh
 source ~/.local/share/lscolors.sh
 
+bindkey -M vicmd 'k' up-line-or-beginning-search
+bindkey -M vicmd 'j' down-line-or-beginning-search
+
 # User configuration
 
 # export MANPATH="/usr/local/man:$MANPATH"
