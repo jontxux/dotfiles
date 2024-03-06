@@ -114,6 +114,7 @@ prompt_context() {}
 alias reboot='sudo reboot'
 alias shutdown='sudo shutdown'
 alias actualizar='sudo aptitude update && sudo aptitude safe-upgrade -y'
+alias tb="nc termbin.com 9999"
 
 # -------------------------
 # Funciones Personalizadas
