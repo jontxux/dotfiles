@@ -204,4 +204,4 @@ subir() {
 # -------------------------
 # Inicialización de Otras Herramientas
 # -------------------------
-eval "$(zoxide init bash)"
+eval "$(zoxide init zsh)"
