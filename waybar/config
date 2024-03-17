@@ -4,9 +4,10 @@
     // "height": 30, // Waybar height
     // "width": 1280, // Waybar width
     // Choose the order of the modules
-    "modules-left": ["sway/workspaces", "custom/spotify"],
+    "modules-left": ["sway/workspaces", "sway/mode"],
     "modules-center": ["sway/window"],
-    "modules-right": ["pulseaudio", "network", "cpu", "memory", "battery", "clock"],
+    // "modules-right": ["pulseaudio", "network", "cpu", "memory", "battery", "clock"],
+    "modules-right": ["custom/weather","pulseaudio", "network", "clock"],
     // Modules configuration
     "sway/workspaces": {
         // "disable-scroll": true,
@@ -29,16 +30,6 @@
         "format-alt": "{:%Y-%m-%d}",
         "interval": 1
     },
-    "cpu": {
-        "format": "{}% "
-    },
-    "memory": {
-        "format": "{}% "
-    },
-    "battery": {
-        "format": "{capacity}% {icon}",
-        "format-icons": ["", "", "", "", ""]
-    },
     "network": {
         // "interface": "wlp2s0", // (Optional) To force the use of this interface
         "format-wifi": "{essid} ({signalStrength}%) 󰈁",
@@ -51,11 +42,12 @@
         "format-muted": "󰖁",
         "format-icons": ["󰕿", "󰖀", "󰕾"]
     },
-    "custom/spotify": {
-        "format": " {}",
-        "max-length": 40,
-        "exec": "$HOME/.bin/mediaplayer.sh",
-        "exec-if": "pgrep spotify"
+    "custom/weather": {
+        "format": "{} °",
+        "tooltip": true,
+        "interval": 3600,
+        "exec": "wttrbar --location zarautz",
+        "return-type": "json"
     }
 }
 
