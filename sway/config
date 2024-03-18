@@ -19,6 +19,13 @@ set $term foot
 
 set $menu dmenu_path | wmenu | xargs swaymsg exec --
 
+# # Establecer los espacios entre ventanas
+gaps inner 3
+
+# # Establecer los espacios entre las ventanas y los bordes de la pantalla
+gaps outer 3
+default_border pixel 3
+
 include /etc/sway/config-vars.d/*
 
 ### Output configuration
@@ -144,10 +151,10 @@ bindsym $mod+Shift+x exec swaylock -f -c 000000 -i 0000ff
 for_window [title="Firefox - Indicador de compartición"] floating enable
 
 exec swayidle -w \
-    timeout 600 'swaylock -f -c 000000 -i 0000ff' \
-    timeout 900 'swaymsg "output * dpms off"' \
-        resume 'swaymsg "output * dpms on"' \
-    before-sleep 'swaylock -f -c 000000 -i 0000ff'
+timeout 600 'swaylock -f -c 000000 -i 0000ff' \
+timeout 900 'swaymsg "output * dpms off"' \
+    resume 'swaymsg "output * dpms on"' \
+before-sleep 'swaylock -f -c 000000 -i 0000ff'
 
 # Toggle the current focus between tiling and floating mode
 bindsym $mod+Shift+space floating toggle
@@ -171,21 +178,21 @@ mode "resize" {
 # left will shrink the containers width
 # right will grow the containers width
 # up will shrink the containers height
-    # down will grow the containers height
-    bindsym $left resize shrink width 10px
-    bindsym $down resize grow height 10px
-    bindsym $up resize shrink height 10px
-    bindsym $right resize grow width 10px
+# down will grow the containers height
+bindsym $left resize shrink width 10px
+bindsym $down resize grow height 10px
+bindsym $up resize shrink height 10px
+bindsym $right resize grow width 10px
 
-    # Ditto, with arrow keys
-    bindsym Left resize shrink width 10px
-    bindsym Down resize grow height 10px
-    bindsym Up resize shrink height 10px
-    bindsym Right resize grow width 10px
+# Ditto, with arrow keys
+bindsym Left resize shrink width 10px
+bindsym Down resize grow height 10px
+bindsym Up resize shrink height 10px
+bindsym Right resize grow width 10px
 
-    # Return to default mode
-    bindsym Return mode "default"
-    bindsym Escape mode "default"
+# Return to default mode
+bindsym Return mode "default"
+bindsym Escape mode "default"
 }
 bindsym $mod+r mode "resize"
 
@@ -194,17 +201,18 @@ bindsym $mod+r mode "resize"
 #
 # Read `man 5 sway-bar` for more information about this section.
 bar {
-    position top
+# position top
 
     # When the status_command prints a new line to stdout, swaybar updates.
     # The default just shows the current date and time.
-    status_command while date +'%Y-%m-%d %X'; do sleep 1; done
+    # status_command while date +'%Y-%m-%d %X'; do sleep 1; done
+    swaybar_command waybar
 
-    colors {
-        statusline #ffffff
-        background #323232
-        inactive_workspace #32323200 #32323200 #5c5c5c
-    }
+    # colors {
+    #     statusline #ffffff
+    #     background #323232
+    #     inactive_workspace #32323200 #32323200 #5c5c5c
+    # }
 }
 
 include /etc/sway/config.d/*
