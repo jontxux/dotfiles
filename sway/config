@@ -42,6 +42,15 @@ exec foot --server
 # Iniciar transmission-daemon, solo al inicio
 exec transmission-daemon
 
+# https://github.com/nwg-piotr/autotiling
+# Installing manually:
+
+#     Install the python-i3ipc>=2.0.1 package (or whatever it's called in your Linux distribution);
+#     save the main.py file anywhere, rename to autotiling, make executable, move to your bin folder;
+#     add exec_always autotiling to the ~/.config/sway/config or exec_always --no-startup-id autotiling to the ~/.config/i3/config file.
+# Hay que instalar en debian python3-i3ipc y pasar el archivo main.py a /usr/local/bin como autotiling y darle permisos de ejecución
+exec_always autotiling
+
 ### Key bindings
 #
 # Basics:
