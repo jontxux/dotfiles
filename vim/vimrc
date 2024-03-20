@@ -40,6 +40,9 @@ set shiftwidth=4                " Indentación de 4 espacios para el autoindenta
 set autoindent                  " Autoindentar nuevas líneas
 set smartindent                 " Indentación inteligente
 
+" Configuraciones específicas de lenguaje
+autocmd FileType c,cpp,perl,go,rust setlocal tabstop=4 shiftwidth=4 noexpandtab
+
 " Configuraciones de sintaxis y coloreado
 syntax on                       " Activar coloreado de sintaxis si está disponible
 set t_Co=256                    " Usar 256 colores, útil para temas
