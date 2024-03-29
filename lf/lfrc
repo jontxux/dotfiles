@@ -1,0 +1,125 @@
+# Ajustes Generales
+set preview true
+set icons
+set hidden
+set ignorecase true
+set drawbox true
+set sixel true
+set previewer '~/dotfiles/lf/preview'
+
+# Comandos Personalizados
+
+# Búsqueda con FZF
+cmd fzf_search ${{
+    RG_PREFIX="rg --column --line-number --no-heading --color=always --smart-case "
+    res="$(
+        FZF_DEFAULT_COMMAND="$RG_PREFIX ''" \
+            fzf --bind "change:reload:$RG_PREFIX {q} || true" \
+            --ansi --layout=reverse --header 'Search in files' \
+            | cut -d':' -f1 | sed 's/\\/\\\\/g;s/"/\\"/g'
+    )"
+    [ -n "$res" ] && lf -remote "send $id select \"$res\""
+}}
+
+# Salto con FZF
+cmd fzf_jump ${{
+    res="$(fdfind . | fzf --reverse --header='Jump to location')"
+    if [ -n "$res" ]; then
+        if [ -d "$res" ]; then
+            cmd="cd"
+        else
+            cmd="select"
+        fi
+        res="$(printf '%s' "$res" | sed 's/\\/\\\\/g;s/"/\\"/g')"
+        lf -remote "send $id $cmd \"$res\""
+    fi
+}}
+
+# Integración con zoxide
+cmd z %{{
+	result="$(zoxide query --exclude $PWD $@ | sed 's/\\/\\\\/g;s/"/\\"/g')"
+	lf -remote "send $id cd \"$result\""
+}}
+cmd zi ${{
+	result="$(zoxide query -i | sed 's/\\/\\\\/g;s/"/\\"/g')"
+	lf -remote "send $id cd \"$result\""
+}}
+cmd on-cd &{{
+        zoxide add "$PWD"
+}}
+
+# Apertura de archivos basada en MIME
+cmd open ${{
+    case $(file --mime-type -b "$f") in
+        text/*|application/json) $EDITOR "$f" ;;
+        application/pdf) setsid -f zathura "$f" >/dev/null 2>&1 & ;;
+        audio/*|video/*) setsid -f mpv -- "$f" >/dev/null 2>&1 & ;;
+        image/*) setsid -f swayimg "$f" >/dev/null 2>&1 & ;;
+        *) setsid -f xdg-open "$f" >/dev/null 2>&1 & ;;
+    esac
+}}
+
+# Creación de directorios
+cmd mkdir $mkdir -p "$@"
+
+# Extracción de archivos
+cmd extract ${{
+    # Interfaz de usuario simplificada para la extracción
+}}
+
+# Compresión de archivos
+cmd comprimir ${{
+    # Interfaz de usuario simplificada para la compresión
+}}
+
+# Creación de nuevos archivos
+cmd nuevo ${{
+    echo -n "Nombre del nuevo archivo: "
+    read nombre_archivo
+    if [ -z "$nombre_archivo" ]; then
+        echo "No se especificó el nombre del archivo."
+        exit 1
+    fi
+    vim "$nombre_archivo"
+    lf -remote "send $id reload"
+}}
+
+# Eliminación de archivos
+cmd delete ${{
+    echo -n "Eliminar? [y/N]: "
+    read ans
+    if [ "$ans" = "y" ]; then
+        rm -rf $fx
+        lf -remote "send $id reload"
+    fi
+}}
+
+# Mapeo de Teclas
+map <enter> open
+map D delete
+map E extract
+map Z comprimir
+map N nuevo
+
+# Mapeos de teclas para operaciones comunes
+map <c-d> push :mkdir<space>""<left>
+map <c-r> reload
+map <c-s> set hidden!
+map x $$f
+map X !$f
+
+# Mapeos de teclas para renombrar
+map A :rename; cmd-end
+map C push A<c-u>
+map I :rename; cmd-home
+map i :rename
+map a :rename; cmd-right
+
+# Navegación y operaciones misceláneas
+map <c-n> down
+map <c-p> up
+map V push :!nvim<space>
+map Y $printf "%s" "$fx" | wl-copy
+map gs :fzf_search
+map gf :fzf_jump
+

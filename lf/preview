@@ -1,0 +1,37 @@
+#!/bin/sh
+
+# Manejador de previsualización de archivos para lf
+
+# Restablece el delimitador de campo interno por defecto
+IFS="$(printf '%b_' '\n')"; IFS="${IFS%_}"
+
+# Función para detectar si usar 'bat', 'batcat' o 'cat'
+use_pager() {
+    if command -v bat >/dev/null 2>&1; then
+        bat -p --theme ansi --terminal-width "$(($4-2))" -f "$1"
+    elif command -v batcat >/dev/null 2>&1; then
+        batcat -p --theme ansi --terminal-width "$(($4-2))" -f "$1"
+    else
+        cat "$1" | head -n 100
+    fi
+}
+
+# Previsualización de archivos
+case "$(file --dereference --brief --mime-type -- "$1")" in
+    image/*)
+        chafa -f sixel -s "$2x$3" --animate off --polite on "$1"
+        exit 1
+        ;;
+    application/x-bittorrent)
+        # Usamos transmission-show para archivos .torrent
+        transmission-show "$1"
+        ;;
+    text/html) lynx -width="$4" -display_charset=utf-8 -dump "$1" ;;
+    text/* | */xml | application/json | application/x-ndjson | application/x-wine-extension-ini)
+        # Usamos 'head' para mostrar solo las primeras 100 líneas
+        use_pager "$1" ;;
+    *)
+        echo "Previsualización no soportada para este tipo de archivo." ;;
+esac
+
+exit 0
