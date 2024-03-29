@@ -114,6 +114,12 @@ bindsym $mod+7 workspace number 7
 bindsym $mod+8 workspace number 8
 bindsym $mod+9 workspace number 9
 bindsym $mod+0 workspace number 10
+# Moverse al workspace anterior con Mod+Control+h
+bindsym $mod+Control+h workspace prev
+
+# Moverse al workspace siguiente con Mod+Control+l
+bindsym $mod+Control+l workspace next
+
 # Move focused container to workspace
 bindsym $mod+Shift+1 move container to workspace number 1
 bindsym $mod+Shift+2 move container to workspace number 2
