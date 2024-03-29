@@ -76,6 +76,7 @@ ZSH_THEME="agnoster" # set by `omz`
 plugins=(vi-mode extract zsh-syntax-highlighting)
 
 source $ZSH/oh-my-zsh.sh
+# source ~/dotfiles/zsh/agnoster.zsh-theme
 source ~/.local/share/lscolors.sh
 
 bindkey -M vicmd 'k' up-line-or-beginning-search
@@ -115,6 +116,9 @@ alias reboot='sudo reboot'
 alias shutdown='sudo shutdown'
 alias actualizar='sudo aptitude update && sudo aptitude safe-upgrade -y'
 alias tb="nc termbin.com 9999"
+alias subir_a_nextcloud='rsync -avz --delete --progress /home/jb/Datos/Nextcloud/ pi:/mnt/docker/nextcloud/data/admin/files/'
+alias bajar_desde_nextcloud='rsync -avz --progress pi:/mnt/docker/nextcloud/data/admin/files/ /home/jb/Datos/Nextcloud'
+
 
 # -------------------------
 # Funciones Personalizadas
@@ -127,43 +131,6 @@ buscar() {
   else
     echo "Uso: buscar <nombre_archivo>"
   fi
-}
-
-comprimir() {
-    if [ $# -lt 2 ]; then
-        echo "Uso: comprimir <nombre_archivo_comprimido> <archivo/directorio...>"
-        return 1
-    fi
-
-    local nombre_archivo_comprimido="$1"  # El primer argumento es el nombre del archivo comprimido
-    local archivos_a_comprimir=("${@:2}")  # Todos los argumentos después del primero son los archivos/directorios a comprimir
-
-    case "${nombre_archivo_comprimido##*.}" in
-        tar)
-            tar cf "$nombre_archivo_comprimido" "${archivos_a_comprimir[@]}"
-            ;;
-        gz)
-            tar czf "$nombre_archivo_comprimido" "${archivos_a_comprimir[@]}"
-            ;;
-        bz2)
-            tar cjf "$nombre_archivo_comprimido" "${archivos_a_comprimir[@]}"
-            ;;
-        xz)
-            tar cJf "$nombre_archivo_comprimido" "${archivos_a_comprimir[@]}"
-            ;;
-        zip)
-            zip -r "$nombre_archivo_comprimido" "${archivos_a_comprimir[@]}"
-            ;;
-        7z)
-            7z a "$nombre_archivo_comprimido" "${archivos_a_comprimir[@]}"
-            ;;
-        *)
-            echo "Extensión de archivo no soportada: ${nombre_archivo_comprimido##*.}"
-            return 1
-            ;;
-    esac
-
-    echo "Archivos comprimidos en '$nombre_archivo_comprimido'."
 }
 
 # Función para montar un dispositivo USB
@@ -199,6 +166,15 @@ mpvbg() {
 
 subir() {
   [ "$#" -eq 1 ] && echo "https://pixeldrain.com/u/$(curl -s -T "$1" https://pixeldrain.com/api/file/ | jq -r '.id')" || echo "Uso: subir <ruta_del_archivo>"; 
+}
+
+function yy() {
+	local tmp="$(mktemp -t "yazi-cwd.XXXXX")"
+	yazi "$@" --cwd-file="$tmp"
+	if cwd="$(cat -- "$tmp")" && [ -n "$cwd" ] && [ "$cwd" != "$PWD" ]; then
+		cd -- "$cwd"
+	fi
+	rm -f -- "$tmp"
 }
 
 # -------------------------
