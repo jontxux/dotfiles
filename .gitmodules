@@ -28,3 +28,6 @@
 [submodule "vim/pack/plugins/start/vim-repeat"]
 	path = vim/pack/plugins/start/vim-repeat
 	url = https://github.com/tpope/vim-repeat
+[submodule "sway/autotiling"]
+	path = sway/autotiling
+	url = https://github.com/nwg-piotr/autotiling
