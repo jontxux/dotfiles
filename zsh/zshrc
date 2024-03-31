@@ -78,6 +78,7 @@ plugins=(vi-mode extract zsh-syntax-highlighting)
 source $ZSH/oh-my-zsh.sh
 # source ~/dotfiles/zsh/agnoster.zsh-theme
 source ~/.local/share/lscolors.sh
+source ~/dotfiles/fzf/key-bindings.zsh
 
 bindkey -M vicmd 'k' up-line-or-beginning-search
 bindkey -M vicmd 'j' down-line-or-beginning-search
