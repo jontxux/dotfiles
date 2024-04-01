@@ -80,7 +80,7 @@ cmd nuevo ${{
         echo "No se especificó el nombre del archivo."
         exit 1
     fi
-    vim "$nombre_archivo"
+    touch "$nombre_archivo"
     lf -remote "send $id reload"
 }}
 
@@ -99,7 +99,7 @@ map <enter> open
 map D delete
 map E extract
 map Z comprimir
-map N nuevo
+map T nuevo
 
 # Mapeos de teclas para operaciones comunes
 map <c-d> push :mkdir<space>""<left>
