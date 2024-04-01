@@ -24,6 +24,7 @@ paquetes=(
     "waybar"
     "swaylock"
     "bat"
+    "unrar"
 )
 
 # Actualizar la lista de paquetes
