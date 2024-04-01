@@ -25,6 +25,7 @@ paquetes=(
     "swaylock"
     "bat"
     "unrar"
+    "lynx"
 )
 
 # Actualizar la lista de paquetes
