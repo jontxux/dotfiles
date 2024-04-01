@@ -22,6 +22,7 @@ paquetes=(
     "git"
     "sway"
     "waybar"
+    "swaylock"
 )
 
 # Actualizar la lista de paquetes
