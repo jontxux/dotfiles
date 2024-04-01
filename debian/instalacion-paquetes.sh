@@ -23,6 +23,7 @@ paquetes=(
     "sway"
     "waybar"
     "swaylock"
+    "bat"
 )
 
 # Actualizar la lista de paquetes
