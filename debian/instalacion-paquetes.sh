@@ -22,6 +22,7 @@ paquetes=(
     "git"
     "sway"
     "waybar"
+    "swayidle"
     "swaylock"
     "bat"
     "unrar"
