@@ -64,33 +64,122 @@ cmd mkdir $mkdir -p "$@"
 
 # Extracción de archivos
 cmd extract ${{
-    # Interfaz de usuario simplificada para la extracción
+    clear; tput cup $(($(tput lines)/3)); tput bold
+    set -f
+    echo "Archivo a extraer: $fx"
+    echo "Extraer? [y/N]"
+    read ans
+    if [ "$ans" = "y" ]; then
+        echo "Ingresa el directorio destino para la extracción (dejar en blanco para extraer en el directorio actual):"
+        read directorio_destino
+
+        # Asegurarse de que la ruta del directorio de destino termine con '/'
+        if [ -n "$directorio_destino" ] && [ "${directorio_destino: -1}" != "/" ]; then
+            directorio_destino="$directorio_destino/"
+        fi
+
+        # Crear el directorio destino si no existe y si se ha especificado uno
+        if [ -n "$directorio_destino" ] && [ ! -d "$directorio_destino" ]; then
+            mkdir -p "$directorio_destino"
+        fi
+
+        # Usar el directorio actual si no se especificó uno
+        if [ -z "$directorio_destino" ]; then
+            directorio_destino="./"
+        fi
+
+        # Ejecutar el comando de extracción con la ruta de destino
+        case $fx in
+            *.tar.bz2 | *.tbz2)   tar xjf "$fx" -C "$directorio_destino" ;;
+            *.tar.gz | *.tgz)    tar xzf "$fx" -C "$directorio_destino" ;;
+            *.bz2)       bunzip2 -c "$fx" > "${directorio_destino}${fx##*/}" ;;
+            *.rar)       unrar x "$fx" "$directorio_destino" ;;
+            *.gz)        gunzip -c "$fx" > "${directorio_destino}${fx##*/}" ;;
+            *.tar)       tar xf "$fx" -C "$directorio_destino" ;;
+            *.zip)       unzip "$fx" -d "$directorio_destino" ;;
+            *.Z)         uncompress -c "$fx" > "${directorio_destino}${fx##*/}" ;;
+            *.7z)        7z x "$fx" -o"$directorio_destino" ;;
+            *.tar.xz)    tar xf "$fx" -C "$directorio_destino" ;;
+            *) echo "Formato de archivo no soportado." ;;
+        esac
+        echo "Extracción completada."
+    fi
+    lf -remote "send $id reload"
 }}
 
 # Compresión de archivos
 cmd comprimir ${{
-    # Interfaz de usuario simplificada para la compresión
+	clear; tput cup $(($(tput lines)/3)); tput bold
+	set -f
+	echo "Archivos a comprimir:"
+    echo "$fx"
+	echo "Ingresa el nombre del archivo comprimido: "
+	read nombre_comprimido
+    if [ -z "$nombre_comprimido" ]; then
+        echo "No se proporcionó un nombre. Compresión cancelada."
+    else
+        case "$nombre_comprimido" in
+            *.zip)
+                zip -r "$nombre_comprimido" $fx
+                ;;
+            *.tar.gz | *.tgz)
+                tar -czvf "$nombre_comprimido" $fx
+                ;;
+            *.tar.xz)
+                tar -cJvf "$nombre_comprimido" $fx
+                ;;
+            *.tar.bz2 | *.tbz2)
+                tar -cjvf "$nombre_comprimido" $fx
+                ;;
+            *.7z)
+                7z a "$nombre_comprimido" $fx
+                ;;
+            *.rar)
+                rar a "$nombre_comprimido" $fx
+                ;;
+            *)
+                echo "Extensión no reconocida. Compresión cancelada."
+                ;;
+        esac
+        if [ $? -eq 0 ]; then
+            echo "Compresión completada."
+        else
+            echo "Ocurrió un error durante la compresión."
+        fi
+    fi
+    lf -remote "send $id reload"
 }}
 
 # Creación de nuevos archivos
 cmd nuevo ${{
+    clear; tput cup $(($(tput lines)/3)); tput bold
     echo -n "Nombre del nuevo archivo: "
     read nombre_archivo
+    tput sgr0  # Restablecer el formato de texto
+
     if [ -z "$nombre_archivo" ]; then
+        tput cup $(($(tput lines)/2))
         echo "No se especificó el nombre del archivo."
         exit 1
     fi
+
     touch "$nombre_archivo"
     lf -remote "send $id reload"
 }}
 
 # Eliminación de archivos
-cmd delete ${{
-    echo -n "Eliminar? [y/N]: "
+cmd delete ${{ 
+    clear; tput cup $(($(tput lines)/3)); tput bold
+    echo -n "¿Eliminar $fx? [y/N]: "
+    tput sgr0  # Restablecer el formato de texto
     read ans
+
     if [ "$ans" = "y" ]; then
-        rm -rf $fx
-        lf -remote "send $id reload"
+        rm -rf "$fx"
+        lf -remote "send load"
+    else
+        tput cup $(($(tput lines)/2))
+        echo "Eliminación cancelada."
     fi
 }}
 
@@ -102,7 +191,7 @@ map Z comprimir
 map T nuevo
 
 # Mapeos de teclas para operaciones comunes
-map <c-d> push :mkdir<space>""<left>
+map <f-7> push :mkdir<space>""<left>
 map <c-r> reload
 map <c-s> set hidden!
 map x $$f
@@ -118,7 +207,7 @@ map a :rename; cmd-right
 # Navegación y operaciones misceláneas
 map <c-n> down
 map <c-p> up
-map V push :!nvim<space>
+map V push :!vim<space>
 map Y $printf "%s" "$fx" | wl-copy
 map gs :fzf_search
 map gf :fzf_jump
