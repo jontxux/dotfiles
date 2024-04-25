@@ -26,6 +26,7 @@ paquetes=(
     "swaylock"
     "bat"
     "unrar"
+    "jq"
     "lynx"
 )
 
