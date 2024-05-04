@@ -1,0 +1,4 @@
+sys-kernel/gentoo-sources symlink
+sys-auth/seatd -systemd -elogind server builtin
+gui-wm/sway -swaybar -swaynag tray wallpapers -X
+gui-apps/swaybg gdk-pixbuf
