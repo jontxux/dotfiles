@@ -144,13 +144,12 @@ bindsym $mod+e layout toggle split
 bindsym $mod+f fullscreen
 
 # Subir volumen
-bindsym Ctrl+Shift+Mod4+Up exec pactl set-sink-volume @DEFAULT_SINK@ +5%
-
+bindsym Ctrl+Shift+Mod4+Up exec amixer -q sset Master 5%+
 # Bajar volumen
-bindsym Ctrl+Shift+Mod4+Down exec pactl set-sink-volume @DEFAULT_SINK@ -5%
-
+bindsym Ctrl+Shift+Mod4+Down exec amixer -q sset Master 5%-
 # Silenciar o desilenciar
-bindsym Ctrl+Shift+Mod4+m exec pactl set-sink-mute @DEFAULT_SINK@ toggle
+bindsym Ctrl+Shift+Mod4+m exec amixer set Master toggle
+
 
 bindsym $mod+Print exec grim ~/Imágenes/screenshot-$(date +'%Y-%m-%d-%H%M%S').png
 
@@ -220,7 +219,8 @@ bar {
 
     # When the status_command prints a new line to stdout, swaybar updates.
     # The default just shows the current date and time.
-    # status_command while date +'%Y-%m-%d %X'; do sleep 1; done
+    # status_command while true; do date +'%Y-%m-%d %X'; sleep 1; done
+
     swaybar_command waybar
 
     # colors {
@@ -230,4 +230,4 @@ bar {
     # }
 }
 
-include /etc/sway/config.d/*
+# include /etc/sway/config.d/*
