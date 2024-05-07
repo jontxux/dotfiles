@@ -28,6 +28,7 @@ paquetes=(
     "unrar"
     "jq"
     "lynx"
+    "alsa-utils"
 )
 
 # Actualizar la lista de paquetes
