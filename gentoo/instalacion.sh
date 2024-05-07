@@ -101,6 +101,20 @@ emerge --ask dev-libs/wayland
 emerge --ask gui-libs/wlroots
 emerge --ask sys-apps/dbus
 emerge --ask gui-wm/sway
+emerge --ask gui-apps/foot
+emerge --ask app-misc/jq
+emerge --ask net-misc/yt-dlp
+emerge --ask app-editors/vim
+emerge --ask gui-apps/grim
+emerge --ask gui-apps/slurp
+emerge --ask dev-vcs/git
+emerge --ask media-sound/alsa-utils
+
+git clone --recurse-submodules https://github.com/jontxux/dotfiles.git
+
+export LANG=es_ES.UTF-8
+emerge --ask x11-misc/xdg-user-dirs
+xdg-user-dirs-update
 
 gpasswd -a jb seat
 rc-update add seatd default
