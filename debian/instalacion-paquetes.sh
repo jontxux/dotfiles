@@ -32,7 +32,7 @@ paquetes=(
 )
 
 # Actualizar la lista de paquetes
-sudo aptitude update
+doas aptitude update
 
 for paquete in "${paquetes[@]}"; do
     # Verificar si el paquete ya está instalado
@@ -40,7 +40,7 @@ for paquete in "${paquetes[@]}"; do
         echo "El paquete ya está instalado: $paquete"
     else
         echo "Instalando $paquete..."
-        sudo aptitude install -y "$paquete"
+        doas aptitude install -y "$paquete"
     fi
 done
 
