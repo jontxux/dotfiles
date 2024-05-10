@@ -49,6 +49,7 @@ cp -v "${CONFIG_DIR}/make.conf" /mnt/gentoo/etc/portage/make.conf
 cp -v "${CONFIG_DIR}/timezone" /mnt/gentoo/etc/timezone
 mkdir -p /mnt/gentoo/etc/portage/package.use
 cp -v "${CONFIG_DIR}/package.use/*" /mnt/gentoo/etc/portage/package.use/
+cp -v "${CONFIG_DIR}/../doas/doas.conf" /mnt/gentoo/etc/doas.conf
 
 # Copiar resolv.conf
 echo "Copiando configuración DNS..."
@@ -109,8 +110,19 @@ emerge --ask gui-apps/grim
 emerge --ask gui-apps/slurp
 emerge --ask dev-vcs/git
 emerge --ask media-sound/alsa-utils
+emerge --ask app-admin/doas
+
+sed -i 's|nano|vim|g' /etc/profile
+source /etc/profile
 
 git clone --recurse-submodules https://github.com/jontxux/dotfiles.git
+
+su jb -c 'ln -sfn /home/jb/dotfiles/sway/ /home/jb/.config/'
+su jb -c 'ln -sfn /home/jb/dotfiles/yt-dlp/ /home/jb/.config/'
+su jb -c 'ln -sfn /home/jb/dotfiles/foot/ /home/jb/.config/'
+su jb -c 'ln -sfn /home/jb/dotfiles/vim/ /home/jb/.vim'
+su jb -c 'ln -sfn /home/jb/dotfiles/git/gitconfig /home/jb/.gitconfig'
+ln -sfn /home/jb/dotfiles/diff-so-fancy/diff-so-fancy /usr/local/bin/
 
 export LANG=es_ES.UTF-8
 emerge --ask x11-misc/xdg-user-dirs
