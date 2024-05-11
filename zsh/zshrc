@@ -113,9 +113,9 @@ prompt_context() {}
 # -------------------------
 # Alias Útiles
 # -------------------------
-alias reboot='sudo reboot'
-alias shutdown='sudo shutdown'
-alias actualizar='sudo aptitude update && sudo aptitude safe-upgrade -y'
+alias reboot='doas /sbin/reboot'
+alias shutdown='doas /sbin/shutdown'
+alias actualizar='doas aptitude update && doas aptitude safe-upgrade -y'
 alias tb="nc termbin.com 9999"
 alias subir_a_nextcloud='rsync -avz --delete --progress /home/jb/Datos/Nextcloud/ pi:/mnt/docker/nextcloud/data/admin/files/'
 alias bajar_desde_nextcloud='rsync -avz --progress pi:/mnt/docker/nextcloud/data/admin/files/ /home/jb/Datos/Nextcloud'
