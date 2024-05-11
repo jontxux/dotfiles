@@ -49,6 +49,7 @@ cp -v "${CONFIG_DIR}/make.conf" /mnt/gentoo/etc/portage/make.conf
 cp -v "${CONFIG_DIR}/timezone" /mnt/gentoo/etc/timezone
 mkdir -p /mnt/gentoo/etc/portage/package.use
 cp -v "${CONFIG_DIR}/package.use/*" /mnt/gentoo/etc/portage/package.use/
+ln -sf /mnt/gentoo/usr/share/zoneinfo/Europe/Madrid /mnt/gentoo/etc/localtime
 
 # Copiar resolv.conf
 echo "Copiando configuración DNS..."
@@ -109,6 +110,9 @@ emerge --ask gui-apps/grim
 emerge --ask gui-apps/slurp
 emerge --ask dev-vcs/git
 emerge --ask media-sound/alsa-utils
+emerge --ask gui-apps/wl-clipboard
+emerge --ask media-video/mpv
+emerge --ask www-client/firefox
 
 git clone --recurse-submodules https://github.com/jontxux/dotfiles.git
 
