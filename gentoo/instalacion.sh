@@ -115,6 +115,7 @@ emerge --ask gui-apps/wl-clipboard
 emerge --ask media-video/mpv
 emerge --ask www-client/firefox
 emerge --ask app-admin/doas
+emerge --ask app-shells/mksh
 
 sed -i 's|nano|vim|g' /etc/profile
 source /etc/profile
