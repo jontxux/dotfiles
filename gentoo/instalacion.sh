@@ -116,6 +116,7 @@ emerge --ask media-video/mpv
 emerge --ask www-client/firefox
 emerge --ask app-admin/doas
 emerge --ask app-shells/mksh
+emerge --ask sys-fs/ntfs3g
 
 sed -i 's|nano|vim|g' /etc/profile
 source /etc/profile
