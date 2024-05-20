@@ -157,8 +157,18 @@ bindsym $mod+Shift+Print exec grim -g "$(slurp)" ~/Imágenes/screenshot-$(date +
 
 bindsym Ctrl+Print exec grim -g "$(slurp)" - | wl-copy
 
-# Usar wofi como lanzador de aplicaciones
-bindsym $mod+d exec wofi --show drun
+# Usar bemenu como lanzador de aplicaciones
+set $launcher bemenu-run -H '23' -i \
+  --tb='#323232' \
+  --tf='#bbbbbb' \
+  --fb='#323232' \
+  --nb='#323232' \
+  --nf='#bbbbbb' \
+  --hb='#005577' \
+  --hf='#eeeeee' \
+  -p 'Run: '
+
+bindsym $mod+d exec $launcher
 
 bindsym $mod+Shift+x exec swaylock -f -c 000000 -i 0000ff
 
