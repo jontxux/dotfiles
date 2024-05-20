@@ -117,6 +117,10 @@ emerge --ask www-client/firefox
 emerge --ask app-admin/doas
 emerge --ask app-shells/mksh
 emerge --ask sys-fs/ntfs3g
+emerge --ask dev-libs/bemenu
+emerge --ask sys-process/btop
+emerge --ask net-p2p/transmission
+emerge --ask media-gfx/imagemagick
 
 sed -i 's|nano|vim|g' /etc/profile
 source /etc/profile
