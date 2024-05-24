@@ -40,17 +40,27 @@ tar xpJf stage3-amd64-openrc-20240428T163427Z.tar.xz --xattrs-include='*.*' --nu
 # Copiar archivos personalizados
 echo "Copiando archivos de configuración personalizados..."
 CONFIG_DIR="/home/jb/dotfiles/gentoo"
+DEST_DIR="/mnt/gentoo"
 
-cp -v "${CONFIG_DIR}/hostname" /mnt/gentoo/etc/conf.d/hostname
-cp -v "${CONFIG_DIR}/hosts" /mnt/gentoo/etc/hosts
-cp -v "${CONFIG_DIR}/keymaps" /mnt/gentoo/etc/conf.d/keymaps
-cp -v "${CONFIG_DIR}/locale.gen" /mnt/gentoo/etc/locale.gen
-cp -v "${CONFIG_DIR}/make.conf" /mnt/gentoo/etc/portage/make.conf
-cp -v "${CONFIG_DIR}/timezone" /mnt/gentoo/etc/timezone
-mkdir -p /mnt/gentoo/etc/portage/package.use
-cp -v "${CONFIG_DIR}/package.use/*" /mnt/gentoo/etc/portage/package.use/
-cp -v "${CONFIG_DIR}/../doas/doas.conf" /mnt/gentoo/etc/doas.conf
-ln -sf /mnt/gentoo/usr/share/zoneinfo/Europe/Madrid /mnt/gentoo/etc/localtime
+# Copiar archivos a sus ubicaciones correctas
+cp -v "${CONFIG_DIR}/etc/conf.d/hostname" "${DEST_DIR}/etc/conf.d/hostname"
+cp -v "${CONFIG_DIR}/etc/hosts" "${DEST_DIR}/etc/hosts"
+cp -v "${CONFIG_DIR}/etc/conf.d/keymaps" "${DEST_DIR}/etc/conf.d/keymaps"
+cp -v "${CONFIG_DIR}/etc/locale.gen" "${DEST_DIR}/etc/locale.gen"
+cp -v "${CONFIG_DIR}/etc/portage/make.conf" "${DEST_DIR}/etc/portage/make.conf"
+cp -v "${CONFIG_DIR}/etc/timezone" "${DEST_DIR}/etc/timezone"
+
+# Crear directorio package.use si no existe
+mkdir -p "${DEST_DIR}/etc/portage/package.use"
+
+# Copiar archivos de package.use
+cp -v ${CONFIG_DIR}/etc/portage/package.use/* "${DEST_DIR}/etc/portage/package.use/"
+
+# Copiar doas.conf si está en un directorio diferente
+cp -v "${CONFIG_DIR}/etc/doas.conf" "${DEST_DIR}/etc/doas.conf"
+
+# Crear enlace simbólico para localtime (opcional)
+ln -sf "${DEST_DIR}/usr/share/zoneinfo/Europe/Madrid" "${DEST_DIR}/etc/localtime"
 
 # Copiar resolv.conf
 echo "Copiando configuración DNS..."
