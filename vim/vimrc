@@ -81,3 +81,8 @@ cnoreabbrev WQ wq
 cnoreabbrev W w
 cnoreabbrev Q q
 cnoreabbrev Qall qall
+
+
+command! FTSH set filetype=sh
+command! DoasRead execute 'e doas://' . expand('%:p')
+command! DoasWrite execute 'write !doas tee % > /dev/null'
