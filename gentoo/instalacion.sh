@@ -116,6 +116,7 @@ emerge --ask media-video/mpv
 emerge --ask www-client/firefox
 emerge --ask app-admin/doas
 emerge --ask app-shells/mksh
+emerge --ask app-shells/dash
 emerge --ask sys-fs/ntfs3g
 emerge --ask dev-libs/bemenu
 emerge --ask sys-process/btop
