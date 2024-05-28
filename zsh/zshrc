@@ -88,7 +88,7 @@ bindkey -M vicmd 'j' down-line-or-beginning-search
 # Plugins
 source /home/jb/dotfiles/zsh/custom/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.plugin.zsh
 
-[ -r ~/.colores.sh ] && . ~/.colores.sh
+[ -r ~/dotfiles/zsh/colores.sh ] && . ~/dotfiles/zsh/colores.sh
 
 # Definir las variables directamente para cada componente del prompt
 USER_PROMPT=$'%{\e[1;32m%}%n%{\e[0m%}'  # Nombre de usuario en verde negrita
