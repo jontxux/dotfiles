@@ -1,31 +1,21 @@
-# -------------------------
-# Configuraciones de Entorno
-# -------------------------
-export GDK_BACKEND=wayland
-export QT_QPA_PLATFORM=wayland
-export GTK_THEME=Adwaita:dark
-export QT_QPA_PLATFORMTHEME=qt5ct
-export MOZ_ENABLE_WAYLAND=1
-export EDITOR=vim
-export VISUAL=vim
-export BROWSER=qutebrowser
+# Editor por defecto
+export EDITOR="vim"
+export VISUAL="vim"
 
-# Colorear páginas del manual utilizando 'less'
-export LESS_TERMCAP_mb=$'\E[01;31m'  # Inicia texto en negrita en rojo
-export LESS_TERMCAP_md=$'\E[01;36m'  # Inicia texto en negrita en cian
-export LESS_TERMCAP_me=$'\E[0m'      # Fin de modo en negrita
-export LESS_TERMCAP_so=$'\E[01;33;44m' # Inicia modo de resaltado con fondo azul y texto amarillo
-export LESS_TERMCAP_se=$'\E[0m'      # Fin de modo de resaltado
-export LESS_TERMCAP_us=$'\E[01;32m'  # Inicia texto subrayado en verde
-export LESS_TERMCAP_ue=$'\E[0m'      # Fin de texto subrayado
+# Configuración de idioma y localización
+export LANG="es_ES.UTF-8"
+export LC_ALL="es_ES.UTF-8"
 
-# Asegurarse de que 'less' es el paginador para las páginas del manual
-export MANPAGER='less -R'
+if test -z "${XDG_RUNTIME_DIR}"; then
+  export XDG_RUNTIME_DIR=/tmp/"${UID}"-runtime-dir
+    if ! test -d "${XDG_RUNTIME_DIR}"; then
+        mkdir "${XDG_RUNTIME_DIR}"
+        chmod 0700 "${XDG_RUNTIME_DIR}"
+    fi
+fi
 
-# Para evitar problemas con 'groff' en la generación de colores
-export GROFF_NO_SGR=1
-
-if [ -z "${WAYLAND_DISPLAY}" ] && [ "${XDG_VTNR}" -eq 1 ]; then
-  # Iniciar Sway
-  exec sway
+# Iniciar sway en la primera terminal virtual si no está en Wayland
+if [ -z "${WAYLAND_DISPLAY}" ] && [ "$(tty | grep -o '[0-9]*$')" -eq 1 ]; then
+  echo "Iniciando sway..."
+  exec dbus-run-session sway
 fi

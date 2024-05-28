@@ -1,184 +1,135 @@
-# If you come from bash you might have to change your $PATH.
-# export PATH=$HOME/bin:/usr/local/bin:$PATH
+# Si no se está ejecutando de forma interactiva, no hacer nada
+case $- in
+    *i*) ;;
+    *) return;;
+esac
 
-# Path to your oh-my-zsh installation.
-# export ZSH="$HOME/.oh-my-zsh"
-export ZSH="$HOME/dotfiles/zsh/oh-my-zsh"
-ZSH_CUSTOM="$HOME/dotfiles/zsh/custom"
+# Aliases
+[ -r ~/.aliases ] && . ~/.aliases
 
+# Historial
+HISTFILE=~/.zsh_history
+HISTSIZE=10000
+SAVEHIST=10000
 
-# Set name of the theme to load --- if set to "random", it will
-# load a random theme each time oh-my-zsh is loaded, in which case,
-# to know which specific one was loaded, run: echo $RANDOM_THEME
-# See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
-ZSH_THEME="agnoster" # set by `omz`
+# Historial options
+setopt append_history       # Añadir al historial en vez de sobrescribirlo
+setopt share_history        # Compartir el historial entre todas las sesiones de zsh
+setopt hist_ignore_all_dups # Ignorar duplicados en todo el historial
+setopt hist_ignore_dups     # Ignorar duplicados sucesivos
+setopt hist_find_no_dups    # No mostrar duplicados al buscar en el historial
+setopt hist_reduce_blanks   # Eliminar espacios en blanco redundantes
+setopt hist_verify          # Editar línea de historial antes de aceptar
+setopt extended_history     # Almacenar timestamp del comando en el historial
 
-# Set list of themes to pick from when loading at random
-# Setting this variable when ZSH_THEME=random will cause zsh to load
-# a theme from this variable instead of looking in $ZSH/themes/
-# If set to an empty array, this variable will have no effect.
-# ZSH_THEME_RANDOM_CANDIDATES=( "robbyrussell" "agnoster" )
+# Modo vi
+bindkey -v
+export KEYTIMEOUT=1
 
-# Uncomment the following line to use case-sensitive completion.
-# CASE_SENSITIVE="true"
+# Asignar la tecla Backspace para borrar el carácter anterior en todos los modos relevantes
+bindkey -M viins '^H' backward-delete-char
+bindkey -M viins '^?' backward-delete-char
+bindkey -M vicmd '^H' backward-delete-char
+bindkey -M vicmd '^?' backward-delete-char
 
-# Uncomment the following line to use hyphen-insensitive completion.
-# Case-sensitive completion must be off. _ and - will be interchangeable.
-# HYPHEN_INSENSITIVE="true"
+# Asignar la tecla Delete para borrar el carácter adelante
+bindkey -M viins '^[[3~' delete-char
+bindkey '^[[3~' delete-char
 
-# Uncomment one of the following lines to change the auto-update behavior
-# zstyle ':omz:update' mode disabled  # disable automatic updates
-# zstyle ':omz:update' mode auto      # update automatically without asking
-# zstyle ':omz:update' mode reminder  # just remind me to update when it's time
+# Función para editar la línea de comandos
+autoload -Uz edit-command-line
+zle -N edit-command-line
+bindkey '^v' edit-command-line
+bindkey -M vicmd 'v' edit-command-line
 
-# Uncomment the following line to change how often to auto-update (in days).
-# zstyle ':omz:update' frequency 13
+# Cambio de forma del cursor para diferentes modos vi
+function zle-keymap-select {
+    case "${KEYMAP}" in
+        vicmd | block) echo -ne '\e[2 q' ;;  # Cursor de bloque para modo comando
+        main | viins | '' | beam) echo -ne '\e[6 q' ;;  # Cursor de subrayado para modo inserción
+    esac
+    zle reset-prompt  # Redibujar el prompt
+}
+zle -N zle-keymap-select
 
-# Uncomment the following line if pasting URLs and other text is messed up.
-# DISABLE_MAGIC_FUNCTIONS="true"
+# Inicializar con el cursor en modo inserción
+function zle-line-init {
+    ultimo_error="$?"  # Capturar el estado de salida
+    zle -K viins  # Iniciar con keymap de inserción
+    echo -ne '\e[6 q'  # Cursor de subrayado
+    zle reset-prompt  # Redibujar el prompt
+}
+zle -N zle-line-init
 
-# Uncomment the following line to disable colors in ls.
-# DISABLE_LS_COLORS="true"
+# Finalizar con el cursor en modo comando
+function zle-line-finish {
+    echo -ne '\e[2 q'  # Cursor de bloque
+}
+zle -N zle-line-finish
 
-# Uncomment the following line to disable auto-setting terminal title.
-# DISABLE_AUTO_TITLE="true"
+# Autocompletado básico
+autoload -U compinit
+compinit
+zstyle ':completion:*' menu select
+zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}'
+zmodload zsh/complist
+_comp_options+=(globdots)  # Incluir archivos ocultos
 
-# Uncomment the following line to enable command auto-correction.
-# ENABLE_CORRECTION="true"
-
-# Uncomment the following line to display red dots whilst waiting for completion.
-# You can also set it to another string to have that shown instead of the default red dots.
-# e.g. COMPLETION_WAITING_DOTS="%F{yellow}waiting...%f"
-# Caution: this setting can cause issues with multiline prompts in zsh < 5.7.1 (see #5765)
-# COMPLETION_WAITING_DOTS="true"
-
-# Uncomment the following line if you want to disable marking untracked files
-# under VCS as dirty. This makes repository status check for large repositories
-# much, much faster.
-# DISABLE_UNTRACKED_FILES_DIRTY="true"
-
-# Uncomment the following line if you want to change the command execution time
-# stamp shown in the history command output.
-# You can set one of the optional three formats:
-# "mm/dd/yyyy"|"dd.mm.yyyy"|"yyyy-mm-dd"
-# or set a custom format using the strftime function format specifications,
-# see 'man strftime' for details.
-# HIST_STAMPS="mm/dd/yyyy"
-
-# Would you like to use another custom folder than $ZSH/custom?
-# ZSH_CUSTOM=/path/to/new-custom-folder
-
-# Which plugins would you like to load?
-# Standard plugins can be found in $ZSH/plugins/
-# Custom plugins may be added to $ZSH_CUSTOM/plugins/
-# Example format: plugins=(rails git textmate ruby lighthouse)
-# Add wisely, as too many plugins slow down shell startup.
-plugins=(vi-mode extract zsh-syntax-highlighting)
-
-source $ZSH/oh-my-zsh.sh
-# source ~/dotfiles/zsh/agnoster.zsh-theme
-source ~/.local/share/lscolors.sh
-source ~/dotfiles/fzf/key-bindings.zsh
-
+# Búsqueda en el historial
+autoload -U up-line-or-beginning-search
+autoload -U down-line-or-beginning-search
+zle -N up-line-or-beginning-search
+zle -N down-line-or-beginning-search
+bindkey "^[[A" up-line-or-beginning-search
+bindkey "^[[B" down-line-or-beginning-search
 bindkey -M vicmd 'k' up-line-or-beginning-search
 bindkey -M vicmd 'j' down-line-or-beginning-search
 
-# User configuration
+# Plugins
+source /home/jb/dotfiles/zsh/custom/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.plugin.zsh
 
-# export MANPATH="/usr/local/man:$MANPATH"
+[ -r ~/.colores.sh ] && . ~/.colores.sh
 
-# You may need to manually set your language environment
-# export LANG=en_US.UTF-8
+# Definir las variables directamente para cada componente del prompt
+USER_PROMPT=$'%{\e[1;32m%}%n%{\e[0m%}'  # Nombre de usuario en verde negrita
+CWD_PROMPT=$'%{\e[1;34m%}%~%{\e[0m%}'  # Directorio de trabajo actual en azul negrita
 
-# Preferred editor for local and remote sessions
-# if [[ -n $SSH_CONNECTION ]]; then
-#   export EDITOR='vim'
-# else
-#   export EDITOR='mvim'
-# fi
+# Componentes para el prompt minimalista
+function prompt_status {
+    local resaltar_procesos="0"  # Valor por defecto cuando no hay procesos en segundo plano
+    if [ -n "$(jobs | sed -n '$=')" ]; then
+        resaltar_procesos="4"  # Valor específico para resaltar cuando hay procesos en segundo plano
+    fi
 
-# Compilation flags
-# export ARCHFLAGS="-arch x86_64"
+    local color_error="32"  # Verde por defecto para OK
+    if [ "$ultimo_error" != "0" ]; then
+        color_error="31"  # Rojo para error
+    fi
 
-# Set personal aliases, overriding those provided by oh-my-zsh libs,
-# plugins, and themes. Aliases can be placed here, though oh-my-zsh
-# users are encouraged to define aliases within the ZSH_CUSTOM folder.
-# For a full list of active aliases, run `alias`.
-#
-# Example aliases
-# alias zshconfig="mate ~/.zshrc"
-# alias ohmyzsh="mate ~/.oh-my-zsh"
-prompt_context() {}
-
-# -------------------------
-# Alias Útiles
-# -------------------------
-alias reboot='doas /sbin/reboot'
-alias shutdown='doas /sbin/shutdown'
-alias actualizar='doas aptitude update && doas aptitude safe-upgrade -y'
-alias tb="nc termbin.com 9999"
-alias subir_a_nextcloud='rsync -avz --delete --progress /home/jb/Datos/Nextcloud/ pi:/mnt/docker/nextcloud/data/admin/files/'
-alias bajar_desde_nextcloud='rsync -avz --progress pi:/mnt/docker/nextcloud/data/admin/files/ /home/jb/Datos/Nextcloud'
-
-
-# -------------------------
-# Funciones Personalizadas
-# -------------------------
-
-# Función para buscar archivos por nombre
-buscar() {
-  if [ -n "$1" ]; then
-    find . -type f -iname "*$1*"
-  else
-    echo "Uso: buscar <nombre_archivo>"
-  fi
+    printf '%b' "%{\e[$resaltar_procesos;${color_error}m%}%(!.#.$)%{\e[0m%}"  # Usar '$' como el carácter de usuario
 }
 
-# Función para montar un dispositivo USB
-montar_usb() {
-    local dispositivo="${1:-/dev/sdb1}"  # Utiliza /dev/sdb1 como valor predeterminado si no se proporciona ningún argumento
-
-    echo "Montando dispositivo $dispositivo..."
-    # Monta el dispositivo usando udisksctl
-    udisksctl mount -b "$dispositivo"
+function prompt_keymap {
+    local icono_modo="▶"  # Carácter para el modo de inserción
+    [ "$KEYMAP" = 'vicmd' ] && icono_modo="■"  # Carácter para el modo normal
+    printf '%b' "$icono_modo"
 }
 
-# Función para desmontar un dispositivo USB
-desmontar_usb() {
-    local dispositivo="${1:-/dev/sdb1}"  # Utiliza /dev/sdb1 como valor predeterminado si no se proporciona ningún argumento
+function prompt_git {
+    local color_git="%{\e[0;32m%}"  # Verde por defecto para OK
+    local nombre_rama="$(git rev-parse --abbrev-ref HEAD 2> /dev/null)"
 
-    echo "Desmontando dispositivo $dispositivo..."
-    # Desmonta el dispositivo usando udisksctl
-    udisksctl unmount -b "$dispositivo" && echo "Dispositivo $dispositivo desmontado con éxito." || return 1
-
-    # Apaga el dispositivo para asegurar una extracción segura
-    echo "Apagando dispositivo $dispositivo..."
-    udisksctl power-off -b "$dispositivo" && echo "Dispositivo $dispositivo apagado con éxito." || return 1
+    if [ -n "$nombre_rama" ]; then
+        if [ -n "$(git status --porcelain 2> /dev/null)" ]; then
+            color_git="%{\e[0;31m%}"  # Rojo para indicar cambios no guardados
+        fi
+        printf '%b' "$color_git$nombre_rama%{\e[0m%} "
+    fi
 }
 
-get_pixel_color() {
-    local GEOMETRY=$(slurp -p -b 00000000 -c 00000000 -w 2)
-    grim -g "$GEOMETRY" -t ppm - | convert - -format "%[pixel:p{0,0}]" info:
-}
+# Setup for minimal prompt
+setopt prompt_subst
 
-mpvbg() {
-  nohup mpv "$@" > /dev/null 2>&1 &
-}
+# Establecer la variable PROMPT utilizando las variables definidas y funciones
+PROMPT='${USER_PROMPT} ${CWD_PROMPT} $(prompt_status) $(prompt_git)$(prompt_keymap) '
 
-subir() {
-  [ "$#" -eq 1 ] && echo "https://pixeldrain.com/u/$(curl -s -T "$1" https://pixeldrain.com/api/file/ | jq -r '.id')" || echo "Uso: subir <ruta_del_archivo>"; 
-}
-
-function yy() {
-	local tmp="$(mktemp -t "yazi-cwd.XXXXX")"
-	yazi "$@" --cwd-file="$tmp"
-	if cwd="$(cat -- "$tmp")" && [ -n "$cwd" ] && [ "$cwd" != "$PWD" ]; then
-		cd -- "$cwd"
-	fi
-	rm -f -- "$tmp"
-}
-
-# -------------------------
-# Inicialización de Otras Herramientas
-# -------------------------
-eval "$(zoxide init zsh)"
