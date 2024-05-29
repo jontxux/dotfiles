@@ -86,7 +86,7 @@ bindkey -M vicmd 'k' up-line-or-beginning-search
 bindkey -M vicmd 'j' down-line-or-beginning-search
 
 # Plugins
-source /home/jb/dotfiles/zsh/custom/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.plugin.zsh
+source ~/dotfiles/zsh/custom/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.plugin.zsh
 
 [ -r ~/dotfiles/zsh/config/colores.sh ] && . ~/dotfiles/zsh/config/colores.sh
 
@@ -133,3 +133,4 @@ setopt prompt_subst
 # Establecer la variable PROMPT utilizando las variables definidas y funciones
 PROMPT='${USER_PROMPT} ${CWD_PROMPT} $(prompt_status) $(prompt_git)$(prompt_keymap) '
 
+eval "$(zoxide init zsh)"
