@@ -54,7 +54,7 @@ cmd open ${{
         text/*|application/json) $EDITOR "$f" ;;
         application/pdf) setsid -f zathura "$f" >/dev/null 2>&1 & ;;
         audio/*|video/*) setsid -f mpv -- "$f" >/dev/null 2>&1 & ;;
-        image/*) setsid -f swayimg "$f" >/dev/null 2>&1 & ;;
+        image/*) setsid -f imv "$f" >/dev/null 2>&1 & ;;
         *) setsid -f xdg-open "$f" >/dev/null 2>&1 & ;;
     esac
 }}
