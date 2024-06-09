@@ -1,5 +1,13 @@
 pcm.!default {
-	type asym
-	playback.pcm "plug:dmix"
-	capture.pcm "plug:dsnoop"
+    type pulse
+    fallback "sysdefault"
+    hint {
+        show on
+        description "Default ALSA Output (PulseAudio)"
+    }
+}
+
+ctl.!default {
+    type pulse
+    fallback "sysdefault"
 }
