@@ -1,0 +1,91 @@
+# Definición de la fuente reutilizable
+fuente: &fuente "DejaVuSansM Nerd Font:pixelsize=26"
+
+etiqueta_workspace: &etiqueta_workspace
+  text: "{name}"
+  font: *fuente
+  margin: 13
+  foreground: "ffffffff"
+
+ajustes_modulos_derecha: &ajustes_modulos_derecha
+  margin: 12
+  font: *fuente
+
+bar:
+  height: 46
+  location: top
+  background: "323232ff"
+  left:
+    - i3:
+        sort: ascending
+        strip-workspace-numbers: true
+        content:
+          "": 
+            map:
+              default:
+                - string:
+                    <<: *etiqueta_workspace
+                    deco:
+                      background:
+                        color: "323232ff" # Color de fondo para el estado por defecto
+              conditions:
+                state == focused:
+                  - string:
+                      <<: *etiqueta_workspace
+                      deco:
+                        background:
+                          color: "64727dff" # Color de fondo para el estado enfocado
+                state == urgent:
+                  - string: 
+                      <<: *etiqueta_workspace
+                      deco:
+                        background:
+                          color: "f53c3cff" # Color de fondo para el estado urgente
+  center:
+    - foreign-toplevel:
+        content:
+          map:
+            conditions:
+              ~activated: {empty: {}}
+              activated:
+                - string: {text: "{app-id}: {title}", font: *fuente}
+
+  right:
+    - alsa:
+        card: sysdefault:CARD=Generic  # Ajusta esto a la tarjeta correcta en tu sistema
+        mixer: Master
+        content:
+          map:
+            conditions:
+              muted:
+                string:
+                  text: "  {percent}%"
+                  <<: *ajustes_modulos_derecha
+                  deco:
+                    background:
+                      color: ff0000ff  # Color de fondo rojo para indicar que está muted
+              ~muted:
+                ramp:
+                  tag: percent
+                  min: 0
+                  max: 100
+                  items:
+                    - string:
+                        text: "  {percent}%"
+                        <<: *ajustes_modulos_derecha
+                    - string:
+                        text: "  {percent}%"
+                        <<: *ajustes_modulos_derecha
+                    - string:
+                        text: "  {percent}%"
+                        <<: *ajustes_modulos_derecha
+                    - string:
+                        text: " {percent}%"
+                        <<: *ajustes_modulos_derecha
+    - clock:
+        time-format: "%H:%M:%S"  # Este es el equivalente a %X para la hora en formato 24 horas
+        date-format: "%Y-%m-%d"
+        content:
+          string:
+            text: "{date} {time}"
+            <<: *ajustes_modulos_derecha
