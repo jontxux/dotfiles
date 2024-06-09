@@ -36,6 +36,9 @@ output * scale 1.25
 
 input type:keyboard xkb_numlock enabled
 
+# Iniciar PulseAudio automáticamente al iniciar Sway
+exec pulseaudio --start
+
 # Iniciar foot con un servidor para reutilizar instancias, solo al inicio
 exec foot --server
 
@@ -223,24 +226,26 @@ bindsym $mod+r mode "resize"
 
 seat seat0 xcursor_theme Adwaita 24
 
+exec yambar
+
 #
 # Status Bar:
 #
 # Read `man 5 sway-bar` for more information about this section.
-bar {
-    position top
+# bar {
+#     position top
 
-    # When the status_command prints a new line to stdout, swaybar updates.
-    # The default just shows the current date and time.
-    status_command while true; do date +'%Y-%m-%d %X'; sleep 1; done
+#     # When the status_command prints a new line to stdout, swaybar updates.
+#     # The default just shows the current date and time.
+#     status_command while true; do date +'%Y-%m-%d %X'; sleep 1; done
 
-    # swaybar_command waybar
+#     # swaybar_command waybar
 
-    colors {
-        statusline #ffffff
-        background #323232
-        inactive_workspace #32323200 #32323200 #5c5c5c
-    }
-}
+#     colors {
+#         statusline #ffffff
+#         background #323232
+#         inactive_workspace #32323200 #32323200 #5c5c5c
+#     }
+# }
 
 # include /etc/sway/config.d/*
