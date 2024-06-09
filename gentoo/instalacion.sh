@@ -132,6 +132,12 @@ emerge --ask dev-libs/bemenu
 emerge --ask sys-process/btop
 emerge --ask net-p2p/transmission
 emerge --ask media-gfx/imagemagick
+emerge --ask app-eselect/eselect-repository
+emerge --ask x11-misc/xdg-utils
+emerge --ask app-text/poppler
+emerge --ask media-video/ffmpegthumbnailer
+emerge --ask app-text/zathura
+emerge --ask app-text/zathura-meta
 
 sed -i 's|nano|vim|g' /etc/profile
 source /etc/profile
