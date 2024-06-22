@@ -113,6 +113,8 @@ emerge --ask dev-libs/wayland
 emerge --ask gui-libs/wlroots
 emerge --ask sys-apps/dbus
 emerge --ask gui-wm/sway
+emerge --ask gui-apps/swayidle
+emerge --ask gui-apps/swaylock
 emerge --ask gui-apps/foot
 emerge --ask app-misc/jq
 emerge --ask net-misc/yt-dlp
@@ -138,6 +140,7 @@ emerge --ask app-text/poppler
 emerge --ask media-video/ffmpegthumbnailer
 emerge --ask app-text/zathura
 emerge --ask app-text/zathura-meta
+emerge --ask app-text/tesseract
 
 sed -i 's|nano|vim|g' /etc/profile
 source /etc/profile
