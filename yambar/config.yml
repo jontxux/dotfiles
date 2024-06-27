@@ -6,6 +6,7 @@ etiqueta_workspace: &etiqueta_workspace
   font: *fuente
   margin: 13
   foreground: "ffffffff"
+  on-click: "swaymsg --quiet workspace {name}"
 
 ajustes_modulos_derecha: &ajustes_modulos_derecha
   margin: 12
