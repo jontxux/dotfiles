@@ -1,0 +1,24 @@
+# General settings
+auto-reload yes
+reload-time 60
+
+# Appearance settings
+# color background white black
+# color listnormal blue black
+# color listfocus cyan black bold
+# color info red black bold
+# color article white black
+
+# Keybindings
+bind-key j down
+bind-key k up
+bind-key l open
+bind-key h quit
+
+# Browser settings
+browser "xdg-open %u"
+
+# Macro para copiar el enlace del video al portapapeles usando wl-copy
+macro v set browser "mpv"; open-in-browser ; set browser piper
+macro f set browser "firefox"; open-in-browser ; set browser piper
+macro c set browser "echo -n %u | wl-copy"; open-in-browser ; set browser piper
