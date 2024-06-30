@@ -1,13 +1,13 @@
 {
     // "layer": "top", // Waybar at top layer
     // "position": "bottom", // Waybar at the bottom of your screen
-    // "height": 30, // Waybar height
+    "height": 22, // Waybar height
     // "width": 1280, // Waybar width
     // Choose the order of the modules
     "modules-left": ["sway/workspaces", "sway/mode", "tray"],
     "modules-center": ["sway/window"],
     // "modules-right": ["pulseaudio", "network", "cpu", "memory", "battery", "clock"],
-    "modules-right": ["custom/weather","pulseaudio", "network", "clock"],
+    "modules-right": ["pulseaudio", "clock"],
     // Modules configuration
     "sway/workspaces": {
         // "disable-scroll": true,
@@ -30,24 +30,10 @@
         "format-alt": "{:%Y-%m-%d}",
         "interval": 1
     },
-    "network": {
-        // "interface": "wlp2s0", // (Optional) To force the use of this interface
-        "format-wifi": "{essid} ({signalStrength}%) 󰈁",
-        "format-ethernet": "{ipaddr} 󰈁",
-        "format-disconnected": "Disconnected 󰈂",
-        "format-alt": "{ifname}: {ipaddr}/{cidr} 󰩠"
-    },
     "pulseaudio": {
         "format": "{volume}% {icon}",
-        "format-muted": "󰖁",
+        "format-muted": "{volume}% 󰖁",
         "format-icons": ["󰕿", "󰖀", "󰕾"]
-    },
-    "custom/weather": {
-        "format": "{} °",
-        "tooltip": true,
-        "interval": 3600,
-        "exec": "wttrbar --location zarautz",
-        "return-type": "json"
     }
 }
 
