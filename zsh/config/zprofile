@@ -14,6 +14,22 @@ if test -z "${XDG_RUNTIME_DIR}"; then
     fi
 fi
 
+# Añadir $HOME/bin al PATH si el directorio existe
+if [ -d "$HOME/bin" ] ; then
+    PATH="$HOME/bin:$PATH"
+fi
+
+# Añadir $HOME/.local/bin al PATH si el directorio existe
+if [ -d "$HOME/.local/bin" ] ; then
+    PATH="$HOME/.local/bin:$PATH"
+fi
+
+# Añadir /sbin y /usr/sbin al PATH
+PATH=$PATH:/sbin:/usr/sbin
+
+# Exportar PATH
+export PATH
+
 # Iniciar sway en la primera terminal virtual si no está en Wayland
 if [ -z "${WAYLAND_DISPLAY}" ] && [ "$(tty | grep -o '[0-9]*$')" -eq 1 ]; then
   echo "Iniciando sway..."
