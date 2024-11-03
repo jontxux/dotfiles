@@ -21,7 +21,7 @@
         // }
     },
     "sway/window": {
-        "max-length": 50
+        "max-length": 100
     },
     "clock": {
         // "timezone": "America/New_York",
