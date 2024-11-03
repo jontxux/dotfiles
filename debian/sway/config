@@ -37,13 +37,13 @@ output * scale 1.25
 input type:keyboard xkb_numlock enabled
 
 # Iniciar PulseAudio automáticamente al iniciar Sway
-exec pulseaudio --start
+# exec pulseaudio --start
 
 # Iniciar foot con un servidor para reutilizar instancias, solo al inicio
 exec foot --server
 
 # Iniciar transmission-daemon, solo al inicio
-exec transmission-daemon
+# exec transmission-daemon
 
 # https://github.com/nwg-piotr/autotiling
 # Installing manually:
@@ -66,6 +66,8 @@ bindsym $mod+Shift+q kill
 
 # Start your launcher
 bindsym $mod+Shift+d exec $menu
+
+bindsym $mod+c exec $term -e qalc
 
 # Drag floating windows by holding down $mod and left mouse button.
 # Resize them with right mouse button + $mod.
@@ -180,9 +182,8 @@ for_window [title="Firefox - Indicador de compartición"] floating enable
 exec swayidle -w \
 timeout 600 'swaylock -f -c 000000' \
 timeout 900 'swaymsg "output * dpms off"' \
-    resume 'swaymsg "output * dpms on"; pkill yambar; yambar'
-    # resume 'swaymsg "output * dpms on"'\
-# before-sleep 'swaylock -f -c 000000'
+     resume 'swaymsg "output * dpms on"'\
+ before-sleep 'swaylock -f -c 000000'
 
 # Toggle the current focus between tiling and floating mode
 bindsym $mod+Shift+space floating toggle
@@ -227,7 +228,7 @@ bindsym $mod+r mode "resize"
 
 seat seat0 xcursor_theme Adwaita 24
 
-exec yambar
+exec waybar
 
 #
 # Status Bar:
