@@ -49,7 +49,7 @@ bar:
             conditions:
               ~activated: {empty: {}}
               activated:
-                - string: {text: "{app-id}: {title}", font: *fuente}
+                - string: {text: "{title}", font: *fuente}
 
   right:
     - alsa:
