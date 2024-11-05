@@ -34,10 +34,6 @@ export MOZ_ENABLE_WAYLAND=1
 # Añadir Flatpak directories a XDG_DATA_DIRS
 export XDG_DATA_DIRS="$HOME/.local/share/flatpak/exports/share:/var/lib/flatpak/exports/share:$XDG_DATA_DIRS"
 
-# Configura TERM para mejorar la compatibilidad en SSH,
-# especialmente al usar la terminal foot.
-export TERM=xterm-256color
-
 # Iniciar sway en la primera terminal virtual si no está en Wayland
 if [ -z "${WAYLAND_DISPLAY}" ] && [ "$(tty | grep -o '[0-9]*$')" -eq 1 ]; then
   echo "Iniciando sway..."
