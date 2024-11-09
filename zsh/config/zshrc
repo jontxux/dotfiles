@@ -21,6 +21,7 @@ setopt hist_find_no_dups    # No mostrar duplicados al buscar en el historial
 setopt hist_reduce_blanks   # Eliminar espacios en blanco redundantes
 setopt hist_verify          # Editar línea de historial antes de aceptar
 setopt extended_history     # Almacenar timestamp del comando en el historial
+setopt hist_ignore_space    # No guardar comandos que comiencen con un espacio
 
 # Modo vi
 bindkey -v
