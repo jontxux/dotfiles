@@ -43,16 +43,13 @@ input type:keyboard xkb_numlock enabled
 exec foot --server
 
 # Iniciar transmission-daemon, solo al inicio
-# exec transmission-daemon
+exec transmission-daemon
 
-# https://github.com/nwg-piotr/autotiling
-# Installing manually:
-
-#     Install the python-i3ipc>=2.0.1 package (or whatever it's called in your Linux distribution);
-#     save the main.py file anywhere, rename to autotiling, make executable, move to your bin folder;
-#     add exec_always autotiling to the ~/.config/sway/config or exec_always --no-startup-id autotiling to the ~/.config/i3/config file.
-# Hay que instalar en debian python3-i3ipc y pasar el archivo main.py a /usr/local/bin como autotiling y darle permisos de ejecución
-exec_always autotiling
+# git clone https://github.com/ammgws/autotiling-rs.git
+# cd autotiling-rs
+# cargo build --release
+# cp target/release/autotiling-rs /home/jb/.local/bin/
+exec autotiling-rs
 
 ### Key bindings
 #
@@ -228,7 +225,7 @@ bindsym $mod+r mode "resize"
 
 seat seat0 xcursor_theme Adwaita 24
 
-exec waybar
+exec yambar
 
 #
 # Status Bar:
