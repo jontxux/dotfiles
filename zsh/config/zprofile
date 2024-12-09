@@ -24,6 +24,11 @@ if [ -d "$HOME/.local/bin" ] ; then
     PATH="$HOME/.local/bin:$PATH"
 fi
 
+# Añadir /home/jb/.local/lib al LD_LIBRARY_PATH
+if [ -d "$HOME/.local/lib" ] ; then
+    export LD_LIBRARY_PATH="$HOME/.local/lib:$LD_LIBRARY_PATH"
+fi
+
 # Añadir /sbin y /usr/sbin al PATH
 PATH=$PATH:/sbin:/usr/sbin
 
