@@ -43,13 +43,16 @@ input type:keyboard xkb_numlock enabled
 exec foot --server
 
 # Iniciar transmission-daemon, solo al inicio
-exec transmission-daemon
+# exec transmission-daemon
 
 # git clone https://github.com/ammgws/autotiling-rs.git
 # cd autotiling-rs
 # cargo build --release
 # cp target/release/autotiling-rs /home/jb/.local/bin/
 exec autotiling-rs
+
+# Iniciar aMule daemon automáticamente
+# exec amuled
 
 ### Key bindings
 #
