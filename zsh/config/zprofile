@@ -38,6 +38,7 @@ export MOZ_ENABLE_WAYLAND=1
 
 # Añadir Flatpak directories a XDG_DATA_DIRS
 export XDG_DATA_DIRS="$HOME/.local/share/flatpak/exports/share:/var/lib/flatpak/exports/share:$XDG_DATA_DIRS"
+export XDG_CURRENT_DESKTOP=sway
 
 # Iniciar sway en la primera terminal virtual si no está en Wayland
 if [ -z "${WAYLAND_DISPLAY}" ] && [ "$(tty | grep -o '[0-9]*$')" -eq 1 ]; then
