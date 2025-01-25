@@ -15,7 +15,7 @@ SELECTION=$(echo "episodio\ndebate" | bemenu -H '23' -i \
   -p 'Selecciona tipo de video: ')
 
 # Extraer los detalles del video
-VIDEO_LINKS=$(curl -s "$URL" | grep -o '<a[^>]*>' | grep -i -- 'title="T20')
+VIDEO_LINKS=$(curl -s "$URL" | grep -o '<a[^>]*>' | grep -i -- 'title="T21')
 
 # Aplicar filtro basado en selección
 if [ "$SELECTION" = "episodio" ]; then
