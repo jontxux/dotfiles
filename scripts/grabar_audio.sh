@@ -6,8 +6,9 @@ TEMP_AUDIO="/dev/shm/temp_audio.wav"
 # Función para manejar la interrupción (Ctrl+C)
 cleanup() {
     echo "Interrumpido, enviando el archivo para transcripción..."
+    curl -s -X POST -F "audio=@${TEMP_AUDIO}" http://localhost:5000/transcribir | jq -r .texto
     # curl -s 127.0.0.1:8080/inference -H "Content-Type: multipart/form-data" -F "file=@${TEMP_AUDIO}" | jq -r .text
-    whisper.cpp -m ~/.local/share/models/ggml-large-v3-turbo-q8_0.bin -f $TEMP_AUDIO -nt --print-progress false --print-special false -l es 2>/dev/null
+    # whisper.cpp -m ~/.local/share/models/ggml-large-v3-turbo-q8_0.bin -f $TEMP_AUDIO -nt --print-progress false --print-special false -l es 2>/dev/null
 
     rm -f "${TEMP_AUDIO}"  # Limpiar el archivo temporal
     exit 0
