@@ -168,17 +168,22 @@ cmd nuevo ${{
 }}
 
 # Eliminación de archivos
-cmd delete ${{ 
-    clear; tput cup $(($(tput lines)/3)); tput bold
-    echo -n "¿Eliminar $fx? [y/N]: "
-    tput sgr0  # Restablecer el formato de texto
-    read ans
+cmd delete ${{
+    clear
+    tput bold
+    echo "¿Eliminar los siguientes $nf archivos? [y/N]"
+    echo "-------------------------------------"
+    printf '%s\n' "$fx" | nl -s ") " -w 2  # Lista numerada
+    echo "-------------------------------------"
+    tput sgr0
+    read -p "Confirmar (y/N): " ans
 
     if [ "$ans" = "y" ]; then
-        rm -rf "$fx"
+        printf '%s\n' "$fx" | while IFS= read -r file; do
+            rm -rf "$file"
+        done
         lf -remote "send load"
     else
-        tput cup $(($(tput lines)/2))
         echo "Eliminación cancelada."
     fi
 }}
