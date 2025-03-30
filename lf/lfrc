@@ -303,6 +303,32 @@ cmd delete ${{
     fi
 }}
 
+cmd checksum ${{
+    printf "Seleccione algoritmo:\n1) MD5\n2) SHA256\n3) SHA1\n"
+    read -p "Opción: " algo
+    case $algo in
+        1) checksum="md5sum" ;;
+        2) checksum="sha256sum" ;;
+        3) checksum="sha1sum" ;;
+        *) return ;;
+    esac
+    $checksum "$f" | awk '{print $1}' | wl-copy
+    echo "Hash copiado al portapapeles"
+    sleep 1
+}}
+
+cmd permissions ${{
+    clear
+    stat -c "Nombre: %n" "$f"
+    stat -c "Tamaño: %s bytes" "$f"
+    stat -c "Permisos: %A" "$f"
+    stat -c "Dueño: %U:%G" "$f"
+    stat -c "Último acceso: %x" "$f"
+    stat -c "Última modificación: %y" "$f"
+    echo "Presione cualquier tecla para continuar..."
+    read -n1
+}}
+
 # Mapeo de Teclas
 map <enter> open
 map D delete
