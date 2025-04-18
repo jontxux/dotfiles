@@ -1,15 +1,3 @@
-[submodule "vim/pack/plugins/start/vim-commentary"]
-	path = vim/pack/plugins/start/vim-commentary
-	url = https://github.com/tpope/vim-commentary.git
-[submodule "vim/pack/plugins/start/auto-pairs"]
-	path = vim/pack/plugins/start/auto-pairs
-	url = https://github.com/jiangmiao/auto-pairs.git
-[submodule "vim/pack/plugins/start/vim-highlightedyank"]
-	path = vim/pack/plugins/start/vim-highlightedyank
-	url = https://github.com/machakann/vim-highlightedyank
-[submodule "vim/pack/plugins/start/vim-wayland-clipboard"]
-	path = vim/pack/plugins/start/vim-wayland-clipboard
-	url = https://github.com/jasonccox/vim-wayland-clipboard.git
 [submodule "zsh/zsh-syntax-highlighting"]
 	path = zsh/custom/plugins/zsh-syntax-highlighting
 	url = https://github.com/zsh-users/zsh-syntax-highlighting.git
@@ -19,9 +7,3 @@
 [submodule "diff-so-fancy"]
 	path = diff-so-fancy
 	url = https://github.com/so-fancy/diff-so-fancy.git
-[submodule "vim/pack/plugins/start/vim-surround"]
-	path = vim/pack/plugins/start/vim-surround
-	url = https://github.com/tpope/vim-surround
-[submodule "vim/pack/plugins/start/vim-repeat"]
-	path = vim/pack/plugins/start/vim-repeat
-	url = https://github.com/tpope/vim-repeat
