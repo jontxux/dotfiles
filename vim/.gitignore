@@ -1,0 +1,8 @@
+# Ignorar todo por defecto
+*
+
+# Excepciones (no ignorar)
+!.gitignore
+!coc-settings.json
+!vimrc
+!coc/ultisnips/**

@@ -1,0 +1,28 @@
+{
+  "perl.enable": true,
+  "perl.logLevel": 2,
+  "prettier.disableLanguages": [
+    "perl",
+    "python",
+    "c",
+    "cpp",
+    "rust",
+    "go",
+    "ruby",
+    "java",
+    "php",
+    "lua",
+    "haskell",
+    "scala",
+    "kotlin",
+    "swift",
+    "objc",
+    "sh",
+    "zsh",
+    "r",
+    "fortran",
+    "asm",
+    "vim",
+    "tex"
+  ]
+}
