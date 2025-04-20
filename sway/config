@@ -151,11 +151,11 @@ bindsym $mod+e layout toggle split
 bindsym $mod+f fullscreen
 
 # Subir volumen
-bindsym Ctrl+Shift+Mod4+Up exec amixer -q sset Master 5%+
+bindsym Ctrl+Shift+Mod4+Up exec pactl set-sink-volume @DEFAULT_SINK@ +5%
 # Bajar volumen
-bindsym Ctrl+Shift+Mod4+Down exec amixer -q sset Master 5%-
+bindsym Ctrl+Shift+Mod4+Down exec pactl set-sink-volume @DEFAULT_SINK@ -5%
 # Silenciar o desilenciar
-bindsym Ctrl+Shift+Mod4+m exec amixer set Master toggle
+bindsym Ctrl+Shift+Mod4+m exec pactl set-sink-mute @DEFAULT_SINK@ toggle
 
 
 bindsym $mod+Print exec grim ~/Imágenes/screenshot-$(date +'%Y-%m-%d-%H%M%S').png
