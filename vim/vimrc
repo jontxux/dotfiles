@@ -192,6 +192,23 @@ nmap <silent> ]g <Plug>(coc-diagnostic-next)
 nnoremap <silent> <space>d :<C-u>CocList diagnostics<cr>
 inoremap <silent><expr> <c-space> coc#refresh()
 nmap <silent> <F2> <Plug>(coc-rename)
+" Use K to show documentation in preview window
+nnoremap <silent> K :call ShowDocumentation()<CR>
+
+function! ShowDocumentation()
+  if CocAction('hasProvider', 'hover')
+    call CocActionAsync('doHover')
+  else
+    call feedkeys('K', 'in')
+  endif
+endfunction
+
+  nnoremap <silent><nowait><expr> <C-f> coc#float#has_scroll() ? coc#float#scroll(1) : "\<C-f>"
+  nnoremap <silent><nowait><expr> <C-b> coc#float#has_scroll() ? coc#float#scroll(0) : "\<C-b>"
+  inoremap <silent><nowait><expr> <C-f> coc#float#has_scroll() ? "\<c-r>=coc#float#scroll(1)\<cr>" : "\<Right>"
+  inoremap <silent><nowait><expr> <C-b> coc#float#has_scroll() ? "\<c-r>=coc#float#scroll(0)\<cr>" : "\<Left>"
+  vnoremap <silent><nowait><expr> <C-f> coc#float#has_scroll() ? coc#float#scroll(1) : "\<C-f>"
+  vnoremap <silent><nowait><expr> <C-b> coc#float#has_scroll() ? coc#float#scroll(0) : "\<C-b>"
 
 
 " Formatear al guardar
@@ -209,7 +226,7 @@ let NERDTreeAutoDeleteBuffer=1
 
 " FZF
 nnoremap <C-p> :Files<CR>
-nnoremap <C-f> :Rg<CR>
+nnoremap <silent> <leader>g :Rg<CR>
 nnoremap <silent> <leader>b :Buffers<CR>
 let g:fzf_layout = { 'down': '~30%' }
 
