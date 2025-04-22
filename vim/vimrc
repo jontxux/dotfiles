@@ -166,6 +166,7 @@ Plug 'github/copilot.vim'                       " IA Code Completion
 Plug 'joshdick/onedark.vim'
 Plug 'arcticicestudio/nord-vim'
 Plug 'morhetz/gruvbox'
+Plug 'sainnhe/everforest'
 
 call plug#end()
 
@@ -175,7 +176,7 @@ call plug#end()
 let g:coc_global_extensions = [
   \ 'coc-tsserver', 'coc-json', 'coc-pyright',
   \ 'coc-rust-analyzer', 'coc-go', 'coc-html',
-  \ 'coc-css', 'coc-eslint', 'coc-perl',
+  \ 'coc-css', 'coc-eslint',
   \ 'coc-snippets', 'coc-emmet', 'coc-marketplace',
   \ 'coc-clangd'
   \ ]
@@ -331,7 +332,8 @@ augroup END
 syntax enable
 set termguicolors
 set background=dark
-colorscheme onedark
+colorscheme everforest
+let g:everforest_background = 'soft'
 
 " Resaltado personalizado
 highlight ExtraWhitespace ctermbg=red guibg=red

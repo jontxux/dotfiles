@@ -1,5 +1,10 @@
 {
-  "perl.enable": false,
-  "perlnavigator.enable": true,
+  "languageserver": {
+    "perlnavigator": {
+      "command": "perlnavigator",
+      "args": ["--stdio"],
+      "filetypes": ["perl"]
+    }
+  },
   "clangd.path": "~/dotfiles/vim/coc/extensions/coc-clangd-data/install/19.1.2/clangd_19.1.2/bin/clangd"
 }
