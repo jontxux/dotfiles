@@ -5,17 +5,18 @@ etiqueta_workspace: &etiqueta_workspace
   text: "{name}"
   font: *fuente
   margin: 13
-  foreground: "ffffffff"
+  foreground: "d3c6aaff"
   on-click: "swaymsg --quiet workspace {name}"
 
 ajustes_modulos_derecha: &ajustes_modulos_derecha
   margin: 12
   font: *fuente
+  foreground: "d3c6aaff"
 
 bar:
   height: 46
   location: top
-  background: "323232ff"
+  background: "333c43ff"
   left:
     - i3:
         sort: ascending
@@ -28,20 +29,20 @@ bar:
                     <<: *etiqueta_workspace
                     deco:
                       background:
-                        color: "323232ff" # Color de fondo para el estado por defecto
+                        color: "333c43ff"  # Fondo por defecto (onedark background)
               conditions:
                 state == focused:
                   - string:
                       <<: *etiqueta_workspace
                       deco:
                         background:
-                          color: "64727dff" # Color de fondo para el estado enfocado
+                          color: "434f55ff"  # Fondo enfocado (visual_grey)
                 state == urgent:
                   - string: 
                       <<: *etiqueta_workspace
                       deco:
                         background:
-                          color: "f53c3cff" # Color de fondo para el estado urgente
+                          color: "e67e80ff"  # Rojo oscuro de onedark (dark_red)
   center:
     - foreign-toplevel:
         content:
@@ -49,11 +50,11 @@ bar:
             conditions:
               ~activated: {empty: {}}
               activated:
-                - string: {text: "{title}", font: *fuente, max: 110}
+                - string: {text: "{title}", font: *fuente, max: 110, foreground: "d3c6aaff"}
 
   right:
     - alsa:
-        card: sysdefault:CARD=Generic  # Ajusta esto a la tarjeta correcta en tu sistema
+        card: sysdefault:CARD=Generic
         mixer: Master
         content:
           map:
@@ -64,7 +65,7 @@ bar:
                   <<: *ajustes_modulos_derecha
                   deco:
                     background:
-                      color: ff0000ff  # Color de fondo rojo para indicar que está muted
+                      color: "e67e80ff"  # Rojo de onedark (red)
               ~muted:
                 ramp:
                   tag: percent
@@ -84,7 +85,7 @@ bar:
                         text: " {percent}%"
                         <<: *ajustes_modulos_derecha
     - clock:
-        time-format: "%H:%M:%S"  # Este es el equivalente a %X para la hora en formato 24 horas
+        time-format: "%H:%M:%S"
         date-format: "%Y-%m-%d"
         content:
           string:
