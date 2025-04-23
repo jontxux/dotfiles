@@ -166,13 +166,13 @@ bindsym Ctrl+Print exec grim -g "$(slurp)" - | wl-copy --type image/png
 
 # Usar bemenu como lanzador de aplicaciones
 set $launcher bemenu-run -H '23' -i \
-  --tb='#323232' --tf='#bbbbbb' \
-  --fb='#323232' --ff='#bbbbbb' \
-  --nb='#323232' --nf='#bbbbbb' \
-  --hb='#005577' --hf='#eeeeee' \
-  --sb='#323232' --sf='#bbbbbb' \
-  --ab='#323232' --af='#bbbbbb' \
-  --hp=10 \
+  --tb '#333c43' --tf '#d3c6aa' \
+  --fb '#333c43' --ff '#d3c6aa' \
+  --nb '#333c43' --nf '#d3c6aa' \
+  --hb '#a7c080' --hf '#333c43' \
+  --sb '#a7c080' --sf '#333c43' \
+  --ab '#4d5960' --af '#d3c6aa' \
+  --hp 10 \
   -p 'Run: '
 
 bindsym $mod+d exec $launcher
