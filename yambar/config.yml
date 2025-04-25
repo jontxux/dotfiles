@@ -1,48 +1,64 @@
-# Definición de la fuente reutilizable
-fuente: &fuente "DejaVuSansM Nerd Font:pixelsize=26"
+## Variables reutilizables
+font: &font "DejaVuSansM Nerd Font:pixelsize=26"
+fg: &fg "ebdbb2ff"
+bg: &bg "282828ff"
+focused_bg: &focused_bg "A89984ff"
+focused_fg: &focused_fg "282828ff"
+urgent_bg: &urgent_bg "ec4734ff"
+margin: &margin 12
+onclick: &onclick "swaymsg --quiet workspace {name}"
 
-etiqueta_workspace: &etiqueta_workspace
-  text: "{name}"
-  font: *fuente
-  margin: 13
-  foreground: "d3c6aaff"
-  on-click: "swaymsg --quiet workspace {name}"
-
-ajustes_modulos_derecha: &ajustes_modulos_derecha
-  margin: 12
-  font: *fuente
-  foreground: "d3c6aaff"
+# Textos de volumen con placeholder
+vol_low_text: &vol_low_text "  {percent}%"
+vol_mid_text: &vol_mid_text "  {percent}%"
+vol_high_text: &vol_high_text "  {percent}%"
+vol_max_text: &vol_max_text " {percent}%"
+mute_text: &mute_text "  {percent}%"
 
 bar:
   height: 46
   location: top
-  background: "333c43ff"
+  background: *bg
+
   left:
     - i3:
         sort: ascending
         strip-workspace-numbers: true
         content:
-          "": 
+          "":
             map:
               default:
                 - string:
-                    <<: *etiqueta_workspace
+                    text: "{name}"
+                    font: *font
+                    margin: *margin
+                    foreground: *fg
+                    on-click: *onclick
                     deco:
                       background:
-                        color: "333c43ff"  # Fondo por defecto (onedark background)
+                        color: *bg
               conditions:
                 state == focused:
                   - string:
-                      <<: *etiqueta_workspace
+                      text: "{name}"
+                      font: *font
+                      margin: *margin
+                      foreground: *focused_fg
+                      on-click: *onclick
                       deco:
                         background:
-                          color: "434f55ff"  # Fondo enfocado (visual_grey)
+                          color: *focused_bg
                 state == urgent:
-                  - string: 
-                      <<: *etiqueta_workspace
+                  - string:
+                      text: "{name}"
+                      font: *font
+                      margin: *margin
+                      foreground: *fg
+                      on-click: *onclick
                       deco:
                         background:
-                          color: "e67e80ff"  # Rojo oscuro de onedark (dark_red)
+                          color: *urgent_bg
+
   center:
     - foreign-toplevel:
         content:
@@ -50,7 +66,11 @@ bar:
             conditions:
               ~activated: {empty: {}}
               activated:
-                - string: {text: "{title}", font: *fuente, max: 110, foreground: "d3c6aaff"}
+                - string:
+                    text: "{title}"
+                    font: *font
+                    max: 110
+                    foreground: *fg
 
   right:
     - alsa:
@@ -61,11 +81,13 @@ bar:
             conditions:
               muted:
                 string:
-                  text: "  {percent}%"
-                  <<: *ajustes_modulos_derecha
+                  text: *mute_text
+                  font: *font
+                  margin: *margin
+                  foreground: *fg
                   deco:
                     background:
-                      color: "e67e80ff"  # Rojo de onedark (red)
+                      color: *urgent_bg
               ~muted:
                 ramp:
                   tag: percent
@@ -73,21 +95,31 @@ bar:
                   max: 100
                   items:
                     - string:
-                        text: "  {percent}%"
-                        <<: *ajustes_modulos_derecha
+                        text: *vol_low_text
+                        font: *font
+                        margin: *margin
+                        foreground: *fg
                     - string:
-                        text: "  {percent}%"
-                        <<: *ajustes_modulos_derecha
+                        text: *vol_mid_text
+                        font: *font
+                        margin: *margin
+                        foreground: *fg
                     - string:
-                        text: "  {percent}%"
-                        <<: *ajustes_modulos_derecha
+                        text: *vol_high_text
+                        font: *font
+                        margin: *margin
+                        foreground: *fg
                     - string:
-                        text: " {percent}%"
-                        <<: *ajustes_modulos_derecha
+                        text: *vol_max_text
+                        font: *font
+                        margin: *margin
+                        foreground: *fg
     - clock:
         time-format: "%H:%M:%S"
         date-format: "%Y-%m-%d"
         content:
           string:
             text: "{date} {time}"
-            <<: *ajustes_modulos_derecha
+            font: *font
+            margin: *margin
+            foreground: *fg
