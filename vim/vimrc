@@ -167,6 +167,7 @@ Plug 'joshdick/onedark.vim'
 Plug 'arcticicestudio/nord-vim'
 Plug 'morhetz/gruvbox'
 Plug 'sainnhe/everforest'
+Plug 'sainnhe/gruvbox-material'
 
 call plug#end()
 
@@ -332,8 +333,11 @@ augroup END
 syntax enable
 set termguicolors
 set background=dark
-colorscheme everforest
+colorscheme gruvbox
+
 let g:everforest_background = 'soft'
+let g:gruvbox_material_background = 'soft'
+let g:gruvbox_material_better_performance = 1
 
 " Resaltado personalizado
 highlight ExtraWhitespace ctermbg=red guibg=red
