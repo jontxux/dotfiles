@@ -89,6 +89,10 @@ bindkey -M vicmd 'j' down-line-or-beginning-search
 # Plugins
 source ~/dotfiles/zsh/custom/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.plugin.zsh
 
+# Definir estilos para zsh-syntax-highlighting (usando índices de color Gruvbox)
+ZSH_HIGHLIGHT_STYLES[command]='fg=10'        # bright_green (b8bb26) para comandos válidos
+ZSH_HIGHLIGHT_STYLES[unknown-token]='fg=9'   # bright_red (fb4934) para comandos inválidos
+
 # Configuración para FZF (Fuzzy Finder)
 if command -v fzf &> /dev/null; then
   # Verificar posibles ubicaciones del archivo de key-bindings
@@ -112,47 +116,50 @@ fi
 
 [ -r ~/dotfiles/zsh/config/colores.sh ] && . ~/dotfiles/zsh/config/colores.sh
 
-# Definir las variables directamente para cada componente del prompt
-USER_PROMPT=$'%{\e[1;32m%}%n%{\e[0m%}'  # Nombre de usuario en verde negrita
-CWD_PROMPT=$'%{\e[1;34m%}%~%{\e[0m%}'  # Directorio de trabajo actual en azul negrita
+# Configurar colores según Gruvbox (índices 0-15)
+USER_PROMPT='%B%F{10}%n%f%b'       # Nombre usuario (bright_green - b8bb26)
+CWD_PROMPT='%B%F{12}%~%f%b'        # Directorio (bright_blue - 83a598)
 
-# Componentes para el prompt minimalista
+# Función para el símbolo de prompt ($/#)
 function prompt_status {
-    local resaltar_procesos="0"  # Valor por defecto cuando no hay procesos en segundo plano
+    local underline=""
     if [ -n "$(jobs | sed -n '$=')" ]; then
-        resaltar_procesos="4"  # Valor específico para resaltar cuando hay procesos en segundo plano
+        underline="%U"  # Subrayado si hay jobs
     fi
 
-    local color_error="32"  # Verde por defecto para OK
-    if [ "$ultimo_error" != "0" ]; then
-        color_error="31"  # Rojo para error
+    local color=10                   # Color base: regular2 (neutral_green - 98971a)
+    if [ "$ultimo_error" -ne 0 ]; then
+        color=9                     # Cambia a regular1 (neutral_red - cc241d) en error
     fi
 
-    printf '%b' "%{\e[$resaltar_procesos;${color_error}m%}%(!.#.$)%{\e[0m%}"  # Usar '$' como el carácter de usuario
+    printf '%s' "${underline}%F{${color}}%(!.#.$)%f%u"
 }
 
+# Función para modo de teclado (VI)
 function prompt_keymap {
-    local icono_modo="▶"  # Carácter para el modo de inserción
-    [ "$KEYMAP" = 'vicmd' ] && icono_modo="■"  # Carácter para el modo normal
-    printf '%b' "$icono_modo"
+    local icono_modo="▶"
+    [ "$KEYMAP" = 'vicmd' ] && icono_modo="■"
+    printf '%%F{15}%s%%f' "$icono_modo"  # Color bright7 (fbf1c7)
 }
 
+# Función para rama Git
 function prompt_git {
-    local color_git="%{\e[0;32m%}"  # Verde por defecto para OK
-    local nombre_rama="$(git rev-parse --abbrev-ref HEAD 2> /dev/null)"
-
+    local nombre_rama=$(git rev-parse --abbrev-ref HEAD 2>/dev/null)
     if [ -n "$nombre_rama" ]; then
-        if [ -n "$(git status --porcelain 2> /dev/null)" ]; then
-            color_git="%{\e[0;31m%}"  # Rojo para indicar cambios no guardados
+        if [ -n "$(git status --porcelain 2>/dev/null)" ]; then
+            printf '%%F{9}%s%%f ' "$nombre_rama"  # bright_red (fb4934)
+        else
+            printf '%%F{10}%s%%f ' "$nombre_rama"  # bright_green (b8bb26)
         fi
-        printf '%b' "$color_git$nombre_rama%{\e[0m%} "
     fi
 }
 
-# Setup for minimal prompt
-setopt prompt_subst
+# Capturar último código de error antes de cada prompt
+precmd() {
+    ultimo_error=$?
+}
 
-# Establecer la variable PROMPT utilizando las variables definidas y funciones
+setopt prompt_subst
 PROMPT='${USER_PROMPT} ${CWD_PROMPT} $(prompt_status) $(prompt_git)$(prompt_keymap) '
 
 eval "$(zoxide init zsh)"
