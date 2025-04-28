@@ -93,6 +93,7 @@ source ~/dotfiles/zsh/custom/plugins/zsh-syntax-highlighting/zsh-syntax-highligh
 ZSH_HIGHLIGHT_STYLES[command]='fg=10'        # bright_green (b8bb26) para comandos válidos
 ZSH_HIGHLIGHT_STYLES[alias]='fg=10'
 ZSH_HIGHLIGHT_STYLES[builtin]='fg=10'
+ZSH_HIGHLIGHT_STYLES[function]='fg=10'
 ZSH_HIGHLIGHT_STYLES[unknown-token]='fg=9'   # bright_red (fb4934) para comandos inválidos
 
 # Configuración para FZF (Fuzzy Finder)
