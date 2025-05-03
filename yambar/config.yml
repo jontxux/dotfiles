@@ -1,10 +1,10 @@
 ## Variables reutilizables
 font: &font "DejaVuSansM Nerd Font:pixelsize=26"
-fg: &fg "ebdbb2ff"
-bg: &bg "282828ff"
-focused_bg: &focused_bg "A89984ff"
-focused_fg: &focused_fg "282828ff"
-urgent_bg: &urgent_bg "ec4734ff"
+fg: &fg "dcdcccff"
+bg: &bg "333333ff"
+focused_bg: &focused_bg "f0e68cff"
+focused_fg: &focused_fg "333333ff"
+urgent_bg: &urgent_bg "cc9393ff"
 margin: &margin 12
 onclick: &onclick "swaymsg --quiet workspace {name}"
 
