@@ -168,6 +168,7 @@ Plug 'arcticicestudio/nord-vim'
 Plug 'morhetz/gruvbox'
 Plug 'sainnhe/everforest'
 Plug 'sainnhe/gruvbox-material'
+Plug 'chriskempson/base16-vim'
 
 call plug#end()
 
@@ -273,6 +274,11 @@ let g:formatdef_astyle_cpp = '"astyle --mode=cpp --style=allman --indent=spaces=
 " Configuración especial para jq (formateador JSON)
 let g:formatdef_jq = '"jq ."'
 
+" AutoPairs - Desactivar ' en Scheme/Racket
+augroup auto_pairs_disable_apostrophe
+  autocmd!
+  autocmd FileType scheme,racket let b:AutoPairs = {'(': ')', '[': ']', '{': '}', '"': '"'}
+augroup END
 
 " ==============================================================================
 " 10. Atajos Personalizados
@@ -333,7 +339,7 @@ augroup END
 syntax enable
 set termguicolors
 set background=dark
-colorscheme gruvbox
+colorscheme base16-gruvbox-dark-medium
 
 let g:everforest_background = 'soft'
 let g:gruvbox_material_background = 'soft'
