@@ -120,7 +120,7 @@ fi
 [ -r ~/dotfiles/zsh/config/colores.sh ] && . ~/dotfiles/zsh/config/colores.sh
 
 # Configurar colores según Gruvbox (índices 0-15)
-USER_PROMPT='%B%F{10}%n%f%b'       # Nombre usuario (bright_green - b8bb26)
+USER_PROMPT='%B%F{2}%n%f%b'       # Nombre usuario (bright_green - b8bb26)
 CWD_PROMPT='%B%F{12}%~%f%b'        # Directorio (bright_blue - 83a598)
 
 # Función para el símbolo de prompt ($/#)
@@ -130,9 +130,9 @@ function prompt_status {
         underline="%U"  # Subrayado si hay jobs
     fi
 
-    local color=10                   # Color base: regular2 (neutral_green - 98971a)
+    local color=2                   # Color base: regular2 (neutral_green - 98971a)
     if [ "$ultimo_error" -ne 0 ]; then
-        color=9                     # Cambia a regular1 (neutral_red - cc241d) en error
+        color=1                     # Cambia a regular1 (neutral_red - cc241d) en error
     fi
 
     printf '%s' "${underline}%F{${color}}%(!.#.$)%f%u"
@@ -150,9 +150,9 @@ function prompt_git {
     local nombre_rama=$(git rev-parse --abbrev-ref HEAD 2>/dev/null)
     if [ -n "$nombre_rama" ]; then
         if [ -n "$(git status --porcelain 2>/dev/null)" ]; then
-            printf '%%F{9}%s%%f ' "$nombre_rama"  # bright_red (fb4934)
+            printf '%%F{1}%s%%f ' "$nombre_rama"  # bright_red (fb4934)
         else
-            printf '%%F{10}%s%%f ' "$nombre_rama"  # bright_green (b8bb26)
+            printf '%%F{2}%s%%f ' "$nombre_rama"  # bright_green (b8bb26)
         fi
     fi
 }
