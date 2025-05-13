@@ -27,7 +27,10 @@ gaps inner 3
 gaps outer 3
 default_border pixel 3
 
-client.focused          $highlight_color $highlight_color $highlight_color $highlight_color
+# Oculta el borde (y su color) si sólo hay UNA ventana en el workspace
+smart_borders on
+
+client.focused          $highlight_color $highlight_color #282828 $highlight_color
 client.focused_inactive #333333 #333333 #666666 #222222
 client.unfocused        #1c1c1c #1c1c1c #444444 #000000
 client.urgent           #900000 #900000 #ff0000 #900000
