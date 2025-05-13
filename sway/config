@@ -19,12 +19,18 @@ set $term footclient
 
 set $menu dmenu_path | wmenu | xargs swaymsg exec --
 
-# # Establecer los espacios entre ventanas
-gaps inner 3
+# Color de resaltado (mismo que bemenu)
+set $highlight_color #fabd2f
 
-# # Establecer los espacios entre las ventanas y los bordes de la pantalla
+# Espaciado y bordes
+gaps inner 3
 gaps outer 3
 default_border pixel 3
+
+client.focused          $highlight_color $highlight_color $highlight_color $highlight_color
+client.focused_inactive #333333 #333333 #666666 #222222
+client.unfocused        #1c1c1c #1c1c1c #444444 #000000
+client.urgent           #900000 #900000 #ff0000 #900000
 
 include /etc/sway/config-vars.d/*
 
@@ -166,12 +172,13 @@ bindsym Ctrl+Print exec grim -g "$(slurp)" - | wl-copy --type image/png
 
 # Usar bemenu como lanzador de aplicaciones
 set $launcher bemenu-run -H '23' -i \
-  --tb '#282828' --tf '#ebdbb2' \
-  --fb '#282828' --ff '#ebdbb2' \
-  --nb '#282828' --nf '#ebdbb2' \
-  --hb '#928374' --hf '#282828' \
-  --sb '#504945' --sf '#ebdbb2' \
-  --ab '#282828' --af '#ebdbb2' \
+  --fn 'DejaVu Sans Mono Nerd Font 11' \
+  --tb '#282828' --tf '#d5c4a1' \
+  --fb '#282828' --ff '#d5c4a1' \
+  --nb '#282828' --nf '#d5c4a1' \
+  --hb '#fabd2f' --hf '#282828' \
+  --sb '#fabd2f' --sf '#282828' \
+  --ab '#282828' --af '#d5c4a1' \
   --hp 10 \
   -p 'Run: '
 
