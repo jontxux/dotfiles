@@ -175,7 +175,7 @@ bindsym Ctrl+Print exec grim -g "$(slurp)" - | wl-copy --type image/png
 
 # Usar bemenu como lanzador de aplicaciones
 set $launcher bemenu-run -H '23' -i \
-  --fn 'DejaVu Sans Mono Nerd Font 11' \
+  --fn 'DejaVuSansM Nerd Font 11' \
   --tb '#282828' --tf '#d5c4a1' \
   --fb '#282828' --ff '#d5c4a1' \
   --nb '#282828' --nf '#d5c4a1' \
