@@ -32,6 +32,7 @@ fi
 # Configuración automática para módulos Perl locales
 if [ -d "$HOME/perl5/lib/perl5" ]; then
     eval "$(perl -I$HOME/perl5/lib/perl5 -Mlocal::lib 2>/dev/null)"
+    export PATH="$HOME/perl5/bin:$PATH"
 fi
 
 # Añadir /sbin y /usr/sbin al PATH
