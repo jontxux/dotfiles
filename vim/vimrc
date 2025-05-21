@@ -159,8 +159,7 @@ Plug 'Chiel92/vim-autoformat'                   " Autoformateo de código
 Plug 'jasonccox/vim-wayland-clipboard'
 Plug 'machakann/vim-highlightedyank'            " Resaltado al copiar
 Plug 'mhinz/vim-startify'                       " Pantalla de inicio
-Plug 'editorconfig/editorconfig-vim'            " EditorConfig
-Plug 'github/copilot.vim'                       " IA Code Completion
+Plug 'jpalardy/vim-slime'
 
 " Temas
 Plug 'joshdick/onedark.vim'
@@ -259,6 +258,9 @@ vnoremap <leader>f :Autoformat<CR>
 let g:autoformat_autoindent = 0
 let g:autoformat_retab = 0
 let g:autoformat_remove_trailing_spaces = 1
+
+" vim-slime
+let g:slime_target = "screen"
 
 " Configuración específica por lenguaje
 let g:formatterpath = ['/usr/local/bin', '/usr/bin']  " Asegura rutas de los binarios
