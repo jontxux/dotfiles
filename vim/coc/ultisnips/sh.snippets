@@ -1,0 +1,129 @@
+# A valid snippet should starts with:
+#
+#		snippet trigger_word [ "description" [ options ] ]
+#
+# and end with:
+#
+#		endsnippet
+#
+# Snippet options:
+#
+#		b - Beginning of line.
+#		i - In-word expansion.
+#		w - Word boundary.
+#		r - Regular expression
+#		e - Custom context snippet
+#		A - Snippet will be triggered automatically, when condition matches.
+#
+# Basic example:
+#
+#		snippet emitter "emitter properties" b
+#		private readonly ${1} = new Emitter<$2>()
+#		public readonly ${1/^_(.*)/$1/}: Event<$2> = this.$1.event
+#		endsnippet
+#
+# Online reference: https://github.com/SirVer/ultisnips/blob/master/doc/UltiSnips.txt
+snippet shebang "Shebang para Bash" b
+#!/bin/bash
+endsnippet
+
+snippet if "If statement" b
+if [[ ${1:condición} ]]; then
+    ${2:# código}
+fi
+endsnippet
+
+snippet elif "Else if" b
+elif [[ ${1:condición} ]]; then
+    ${2:# código}
+endsnippet
+
+snippet else "Else statement" b
+else
+    ${1:# código}
+endsnippet
+
+snippet for "For loop" b
+for ${1:var} in ${2:lista}; do
+    ${3:# código}
+done
+endsnippet
+
+snippet fori "For estilo C" b
+for (( ${1:i}=0; ${1:i}<${2:límite}; ${1:i}++ )); do
+    ${3:# código}
+done
+endsnippet
+
+snippet while "While loop" b
+while [[ ${1:condición} ]]; do
+    ${2:# código}
+done
+endsnippet
+
+snippet fun "Función" b
+${1:nombre_función}() {
+    ${2:# código}
+}
+endsnippet
+
+snippet case "Case statement" b
+case ${1:variable} in
+    ${2:patrón})
+        ${3:# código}
+        ;;
+    *)
+        ${4:# código por defecto}
+        ;;
+esac
+endsnippet
+
+snippet read "Lectura de input" b
+read -p "${1:Mensaje}: " ${2:variable}
+endsnippet
+
+snippet sub "Sustitución de comando" i
+\$(${1:comando})
+endsnippet
+
+snippet trap "Trap para señales" b
+trap "${1:cleanup}" EXIT INT TERM
+endsnippet
+
+snippet tmp "Archivo temporal" b
+${1:tempfile}=$(mktemp) || exit 1
+trap 'rm -f "$tempfile"' EXIT
+endsnippet
+
+snippet log "Logging con timestamp" b
+echo "\$(date +"%Y-%m-%d %T") - ${1:mensaje}" 
+endsnippet
+
+snippet checkroot "Verificar usuario root" b
+if [[ \$(id -u) -ne 0 ]]; then
+    echo "Error: Se requiere root" >&2
+    exit 1
+fi
+endsnippet
+
+snippet getopts "Procesar opciones" b
+while getopts ":${1:opciones}" opt; do
+    case \$opt in
+        ${2:o}) ${3:# código} ;;
+        :) echo "-\$OPTARG necesita argumento" >&2; exit 1 ;;
+        \\?) echo "Opción inválida: -\$OPTARG" >&2; exit 1 ;;
+    esac
+done
+endsnippet
+
+snippet strict "Modo estricto" b
+set -euo pipefail
+IFS=$'\n\t'
+endsnippet
+
+snippet heredoc "Here document" b
+${1:var}=$(cat <<'EOF'
+${2:contenido}
+EOF
+)
+endsnippet
