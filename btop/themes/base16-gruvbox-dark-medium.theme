@@ -1,0 +1,64 @@
+# Tema base16-gruvbox-dark-medium para btop
+# Basado en https://github.com/morhetz/gruvbox y base16-gruvbox-dark-medium
+
+theme[main_bg]="#282828"           # gui00 (Fondo principal)
+theme[main_fg]="#EBDBB2"           # gui06 (Texto principal)
+
+theme[title]="#83A598"              # gui0D (Títulos)
+theme[hi_fg]="#FB4934"             # gui08 (Destacado)
+
+theme[selected_bg]="#3C3836"       # gui01 (Fondo seleccionado)
+theme[selected_fg]="#D3869B"       # gui0E (Texto seleccionado)
+
+theme[inactive_fg]="#3C3836"       # gui01 (Texto inactivo)
+theme[graph_text]="#BDAE93"         # gui04 (Texto sobre gráficos)
+
+theme[proc_misc]="#B8BB26"         # gui0B (Misc. procesos)
+
+# Colores de bordes
+theme[cpu_box]="#BDAE93"            # gui04
+theme[mem_box]="#BDAE93"            # gui04
+theme[net_box]="#BDAE93"            # gui04
+theme[proc_box]="#BDAE93"           # gui04
+theme[div_line]="#BDAE93"           # gui04
+
+# Gradientes de temperatura
+theme[temp_start]="#B8BB26"         # gui0B (Inicio)
+theme[temp_mid]=""                  # Sin color medio
+theme[temp_end]="#FB4934"           # gui08 (Fin)
+
+# Gradientes de CPU
+theme[cpu_start]="#8EC07C"          # gui0C (Inicio)
+theme[cpu_mid]="#FABD2F"            # gui0A (Medio)
+theme[cpu_end]="#FB4934"            # gui08 (Fin)
+
+# Gradientes de memoria/disco
+theme[free_start]="#FB4934"         # gui08
+theme[free_mid]="#FABD2F"           # gui0A
+theme[free_end]="#8EC07C"           # gui0C
+
+theme[cached_start]="#83A598"       # gui0D
+theme[cached_mid]="#8EC07C"         # gui0C
+theme[cached_end]="#B8BB26"         # gui0B
+
+theme[available_start]="#FB4934"    # gui08
+theme[available_mid]="#D65D0E"      # gui0F
+theme[available_end]="#FABD2F"      # gui0A
+
+theme[used_start]="#8EC07C"         # gui0C
+theme[used_mid]="#D65D0E"           # gui0F
+theme[used_end]="#FB4934"           # gui08
+
+# Gradientes de red
+theme[download_start]="#B8BB26"     # gui0B
+theme[download_mid]="#8EC07C"       # gui0C
+theme[download_end]="#B8BB26"       # gui0B
+
+theme[upload_start]="#FB4934"       # gui08
+theme[upload_mid]="#D65D0E"         # gui0F
+theme[upload_end]="#FABD2F"         # gui0A
+
+# Gradientes de procesos
+theme[process_start]="#8EC07C"      # gui0C
+theme[process_mid]="#FE8019"        # gui09
+theme[process_end]="#FB4934"        # gui08
