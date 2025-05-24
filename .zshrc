@@ -117,7 +117,7 @@ if command -v fzf &> /dev/null; then
   export FZF_DEFAULT_OPTS='--height 40% --layout=reverse --border'
 fi
 
-[ -r ~/dotfiles/zsh/config/colores.sh ] && . ~/dotfiles/zsh/config/colores.sh
+[ -r ~/dotfiles/zsh/custom/colores.sh ] && . ~/dotfiles/zsh/custom/colores.sh
 
 # Configurar colores según Gruvbox (índices 0-15)
 USER_PROMPT='%B%F{2}%n%f%b'       # Nombre usuario (bright_green - b8bb26)
