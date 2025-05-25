@@ -4,7 +4,22 @@
       "command": "perlnavigator",
       "args": ["--stdio"],
       "filetypes": ["perl"]
+    },
+    "clangd": {
+      "command": "clangd", // Asegúrate de que está en tu PATH
+      "args": [
+        "--background-index",
+        "--clang-tidy",
+        "--header-insertion=never",
+        "--all-scopes-completion", // Mejora autocompletado
+        "--completion-style=detailed", // Sugerencias detalladas
+        "--pch-storage=memory" // Optimiza uso de memoria
+      ],
+      "filetypes": ["c", "cpp", "objc", "objcpp"],
+      "rootPatterns": ["compile_commands.json", ".git/", "Makefile"],
+      "initializationOptions": {
+        "clangdFileStatus": true // Muestra estado en la barra
+      }
     }
-  },
-  "clangd.path": "~/dotfiles/vim/coc/extensions/coc-clangd-data/install/19.1.2/clangd_19.1.2/bin/clangd"
+  }
 }

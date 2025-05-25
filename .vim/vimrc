@@ -179,7 +179,6 @@ let g:coc_global_extensions = [
   \ 'coc-rust-analyzer', 'coc-go', 'coc-html',
   \ 'coc-css', 'coc-eslint',
   \ 'coc-snippets', 'coc-emmet', 'coc-marketplace',
-  \ 'coc-clangd'
   \ ]
 let g:coc_config_home = '~/.vim'
 let g:coc_data_home = '~/.vim/coc'
