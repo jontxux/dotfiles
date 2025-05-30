@@ -1,1 +1,1 @@
-set database-backend sqlite
+set database sqlite
