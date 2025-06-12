@@ -5,7 +5,7 @@ set hidden
 set ignorecase true
 set drawbox true
 set sixel true
-set previewer '~/dotfiles/lf/preview'
+set previewer '~/dotfiles/.config/lf/preview'
 
 # Comandos Personalizados
 
