@@ -1,0 +1,450 @@
+Delivered-To: jonbergerandi@gmail.com
+Received: by 2002:a5d:4534:0:b0:3a3:5b86:4704 with SMTP id j20csp1247833wra;
+        Thu, 22 May 2025 02:47:30 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IH5eNoym2h8V5dc0/gNAI98pKhykF1Flfmutrz1bPb6Fix+cO6wteQmIu2QtjDTaXmrsVxj
+X-Received: by 2002:a05:6000:4284:b0:3a3:2aa5:11bc with SMTP id ffacd0b85a97d-3a3600db421mr19161061f8f.54.1747907249873;
+        Thu, 22 May 2025 02:47:29 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1747907249; cv=none;
+        d=google.com; s=arc-20240605;
+        b=BjI6So48voIDqc+0bT6bQ/QBpF8w3GYxchlw0ELnBNosklpdHkECtFucjTv3qlMvBK
+         QrGasvEnPqpwaUZvMq7luGTeE510UjDEGK3VAb24cByyl9f+ntuoZP71172n9+Q6pFNS
+         K1fcSOME9XLhqhSqH5Wftca6io409Nn36pxpSxi8redSRvJkaS1kvX44b0tLvLndf6ty
+         A1bol2cZuLlxwd6g0ojb8DcviNQmHEz/O5qaqFT+tHHRgUZJDYNUZE2idD+p3/QRh4t0
+         TkKQFXHh93uRG6FUW5Ou6+4hJXwgcl6dufl4qyJ3SNrlHkJq2tgo6fPS63ifkZSFi//W
+         gYhA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:mime-version:feedback-id
+         :list-unsubscribe-post:list-unsubscribe:date:subject:to:reply-to
+         :from:message-id:dkim-signature:dkim-signature;
+        bh=ZAByLWtmtOo4JQ8v7vVqDlgVYD4yj1O+vTyYcXeV29g=;
+        fh=Q6C8RF+RVhEJ8/GZgEtfT5jNRRZ7ys2n1E9Qb7Am+S8=;
+        b=QK+Gm+SW1tuI6wyida/5pUNB1SmwDTbxBn25zMNxYmC/s0fghhtY289XbGpUPQeXbP
+         Q7tAPQcvzECcyFH8xoiK5DR6/mhChh0iJ4fqptWCohLD1T9QKyjWopFlUc174gxAid50
+         MgWMmNxEsRL/vF8C0erm4cmZZAtsIt/UcEtAtEqihIiUf22NvxlIim7rZ0Pqdy2Tme8Z
+         VxdBJ7UOMB766iQOdD1swspPgWWEJpRaigdxBeDsd1k9Hw7S0G9vxKfC7Qy67PgWvBbr
+         MRD0OJO+YBaOLWPvu46Y295QdHU/hUPFdoRZ+O2vISNEGFOeuCALfookknNTw8/OnFf9
+         NU1A==;
+        dara=google.com
+ARC-Authentication-Results: i=1; mx.google.com;
+       dkim=pass header.i=@occidentinforma.com header.s=mailjet header.b=AR3woXLJ;
+       dkim=pass header.i=@bnc3.mailjet.com header.s=mailjet1 header.b=LR9m53wN;
+       spf=pass (google.com: domain of aa67b1f7.baaabw2zj3caaaaaaaaaa9lv008aaykiy7yaaaaaacwnyabolvkx@bnc3.occidentinforma.com designates 185.250.237.183 as permitted sender) smtp.mailfrom=aa67b1f7.BAAABw2zJ3cAAAAAAAAAA9lv008AAYKIy7YAAAAAACwnyABoLvKx@bnc3.occidentinforma.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=occidentinforma.com
+Return-Path: <aa67b1f7.BAAABw2zJ3cAAAAAAAAAA9lv008AAYKIy7YAAAAAACwnyABoLvKx@bnc3.occidentinforma.com>
+Received: from o183.p38.mailjet.com (o183.p38.mailjet.com. [185.250.237.183])
+        by mx.google.com with UTF8SMTPS id ffacd0b85a97d-3a35ca86576si11300684f8f.545.2025.05.22.02.47.29
+        for <jonbergerandi@gmail.com>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 22 May 2025 02:47:29 -0700 (PDT)
+Received-SPF: pass (google.com: domain of aa67b1f7.baaabw2zj3caaaaaaaaaa9lv008aaykiy7yaaaaaacwnyabolvkx@bnc3.occidentinforma.com designates 185.250.237.183 as permitted sender) client-ip=185.250.237.183;
+Authentication-Results: mx.google.com;
+       dkim=pass header.i=@occidentinforma.com header.s=mailjet header.b=AR3woXLJ;
+       dkim=pass header.i=@bnc3.mailjet.com header.s=mailjet1 header.b=LR9m53wN;
+       spf=pass (google.com: domain of aa67b1f7.baaabw2zj3caaaaaaaaaa9lv008aaykiy7yaaaaaacwnyabolvkx@bnc3.occidentinforma.com designates 185.250.237.183 as permitted sender) smtp.mailfrom=aa67b1f7.BAAABw2zJ3cAAAAAAAAAA9lv008AAYKIy7YAAAAAACwnyABoLvKx@bnc3.occidentinforma.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=occidentinforma.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; q=dns/txt;
+  d=occidentinforma.com; i=clientes@occidentinforma.com; s=mailjet; x=1747914449;
+  h=message-id:from:from:reply-to:to:to:subject:subject:date:date:list-unsubscribe:list-unsubscribe-post:
+  feedback-id:x-csa-complaints:x-mj-mid:x-report-abuse-to:mime-version:
+  content-type:content-transfer-encoding;
+  bh=ZAByLWtmtOo4JQ8v7vVqDlgVYD4yj1O+vTyYcXeV29g=;
+  b=AR3woXLJYugbER8kVHhh9tm90zIB2SL3tyTECLh28IP/d3iak8aOFVb3s
+ VpxY8k4OMseANZVtsLe0VsCtRYdjE8p86/pWcHBkJX5ib8/5bdRpm3cVD4TZ
+ EBlgo0pMCaessvaw5dQXMlT1F94jOfdXB+FKv7Vl2PsabMEOlJMUd0=
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; q=dns/txt;
+  d=bnc3.mailjet.com; s=mailjet1; x=1747914449;
+  h=message-id:from:from:reply-to:to:to:subject:subject:date:date:list-unsubscribe:list-unsubscribe-post:
+  feedback-id:x-csa-complaints:x-mj-mid:x-report-abuse-to:mime-version:
+  content-type:content-transfer-encoding;
+  bh=ZAByLWtmtOo4JQ8v7vVqDlgVYD4yj1O+vTyYcXeV29g=;
+  b=LR9m53wNQcH3p1B4FzySbR7t73oZt5VM4x982zfpyr4ekGKU58GJuD9UW
+ GYTE+5eI8wfDyubQNdCwvj6Ibq5aHOpBXXkNZKQhtc1sGQyhe4m3IY2CVswi
+ 2gGHe1oC/V7Z6LGZ62LbRoJh8M4JXClBnX23jrJ0FTdLCQEFdqao50=
+Return-Path:
+	<aa67b1f7.BAAABw2zJ3cAAAAAAAAAA9lv008AAYKIy7YAAAAAACwnyABoLvKx@bnc3.occidentinforma.com>
+Message-Id: <aa67b1f7.BAAABw2zJ3cAAAAAAAAAA9lv008AAYKIy7YAAAAAACwnyABoLvKx@mailjet.com>
+From: Occident <clientes@occidentinforma.com>
+Reply-To: =?UTF-8?Q?Occident_Cont=C3=A1ctanos?= <contactanos@occident.com>
+To: Jon Bergerandi Loidi <jonbergerandi@gmail.com>
+Subject: =?UTF-8?Q?Jon_Bergerandi_Loidi=2C_consulte_?=
+ =?UTF-8?Q?informaci=C3=B3n_relevante?=
+Date: Thu, 22 May 2025 09:47:29 +0000
+List-Unsubscribe:
+	<mailto:unsub-aa67b1f7.sglpy.vps6hv66573x@bnc3.mailjet.com>,
+	<https://sglpy.mjt.lu/unsub2?m=BAAABw2zJ3cAAAAAAAAAA9lv008AAYKIy7YAAAAAACwnyABoLvKxzxivdQ9OTsaIqUp1zrUD_wAF0Lg&b=aa67b1f7&e=394f2bcd&x=a9cyyevLJkU_hlJltKVEkv_T6Q_DYRQFwvnojh9-3To>
+List-Unsubscribe-Post: List-Unsubscribe=One-Click
+Feedback-Id: 3460159993;219;1.2893768.381112:MJ
+X-CSA-Complaints: csa-complaints@eco.de
+X-MJ-Mid:
+	BAAABw2zJ3cAAAAAAAAAA9lv008AAYKIy7YAAAAAACwnyABoLvKxzxivdQ9OTsaIqUp1zrUD_wAF0Lg
+X-REPORT-ABUSE-TO: Message sent by Mailjet please report to
+	abuse@mailjet.com with a copy of the message
+MIME-Version: 1.0
+Content-Type: text/html; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html lang=3D"ES">
+<head>
+<meta http-equiv=3D"Content-Type" content=3D"application/xhtml+xml;charset=
+=3DUTF-8">
+<meta name=3D"viewport" content=3D"width=3Ddevice-width, initial-scale=3D1.=
+0">
+<title>Jon Bergerandi Loidi, consulte informaci=C3=B3n relevante</title>
+<style type=3D"text/css">
+</style>
+</head>
+<body style=3D"margin:auto;">
+<span id=3D"landing" style=3D"font-size:11px;font-family:Arial,Helvetica,sa=
+ns-serif;color:#999999;"></span>
+<div style=3D"text-align:left;text-align-last:auto;"><!--[if mso]><center><=
+![endif]--><body mail bgcolor=3D"#f2f1ef"></div>
+<div style=3D"text-align:left;text-align-last:auto;"><!--[if mso]><center><=
+![endif]--><table cellspacing=3D"0" cellpadding=3D"0" style=3D"border-colla=
+pse:collapse;border-style:none;margin:auto;"><tr><td valign=3D"top" width=
+=3D"629" bgcolor=3D"#ffffff" style=3D"background-color:#ffffff;padding:0px =
+0px 0px 0px;"><div style=3D"text-align:left;text-align-last:auto;"><!--[if =
+mso]><center><![endif]--><table cellspacing=3D"0" cellpadding=3D"0" width=
+=3D"100%" style=3D"border-collapse:collapse;border-style:none;margin:auto;"=
+><tbody><tr><td valign=3D"top" width=3D"100%" ><div style=3D"text-align:lef=
+t;text-align-last:auto;"><table cellspacing=3D"0" cellpadding=3D"0" width=
+=3D"100%" style=3D"border-collapse:collapse;border-style:none;"><tr><td val=
+ign=3D"top" colspan=3D"2" width=3D"100%" style=3D"padding:20px 0px 20px 0px=
+;"><div style=3D"text-align:center;text-align-last:auto;"><a href=3D"https:=
+//gco.quadientcloud.eu/api/query/Messenger/TrackerQuery?Uri=3De7Hki4Q9olLzY=
+qLle5nduRmFW28n1KCtXU7D5MT%2fXk1odHRwczovL3d3dy5vY2NpZGVudC5jb20%3d&amp;Dat=
+a=3DNDVNHHlQBLMqZssqTfZ40DZ5eMLB1EnNVhpvndQDKXczNDYwMTU5OTkzLTIxOS0w" style=
+=3D"text-decoration:none;"><span style=3D"height:37"><img src=3D"https://gc=
+o.quadientcloud.eu/api/query/Messenger/ResourceQuery?BatchId=3D3460159993&a=
+mp;ResourceId=3DOCC_POS_RGB_96ppp_37px.png" alt=3D"" width=3D"194" height=
+=3D"37" border=3D"0" style=3D"display:block;margin:0 auto;"></span></a></di=
+v>
+</td>
+</tr>
+<tr><td valign=3D"top" colspan=3D"2" width=3D"100%" ><div style=3D"text-ali=
+gn:center;text-align-last:auto;"><span style=3D"height:10 px"><img src=3D"h=
+ttps://gco.quadientcloud.eu/api/query/Messenger/ResourceQuery?BatchId=3D346=
+0159993&amp;ResourceId=3Dfranja-operativa-23.jpg" alt=3D"" width=3D"100%" h=
+eight=3D"10 px" border=3D"0" style=3D"display:block;margin:0 auto;"></span>=
+</div>
+</td>
+</tr>
+<tr><td valign=3D"top" colspan=3D"2" width=3D"100%" style=3D"padding:0px 0p=
+x 7px 0px;"><div style=3D"text-align:right;text-align-last:auto;margin-bott=
+om:0px;margin-left:0px;margin-right:13px;"><span style=3D"font-family:Arial=
+,Helvetica,sans-serif;font-size:12px;color:#646464;font-style:normal;font-w=
+eight:normal;">Consulte informaci=C3=B3n relevante sobre su seguro</span></=
+div>
+</td>
+</tr>
+</table>
+</div>
+</td>
+</tr>
+<tr><td valign=3D"top" width=3D"100%" ><div style=3D"text-align:left;text-a=
+lign-last:auto;"><!--[if mso]><center><![endif]--><table cellspacing=3D"0" =
+cellpadding=3D"0" width=3D"100%" style=3D"border-collapse:collapse;border-s=
+tyle:none;margin:auto;"><tr><td valign=3D"top" width=3D"100%" style=3D"padd=
+ing:19px 38px 0px 38px;"><div style=3D"text-align:justify;text-align-last:l=
+eft;"><span style=3D"font-family:Arial,Helvetica,sans-serif;font-size:15px;=
+color:#646464;font-style:normal;font-weight:normal;">Informaci=C3=B3n relev=
+ante para Jon Bergerandi Loidi</span></div>
+</td>
+</tr>
+<tr><td valign=3D"top" width=3D"100%" style=3D"padding:19px 38px 0px 38px;"=
+><div style=3D"text-align:justify;text-align-last:left;"><span style=3D"fon=
+t-family:Arial,Helvetica,sans-serif;font-size:15px;color:#646464;font-style=
+:normal;font-weight:bold;">P=C3=93LIZA: 8-10.908.168-P</span></div>
+</td>
+</tr>
+<tr><td valign=3D"top" width=3D"100%" style=3D"padding:0px 38px 0px 38px;">=
+<div style=3D"text-align:justify;text-align-last:left;"><span style=3D"font=
+-family:Arial,Helvetica,sans-serif;font-size:15px;color:#646464;font-style:=
+normal;font-weight:bold;">MODALIDAD: Comercios</span></div>
+</td>
+</tr>
+<tr><td valign=3D"top" width=3D"100%" style=3D"padding:19px 38px 0px 38px;"=
+><div style=3D"text-align:left;text-align-last:auto;"><table cellspacing=3D=
+"0" cellpadding=3D"0" width=3D"100%" style=3D"border-collapse:collapse;bord=
+er-style:none;"><tr><td valign=3D"top" width=3D"100%" style=3D"padding:0px =
+0px 0px 0px;"><span style=3D"line-height:13px;">&nbsp;</span><div style=3D"=
+text-align:left;text-align-last:auto;"></div>
+</td>
+</tr>
+<tr><td valign=3D"top" width=3D"100%" style=3D"border-top:2px solid #cecece=
+;padding:4px 15px 0px 38px;"><span style=3D"line-height:13px;">&nbsp;</span=
+><div style=3D"text-align:left;text-align-last:auto;"></div>
+</td>
+</tr>
+<tr><td valign=3D"top" width=3D"100%" style=3D"padding:0px 0px 0px 0px;"><d=
+iv style=3D"text-align:left;text-align-last:auto;"><span style=3D"font-fami=
+ly:Arial,Helvetica,sans-serif;font-size:15px;color:#646464;font-style:norma=
+l;font-weight:normal;">Recuerde que su mediador <span>&nbsp;</span>MORAL D=
+=C3=8DAZ Y MARTIJA CORREDUR=C3=8DA DE SEGUR con tel=C3=A9fono 943 131 994 y=
+ correo electr=C3=B3nico mdmcorreduriadeseguros@gmail.com est=C3=A1 a su di=
+sposici=C3=B3n para lo que necesite.</span></div>
+</td>
+</tr>
+<tr><td valign=3D"top" width=3D"100%" style=3D"border-bottom:2px solid #cec=
+ece;padding:0px 15px 4px 38px;"><span style=3D"line-height:13px;">&nbsp;</s=
+pan><div style=3D"text-align:left;text-align-last:auto;"></div>
+</td>
+</tr>
+<tr><td valign=3D"top" width=3D"100%" style=3D"padding:0px 0px 0px 0px;"><s=
+pan style=3D"line-height:13px;">&nbsp;</span><div style=3D"text-align:left;=
+text-align-last:auto;"></div>
+</td>
+</tr>
+</table>
+</div>
+</td>
+</tr>
+<tr><td valign=3D"top" width=3D"100%" style=3D"padding:19px 38px 0px 38px;"=
+><div style=3D"text-align:left;text-align-last:auto;"><span style=3D"font-f=
+amily:Arial,Helvetica,sans-serif;font-size:15px;color:#646464;font-style:no=
+rmal;font-weight:normal;">Tiene la siguiente informaci=C3=B3n relevante: An=
+ulaci=C3=B3n de p=C3=B3liza</span></div>
+</td>
+</tr>
+<tr><td valign=3D"top" width=3D"100%" style=3D"padding:19px 38px 0px 38px;"=
+><div style=3D"text-align:justify;text-align-last:left;"><span style=3D"fon=
+t-family:Arial,Helvetica,sans-serif;font-size:15px;color:#ff004d;font-style=
+:normal;font-weight:normal;"><a href=3D"https://gco.quadientcloud.eu/api/qu=
+ery/Messenger/TrackerQuery?Uri=3DzezbffqtbynvWPjKLYGYbUciYGD%2fwwneAyhzjCB2=
+%2fu9odHRwczovL2FwcHVibGljYXMub2NjaWRlbnQuY29tL0FSUS5BcHBJbnQuQ29uc3VsdGFEb=
+2N1bWVudG9zLkZFL0NvbnN1bHRhRG9jdW1lbnRvc0NsaWVudGVzLz9kb2NyZWY9Z3BkZGVjZWph=
+Y2phZWVhY3B3Y2V3Z2N3ZGtlc2NlJmVjPWZhbHNl&amp;Data=3DNDVNHHlQBLMqZssqTfZ40DZ=
+5eMLB1EnNVhpvndQDKXczNDYwMTU5OTkzLTIxOS0w" style=3D"color:#ff004d;">Cons=C3=
+=BAltela aqu=C3=AD</a></span></div>
+</td>
+</tr>
+<tr><td valign=3D"top" width=3D"100%" style=3D"padding:19px 38px 0px 38px;"=
+><div style=3D"text-align:justify;text-align-last:left;"><span style=3D"fon=
+t-family:Arial,Helvetica,sans-serif;font-size:15px;color:#646464;font-style=
+:normal;font-weight:normal;">Agradecemos su confianza.</span></div>
+</td>
+</tr>
+<tr><td valign=3D"top" width=3D"100%" style=3D"padding:19px 38px 0px 38px;"=
+><span style=3D"line-height:13px;">&nbsp;</span><div style=3D"text-align:le=
+ft;text-align-last:auto;"></div>
+</td>
+</tr>
+</table>
+<!--[if mso]></center><![endif]--></div>
+</td>
+</tr>
+<tr><td valign=3D"top" width=3D"100%" bgcolor=3D"#ffffff" style=3D"backgrou=
+nd-color:#ffffff;padding:0px 0px 0px 0px;"><div style=3D"text-align:left;te=
+xt-align-last:auto;"><table cellspacing=3D"0" cellpadding=3D"0" width=3D"10=
+0%" bgcolor=3D"#ffffff" style=3D"background-color:#ffffff;border-collapse:c=
+ollapse;"><tr><td valign=3D"top" width=3D"100%" ><div style=3D"text-align:l=
+eft;text-align-last:auto;"><!--[if mso]><center><![endif]--><table cellspac=
+ing=3D"0" cellpadding=3D"0" width=3D"100%" style=3D"border-collapse:collaps=
+e;border-style:none;margin:auto;"><tr><td valign=3D"top" width=3D"100%" sty=
+le=3D"border-top:1px solid #aaaaaa;padding:4px 15px 0px 38px;"><span style=
+=3D"line-height:13px;">&nbsp;</span><div style=3D"text-align:left;text-alig=
+n-last:auto;"></div>
+</td>
+</tr>
+<tr><td valign=3D"top" width=3D"100%" style=3D"padding:0px 38px 0px 38px;">=
+<div style=3D"text-align:left;text-align-last:auto;margin-bottom:0px;margin=
+-left:6px;margin-right:0px;"><span style=3D"font-family:Arial,Helvetica,san=
+s-serif;font-size:13px;color:#505050;font-style:normal;font-weight:bold;">C=
+anales de contacto:</span></div>
+</td>
+</tr>
+<tr><td valign=3D"top" width=3D"100%" style=3D"padding:0px 38px 0px 38px;">=
+<span style=3D"line-height:13px;">&nbsp;</span><div style=3D"text-align:lef=
+t;text-align-last:auto;"></div>
+</td>
+</tr>
+<tr><td valign=3D"top" width=3D"100%" style=3D"padding:0px 38px 0px 38px;">=
+<div style=3D"text-align:left;text-align-last:auto;"><table cellspacing=3D"=
+0" cellpadding=3D"0" width=3D"100%" style=3D"border-collapse:collapse;borde=
+r-style:none;"><tr><td valign=3D"top" width=3D"1%" ><span style=3D"line-hei=
+ght:12px;">&nbsp;</span><div style=3D"text-align:left;text-align-last:auto;=
+"></div>
+</td>
+<td valign=3D"top" width=3D"14%" ><div style=3D"text-align:left;text-align-=
+last:auto;"><table cellspacing=3D"0" cellpadding =3D"0"><tr><td style=3D"ve=
+rtical-align:bottom;">
+<a href=3D"https://gco.quadientcloud.eu/api/query/Messenger/TrackerQuery?Ur=
+i=3D72x3Is6yPbu1PKLSsGIf23G6Ux6DSwQBue744ygsys1odHRwczovL3d3dy5vY2NpZGVudC5=
+jb20vYXBw&amp;Data=3DNDVNHHlQBLMqZssqTfZ40DZ5eMLB1EnNVhpvndQDKXczNDYwMTU5OT=
+kzLTIxOS0w"><img src=3D"https://gco.quadientcloud.eu/api/query/Messenger/Re=
+sourceQuery?BatchId=3D3460159993&amp;ResourceId=3D4D4BECB8DAF0E88E02439F452=
+344B1CAE7745B34.png" alt=3D"" width=3D"87" height=3D"31" border=3D"0" ></a>=
+</td>
+<td style=3D"vertical-align:bottom;">
+</td></tr></table>
+</div>
+</td>
+<td valign=3D"top" width=3D"4%" ><span style=3D"line-height:12px;">&nbsp;</=
+span><div style=3D"text-align:left;text-align-last:auto;"></div>
+</td>
+<td valign=3D"top" width=3D"14%" ><div style=3D"text-align:left;text-align-=
+last:auto;"><table cellspacing=3D"0" cellpadding =3D"0"><tr><td style=3D"ve=
+rtical-align:bottom;">
+<a href=3D"https://gco.quadientcloud.eu/api/query/Messenger/TrackerQuery?Ur=
+i=3D8oFWHjFW8QWXm34xs6oPlxkCSUBm2vpp39qG3L%2fajrBodHRwczovL2NsaWVudGUub2Nja=
+WRlbnQuY29t&amp;Data=3DNDVNHHlQBLMqZssqTfZ40DZ5eMLB1EnNVhpvndQDKXczNDYwMTU5=
+OTkzLTIxOS0w"><img src=3D"https://gco.quadientcloud.eu/api/query/Messenger/=
+ResourceQuery?BatchId=3D3460159993&amp;ResourceId=3DFD2E3E55FC3869C785FFCB4=
+D2513F3FF1815619C.png" alt=3D"" width=3D"87" height=3D"31" border=3D"0" ></=
+a></td>
+<td style=3D"vertical-align:bottom;">
+</td></tr></table>
+</div>
+</td>
+<td valign=3D"top" width=3D"4%" ><span style=3D"line-height:12px;">&nbsp;</=
+span><div style=3D"text-align:left;text-align-last:auto;"></div>
+</td>
+<td valign=3D"top" width=3D"14%" ><div style=3D"text-align:left;text-align-=
+last:auto;"><table cellspacing=3D"0" cellpadding =3D"0"><tr><td style=3D"ve=
+rtical-align:bottom;">
+<a href=3D"mailto:contactanos@occident.com"><img src=3D"https://gco.quadien=
+tcloud.eu/api/query/Messenger/ResourceQuery?BatchId=3D3460159993&amp;Resour=
+ceId=3DE8BD1C64DC0711D817C9840AD1C18465B924A854.png" alt=3D"" width=3D"87" =
+height=3D"31" border=3D"0" ></a></td>
+<td style=3D"vertical-align:bottom;">
+</td></tr></table>
+</div>
+</td>
+<td valign=3D"top" width=3D"4%" ><span style=3D"line-height:12px;">&nbsp;</=
+span><div style=3D"text-align:left;text-align-last:auto;"></div>
+</td>
+<td valign=3D"top" width=3D"14%" ><div style=3D"text-align:left;text-align-=
+last:auto;"><table cellspacing=3D"0" cellpadding =3D"0"><tr><td style=3D"ve=
+rtical-align:bottom;">
+<a href=3D"https://gco.quadientcloud.eu/api/query/Messenger/TrackerQuery?Ur=
+i=3DKrVXixLHqjLUKaUSVO9DQvxzb1eWgyUszMbYdg7GlnFodHRwczovL2FwaS53aGF0c2FwcC5=
+jb20vc2VuZC8%2fcGhvbmU9JTJCMzQ5MTc4MzgzODMmdGV4dCZ0eXBlPXBob25lX251bWJlciZh=
+cHBfYWJzZW50PTA%3d&amp;Data=3DNDVNHHlQBLMqZssqTfZ40DZ5eMLB1EnNVhpvndQDKXczN=
+DYwMTU5OTkzLTIxOS0w"><img src=3D"https://gco.quadientcloud.eu/api/query/Mes=
+senger/ResourceQuery?BatchId=3D3460159993&amp;ResourceId=3D5F8735478C9ADAEA=
+266D091FB9BB4A7E68685D35.png" alt=3D"" width=3D"87" height=3D"31" border=3D=
+"0" ></a></td>
+<td style=3D"vertical-align:bottom;">
+</td></tr></table>
+</div>
+</td>
+<td valign=3D"top" width=3D"34%" ><span style=3D"line-height:12px;">&nbsp;<=
+/span><div style=3D"text-align:left;text-align-last:auto;"></div>
+</td>
+</tr>
+</table>
+</div>
+</td>
+</tr>
+<tr><td valign=3D"top" width=3D"100%" style=3D"padding:0px 38px 0px 38px;">=
+<span style=3D"line-height:13px;">&nbsp;</span><div style=3D"text-align:lef=
+t;text-align-last:auto;"></div>
+</td>
+</tr>
+<tr><td valign=3D"top" height=3D"19" width=3D"100%" style=3D"padding:0px 38=
+px 0px 38px;"><div style=3D"text-align:left;text-align-last:auto;margin-bot=
+tom:0px;margin-left:6px;margin-right:15px;"><span style=3D"font-family:Aria=
+l,Helvetica,sans-serif;font-size:12px;color:#505050;font-style:normal;font-=
+weight:normal;">Tel=C3=A9fono:</span><span style=3D"font-family:Arial,Helve=
+tica,sans-serif;font-size:13px;color:#646464;font-style:normal;font-weight:=
+bold;">&nbsp;</span><span style=3D"font-family:Arial,Helvetica,sans-serif;f=
+ont-size:13px;color:#505050;font-style:normal;font-weight:bold;"><a href=3D=
+"tel:917838383" style=3D"color:#505050;text-decoration:none;">917&nbsp;83&n=
+bsp;83&nbsp;83</a></span></div>
+</td>
+</tr>
+<tr><td valign=3D"top" height=3D"19" width=3D"100%" style=3D"padding:0px 38=
+px 0px 38px;"><span style=3D"line-height:13px;">&nbsp;</span><div style=3D"=
+text-align:justify;text-align-last:left;margin-bottom:0px;margin-left:0px;m=
+argin-right:15px;"></div>
+</td>
+</tr>
+<tr><td valign=3D"top" height=3D"15" width=3D"100%" style=3D"padding:0px 38=
+px 0px 38px;"><div style=3D"text-align:justify;text-align-last:left;margin-=
+bottom:0px;margin-left:6px;margin-right:15px;"><span style=3D"font-family:A=
+rial,Helvetica,sans-serif;font-size:12px;color:#505050;font-style:normal;fo=
+nt-weight:bold;"><a href=3D"https://gco.quadientcloud.eu/api/query/Messenge=
+r/TrackerQuery?Uri=3DYlW99mQ0TnF30obibBp%2bq2ZVu0UnI1I%2bHNWXgf8dYMhodHRwOi=
+8vd3d3Lm9jY2lkZW50LmNvbS9wb2xpdGljYS1wcml2YWNpZGFk&amp;Data=3DNDVNHHlQBLMqZ=
+ssqTfZ40DZ5eMLB1EnNVhpvndQDKXczNDYwMTU5OTkzLTIxOS0w" style=3D"color:#505050=
+;">Pol=C3=ADtica de privacidad</a></span></div>
+</td>
+</tr>
+<tr><td valign=3D"top" height=3D"15" width=3D"100%" style=3D"padding:0px 38=
+px 0px 38px;"><div style=3D"text-align:justify;text-align-last:left;margin-=
+bottom:0px;margin-left:6px;margin-right:15px;"><span style=3D"font-family:A=
+rial,Helvetica,sans-serif;font-size:12px;color:#505050;font-style:normal;fo=
+nt-weight:bold;"><a href=3D"https://gco.quadientcloud.eu/api/query/Messenge=
+r/TrackerQuery?Uri=3DiDByxSQ1piU6Q1DQCDFUsyhVxkJulNgoi1xig0o9fNFodHRwczovL3=
+d3dy5vY2NpZGVudC5jb20vYXZpc28tbGVnYWw%3d&amp;Data=3DNDVNHHlQBLMqZssqTfZ40DZ=
+5eMLB1EnNVhpvndQDKXczNDYwMTU5OTkzLTIxOS0w" style=3D"color:#505050;">Aviso l=
+egal</a></span></div>
+</td>
+</tr>
+<tr><td valign=3D"top" height=3D"15" width=3D"100%" style=3D"padding:0px 38=
+px 0px 38px;"><div style=3D"text-align:left;text-align-last:auto;margin-bot=
+tom:0px;margin-left:6px;margin-right:15px;"><span style=3D"font-family:Aria=
+l,Helvetica,sans-serif;font-size:12px;color:#505050;font-style:normal;font-=
+weight:normal;">Si no ve bien este </span><span style=3D"font-family:Arial,=
+Helvetica,sans-serif;font-size:12px;color:#505050;font-style:italic;font-we=
+ight:normal;">e-mail</span><span style=3D"font-family:Arial,Helvetica,sans-=
+serif;font-size:12px;color:#505050;font-style:normal;font-weight:normal;">,=
+ </span><span style=3D"font-family:Arial,Helvetica,sans-serif;font-size:12p=
+x;color:#505050;font-style:normal;font-weight:normal;">pulse </span><span s=
+tyle=3D"font-family:Arial,Helvetica,sans-serif;font-size:12px;color:#505050=
+;font-style:normal;font-weight:bold;"><a href=3D"https://gco.quadientcloud.=
+eu/api/query/Messenger/TrackerQuery?Uri=3Dbsy9OlJaG9bRPULqiSveqo%2fyf%2beyJ=
+V1bizOSoj1TWn5odHRwczovL2djby5xdWFkaWVudGNsb3VkLmV1L2FwaS9xdWVyeS9NZXNzZW5n=
+ZXIvTGFuZGluZ1BhZ2VRdWVyeT9CYXRjaElkPTM0NjAxNTk5OTMmTGFuZGluZ1BhZ2VJZD1EbXh=
+FVGZocGtDYlRUcEhjUW1LWklPdl9KaEUx&amp;Data=3DCewtDqcr2xa4ntPGgzGYaXPDYG05YZ=
+8novtltp1t2QkzNDYwMTU5OTkzLTIxOS0y" style=3D"color:#505050;">aqu=C3=AD</a><=
+/span></div>
+</td>
+</tr>
+<tr><td valign=3D"top" height=3D"15" width=3D"100%" style=3D"padding:0px 38=
+px 0px 38px;"><div style=3D"text-align:left;text-align-last:auto;margin-bot=
+tom:0px;margin-left:6px;margin-right:15px;"><span style=3D"font-family:Aria=
+l,Helvetica,sans-serif;font-size:12px;color:#505050;font-style:normal;font-=
+weight:normal;">=C2=A9 Occident GCO S.A.U. de Seguros y Reaseguros.</span><=
+/div>
+</td>
+</tr>
+<tr><td valign=3D"top" height=3D"15" width=3D"100%" style=3D"padding:0px 38=
+px 0px 38px;"><div style=3D"text-align:left;text-align-last:auto;margin-bot=
+tom:0px;margin-left:6px;margin-right:15px;"><span style=3D"font-family:Aria=
+l,Helvetica,sans-serif;font-size:12px;color:#505050;font-style:normal;font-=
+weight:bold;"><a href=3D"https://gco.quadientcloud.eu/api/query/Messenger/T=
+rackerQuery?Uri=3De7Hki4Q9olLzYqLle5nduRmFW28n1KCtXU7D5MT%2fXk1odHRwczovL3d=
+3dy5vY2NpZGVudC5jb20%3d&amp;Data=3DNDVNHHlQBLMqZssqTfZ40DZ5eMLB1EnNVhpvndQD=
+KXczNDYwMTU5OTkzLTIxOS0w" style=3D"color:#505050;">www.occident.com</a></sp=
+an></div>
+</td>
+</tr>
+<tr><td valign=3D"top" width=3D"100%" style=3D"padding:19px 38px 0px 38px;"=
+><span style=3D"line-height:13px;">&nbsp;</span><div style=3D"text-align:le=
+ft;text-align-last:auto;"></div>
+</td>
+</tr>
+</table>
+<!--[if mso]></center><![endif]--></div>
+</td>
+</tr>
+</table>
+</div>
+</td>
+</tr>
+</tbody></table>
+<!--[if mso]></center><![endif]--></div>
+</td>
+</tr>
+</table>
+<!--[if mso]></center><![endif]--></div>
+<span id=3D"unsubs" style=3D"font-size:11px;font-family:Arial,Helvetica,san=
+s-serif;color:#999999;"></span>
+<img src=3D"https://gco.quadientcloud.eu/api/query/Messenger/TrackerQuery?U=
+ri=3Dl9lSMyV9X5ZHR9wFkf2QMCO8kHMmno%2fCn7dtwTRgKelodHRwczovL2djby5xdWFkaWVu=
+dGNsb3VkLmV1L21lc3Nlbmdlci9tYWlsL3RyYWNrYWJsZS5wbmc%3d&amp;Data=3D3e%2bQEm8=
+OLCCq%2fb4iNLVZ3aqnjJIn4U3czlZjkBpVAPkzNDYwMTU5OTkzLTIxOS0z" alt=3D"" heigh=
+t=3D"1" width=3D"1" border=3D"0"/></body>
+</html>
+=

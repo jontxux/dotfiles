@@ -1,0 +1,137 @@
+Delivered-To: jonbergerandi@gmail.com
+Received: by 2002:a5d:6184:0:b0:3a0:718d:2fb9 with SMTP id j4csp2884433wru;
+        Thu, 15 May 2025 00:44:30 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IHUe/u6nKkNKp5pTiuawUZAOzqtnkkmzm3cmfNDlf6oCI9pz2FyASY/mdqJYJYKExW28rPE
+X-Received: by 2002:a5d:64ef:0:b0:390:e9b5:d69c with SMTP id ffacd0b85a97d-3a353740348mr1199989f8f.25.1747295069726;
+        Thu, 15 May 2025 00:44:29 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1747295069; cv=none;
+        d=google.com; s=arc-20240605;
+        b=RDdxAMRPrkE/5028jY3vadC7W5Y9k0JMzLPhlqkOzreminTGtis/HkTvikFbC7ooLm
+         UHefCv66+qpoJeZnO3wQgcZ/rh08yvwyu5+ls9lNMdXYqPRJEEBlYH691yEiEPbKCq8r
+         dX9QwOVJqf/Ey7iE2qVv606/ssz6tDEFGZPx3BLpDzOz83CNfxsLAK0eYs75P1Xam8EV
+         Ta3luML+n++Og3N8+R+5LfUvrkEnhoYbwgny2Hu3uP8wkz41dZ83fszGd1T/sKDiDvFZ
+         UH9ztYamMNwRKJR8MRV8ZRAnjPJtYbp62VUe/qRa2vujyAiSjkzyF6IPFcOIf/bTppmF
+         rAEA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=mime-version:date:to:from:subject:dkim-signature:dkim-filter
+         :message-id;
+        bh=HNzGlt5DVZMVze46KbswRdNmNk07RqA9iPtDptDpwDo=;
+        fh=rSDwJz6ZdtcTC8myiO2A84MXxnnaDfKQdrLgMUc62uM=;
+        b=fonXZvbi9eFQTMEfOA766ktpGDq83iEyY4exgCKoYM92RhXqOxa6xh4B8LPccNmxJG
+         MesdG2E93GsAbirZnDpEr044MfDB/+CizhMnmtOeoiuZfSnFf3tQKKZZFGlPcSKFy3Gj
+         2FWHPxHVyZV+ilO3PblwdCLzU8uGU5HXQ6D20wK7UTMzgJEzCwzEgtFHTwhnlWYIMl4j
+         BlPjMQQasHnSbP9y77GiBi88+MMwV6voObIF3CbWD3Ay4EC48rlwfqP1sXDdDCTjKs1a
+         V37fhT14vHbY5RkUBHXA+mYsKDMKFGIFQnj9cNI0+g7vok/eU2MsDUgIsn/SZtRpkvOA
+         S1lQ==;
+        dara=google.com
+ARC-Authentication-Results: i=1; mx.google.com;
+       dkim=pass header.i=@ine.es header.s=dkim2 header.b=pLGKDhlD;
+       spf=pass (google.com: domain of ine33c@ine.es designates 195.254.149.6 as permitted sender) smtp.mailfrom=ine33c@ine.es;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=ine.es
+Return-Path: <ine33c@ine.es>
+Received: from remesas.ine.es (remesas.ine.es. [195.254.149.6])
+        by mx.google.com with ESMTPS id ffacd0b85a97d-3a35930069dsi223845f8f.518.2025.05.15.00.44.29
+        for <jonbergerandi@gmail.com>
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Thu, 15 May 2025 00:44:29 -0700 (PDT)
+Received-SPF: pass (google.com: domain of ine33c@ine.es designates 195.254.149.6 as permitted sender) client-ip=195.254.149.6;
+Authentication-Results: mx.google.com;
+       dkim=pass header.i=@ine.es header.s=dkim2 header.b=pLGKDhlD;
+       spf=pass (google.com: domain of ine33c@ine.es designates 195.254.149.6 as permitted sender) smtp.mailfrom=ine33c@ine.es;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=ine.es
+Message-ID: <68259b5d.df0a0220.5e248.6260SMTPIN_ADDED_MISSING@mx.google.com>
+Received: from ine33c (unknown [10.58.33.67])
+	by remesas.ine.es (Postfix) with SMTP id 408C42EAE
+	for <jonbergerandi@gmail.com>; Thu, 15 May 2025 09:44:29 +0200 (CEST)
+DKIM-Filter: OpenDKIM Filter v2.11.0 remesas.ine.es 408C42EAE
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ine.es; s=dkim2;
+	t=1747295069; bh=HNzGlt5DVZMVze46KbswRdNmNk07RqA9iPtDptDpwDo=;
+	h=Subject:FROM:TO:DATE:From;
+	b=pLGKDhlDFYMOEA8qM9RVkxhUij5ZbNiRWbhyoCvC8WuQzwQDjn9slZHKoKltAKptX
+	 sutw5YO0lez1N7DgPQm/3T9CfwhttlskU4oisBUooe/opWHS6wCC66aF6q1lHNB5F+
+	 M049ZSSgFa8646mNuZHsOJ8qrxWexwPKAg+tn2+E=
+Subject: =?ISO-8859-1?Q?Solicitud_de_datos_2001330000U__=AD_Ag:_A02?=
+FROM: ine33c@ine.es
+TO: jonbergerandi@gmail.com
+DATE: Thu, 15 May 2025 09:44:29 +0200
+MIME-Version: 1.0
+Content-Type: multipart/mixed;
+	boundary="=_000_0002_01BD22EE.C1291DA0"
+X-Priority: 3
+
+Esto es un mensaje multiparte en formato MIME
+--=_000_0002_01BD22EE.C1291DA0
+Content-Type: text/plain;
+	charset="ISO-8859-1"
+Content-Transfer-Encoding: 8bit
+
+Encuesta: Encuesta de Ocupación en Alojamientos Turísticos. Apartamentos turísticos.
+Periodo de referencia: PRIMERA quincena de Mayo 2025
+
+LOGOXO
+Datos referidos al apartamento  :
+                 LOGOXO
+ sito en :
+                 HERRIKOBARRA 1
+                 Zarautz
+                 GIPUZKOA
+
+Plazo de remisión: CINCO DÍAS  siguientes a los que se refieren los datos.
+
+Persona de contacto en el INE:  
+       Carmen    Fernández  900344332  
+       email: ine33c@ine.es
+       fax:  900343331 
+__________________________________________________________________
+
+Estimado/a Sr/Sra:
+
+El Instituto Nacional de Estadistica (INE) le comunica que se ha abierto el plazo de recogida de informacion para un nuevo periodo de referencia de la encuesta indicada en el encabezamiento de este mensaje.
+
+La cumplimentación de este cuestionario por Internet  se puede realizar de forma rápida y segura  a través de la dirección que se indica a continuación, siendo necesario introducir, para este cuestionario, las siguientes claves de acceso:
+          Para acceder al cuestionario por ARCE:   https://arce.ine.es 
+          Nº de Orden:2001330000U
+          Dígito Control (DC):      wxdtl
+
+
+La informacion que proporcione esta protegida por el Secreto Estadistico (Ley de la Funcion Estadistica Publica de 9 de Mayo de 1989) y que la Ley 13/1996 precisa la colaboracion estadistica, considerando esta encuesta de cumplimentacion obligatoria.
+
+Asimismo, en cumplimiento de la legislación vigente sobre protección de datos, al final de esta e-mail puede consultar información básica a este respecto.
+   
+Finalmente, le indicamos que los resultados estadisticos de las encuestas del INE pueden ser consultados en la pagina web http://www.ine.es, concretamente en el apartado INEbase.
+ 
+
+Dandole anticipadamente las gracias por su colaboracion, le saluda atentamente:
+     
+Unidad de Recogida de Datos
+Instituto Nacional de Estadistica
+
+
+__________________________________________________________________
+
+INFORMACION BASICA SOBRE PROTECCION DE DATOS:
+
+Responsable:               Instituto Nacional de Estadística.
+Finalidad:                     Realizacion de esta Encuesta del Plan Estadistico Nacional.
+Legitimacion:                Cumplimiento de una misión realizada en interés público o en el ejercicio de poderes públicos.
+Destinatarios:               No se ceden datos a terceros, salvo obligación legal.
+Derechos:                    De acuerdo con los artículos 89.2 del Reglamento 2016/679 relativo a la protección de datos de personas físicas y 25.3 de la Ley Orgánica 3/2018 de Protección de Datos Personales y Garantía de Derechos Dígitales no podrán ejercerse los derechos de acceso, rectificación, oposición y limitación de tratamiento.
+Informacion Adicional:   Puede consultar la informacion adicional y detallada sobre Proteccion de Datos en nuestra pagina web: http://www.ine.es/proteccion_datos/oe/
+ 
+ 
+La informacion incluida en el presente correo electronico es CONFIDENCIAL, siendo para el uso exclusivo del destinatario arriba mencionado. Si usted lee este mensaje y no es el destinatario señalado, el empleado o el agente responsable de entregar el mensaje al destinatario, o ha recibido esta comunicacion por error, le informamos que esta totalmente prohibido cualquier almacenamiento, divulgacion, distribucion o reproduccion de esta comunicacion y de los archivos que pueda contener, y le rogamos que nos lo notifique, nos devuelva el mensaje original a la direccion arriba mencionada y borre el mensaje.
+ 
+Muchas gracias.
+ 
+---------------------------------
+INSTITUTO NACIONAL DE ESTADISTICA
+Carmen Fernández Suarez
+Telf.: 900344332 (Ext.: 62562) 
+Fax: 900343331
+---------------------------------
+Nota: en este mensaje se eliminan intencionadamente todos los acentos para evitar
+problemas con otras versiones de correo electronico.
+ 
+ 
+
+--=_000_0002_01BD22EE.C1291DA0--

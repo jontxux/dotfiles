@@ -1,0 +1,2 @@
+text/html; w3m -I %{charset} -dump -T text/html; copiousoutput;
+application/pdf; /usr/bin/zathura %s; /usr/bin/firefox %s;

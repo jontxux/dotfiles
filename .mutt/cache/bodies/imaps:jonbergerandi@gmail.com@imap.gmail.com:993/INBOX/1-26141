@@ -1,0 +1,132 @@
+Delivered-To: jonbergerandi@gmail.com
+Received: by 2002:a5d:6090:0:b0:3a4:d2f7:ad59 with SMTP id w16csp871655wrt;
+        Mon, 26 May 2025 13:26:39 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IFwCZMw1EJdj3yOpgVbH+KZ+oP+o/rZDtLBs+1d4OBbSGePC7/61mXx0XVz99kfo2IG5Df3
+X-Received: by 2002:a05:600c:64c6:b0:442:ffa6:d07e with SMTP id 5b1f17b1804b1-44c9141d996mr76029265e9.1.1748291199441;
+        Mon, 26 May 2025 13:26:39 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1748291199; cv=none;
+        d=google.com; s=arc-20240605;
+        b=G9V/uyR7DpJOg8Nscv8u8oCXb/vXakT48Gdo0iqTUw+VwqGpKT5nhVOXU+E2vzS5vF
+         vOEX/o9CT6BWI04OAQ4mkqa0B5xnqjyUeuSbwAlFXSglC0mOxeoIDLKNaA8XZnq8URbd
+         R56N9LZ20jSYkMhUnxcnbuIdsjcm4NA4DNb0p4MrmOrG8pO9GW/6i2+m8O28SLMsTpCC
+         zYD5MRuG4Tmfve2IYY8SOF/HNHCjsw7kcDI2AhrhK+wrvZv4EfF4lUfrF9C9VjzIUVj7
+         FOC3m1mWtnOTmaOC8AMdz2C9Ww1uK8j3r4GdCNjH1TA+diR30/giu9QuX8xDigQqg4KY
+         hEYA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:message-id:to:from:subject:mime-version
+         :date:sender:dkim-signature:dkim-signature;
+        bh=Z2AcduBUOHiQY6WwoQUfbCltpMnpvrk0ExjFs95htGI=;
+        fh=wkkqLYCl92ki55fN6gChRYiURdmaTgMifRf7A/JcplY=;
+        b=S1MjHQwv4P2X7k6QM9Qg8v0bDqAL3qugmQXMZRzr0bGMQIk1q37Vgaumz1yiDr/Ne6
+         Tf5aUv75wXlyLwmTTN6pfYpbO8h8i6Fxq0AByYDw74BLxAqiXuB1hql9wob4gB7efp2G
+         RBY8CLjwW+bKEq2k2SPK1gfkwjwRe0b0Oi33/AIK6KVZlMqgIyrSTDiVz1iWMG9g8KIB
+         6XMT4fNZn8SZ4d8KUa5w/gdVH3Ht7BPGiK/Cp5A8GH9Yuu7C8u+MViC3nN0UNEAufsX6
+         wWDf6+LbiSKEnHUrnBY8lcZjE4icYk5QWI8EFHNlzl3HPBynQkwn0ezsGm+tFpVxIKj9
+         fduw==;
+        dara=google.com
+ARC-Authentication-Results: i=1; mx.google.com;
+       dkim=pass header.i=@messaging.lodgify.com header.s=mta header.b="IhsrNJ/b";
+       dkim=pass header.i=@eu.mailgun.org header.s=krs2 header.b=EmHqznVs;
+       spf=pass (google.com: domain of bounce+b17d10.b0eab-jonbergerandi=gmail.com@messaging.lodgify.com designates 198.244.61.122 as permitted sender) smtp.mailfrom="bounce+b17d10.b0eab-jonbergerandi=gmail.com@messaging.lodgify.com";
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=lodgify.com
+Return-Path: <bounce+b17d10.b0eab-jonbergerandi=gmail.com@messaging.lodgify.com>
+Received: from a122.a4959fe4.euw1.send.eu.mailgun.net (a122.a4959fe4.euw1.send.eu.mailgun.net. [198.244.61.122])
+        by mx.google.com with UTF8SMTPS id 5b1f17b1804b1-447f1ef03c5si127369955e9.68.2025.05.26.13.26.39
+        for <jonbergerandi@gmail.com>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 26 May 2025 13:26:39 -0700 (PDT)
+Received-SPF: pass (google.com: domain of bounce+b17d10.b0eab-jonbergerandi=gmail.com@messaging.lodgify.com designates 198.244.61.122 as permitted sender) client-ip=198.244.61.122;
+Authentication-Results: mx.google.com;
+       dkim=pass header.i=@messaging.lodgify.com header.s=mta header.b="IhsrNJ/b";
+       dkim=pass header.i=@eu.mailgun.org header.s=krs2 header.b=EmHqznVs;
+       spf=pass (google.com: domain of bounce+b17d10.b0eab-jonbergerandi=gmail.com@messaging.lodgify.com designates 198.244.61.122 as permitted sender) smtp.mailfrom="bounce+b17d10.b0eab-jonbergerandi=gmail.com@messaging.lodgify.com";
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=lodgify.com
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=messaging.lodgify.com; q=dns/txt; s=mta; t=1748291199; x=1748298399;
+ h=Content-Transfer-Encoding: Content-Type: Message-Id: To: To: From: From: Subject: Subject: Mime-Version: Date: Sender: Sender: X-Feedback-Id;
+ bh=Z2AcduBUOHiQY6WwoQUfbCltpMnpvrk0ExjFs95htGI=;
+ b=IhsrNJ/bHpw3Tnj394NvWBwGFr9/ktTjtDyikLeInqQEbb/zcfCKmntJVvBmGZM/tQpQ9p0xNmf352EoD4BTaex0+EonhpSruVAAd3yDVbe4tVNiEmvMh+kqImpC3HyP+D47PhxI3qrMk2dBYWUxd7kxlpViVNafrlU19YSUE/w=
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=eu.mailgun.org; q=dns/txt; s=krs2; t=1748291199; x=1748298399;
+ h=Content-Transfer-Encoding: Content-Type: Message-Id: To: To: From: From: Subject: Subject: Mime-Version: Date: Sender: Sender: X-Feedback-Id;
+ bh=Z2AcduBUOHiQY6WwoQUfbCltpMnpvrk0ExjFs95htGI=;
+ b=EmHqznVsRuhSPTlvgqkcLuktYvmNLESQQtZuuHY9ULGFqI7kOBz2Jo6hgDM2WDlh4IupsrXOX5KZPrlqQy5Dh1A4uzLGsJEckr3GClcROBJKXZSWyQmNV3my3AObV987/Qkqx5s39Yr2P+Tg+xcFZ7Uk/2Ngaa5Ppxn6iBWejB4=
+X-Mailgun-Sid: WyI3ZWI5ZiIsImpvbmJlcmdlcmFuZGlAZ21haWwuY29tIiwiYjBlYWIiXQ==
+X-Feedback-Id: no-reply@messaging.lodgify.com::64b7e1f9105d5867fadafd8c:mailgun
+Received: by ff3894ab0cb6 with HTTP id 6834ce7f87afdd617e02ffd5; Mon, 26 May 2025
+ 20:26:39 GMT
+X-Mailgun-Sending-Ip-Pool-Name: 
+X-Mailgun-Sending-Ip-Pool: 
+X-Mailgun-Sending-Ip: 198.244.61.122
+Sender: no-reply@messaging.lodgify.com
+Date: Mon, 26 May 2025 20:26:39 +0000
+Mime-Version: 1.0
+Subject: Nueva consulta: Cynthia (1 noches, llegada: may. 28 2025)
+From: Lodgify <no-reply@messaging.lodgify.com>
+To: Jon Bergerandi <jonbergerandi@gmail.com>
+X-Mailgun-Secondary-Dkim: messaging.lodgify.com,mta
+X-Mailgun-Secondary-Dkim-Public: messaging.lodgify.com,lodgify1
+X-Original-From: no-reply@messaging.lodgify.com
+X-ThreadId: 7170d108-1bff-478f-9d04-e569b3c88455
+X-Notification-Type: GuestMakesContactEnquiry
+X-Lodgify-Id: a89ac34c-c818-4be5-b197-d74cf054ab6c
+Message-Id: <20250526202639.b4d0028f79152545@messaging.lodgify.com>
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+
+<html>
+<body>
+<p>Hola Jon,</p>
+<p>Has recibido la siguiente consulta a trav=C3=A9s de Airbnb:</p>
+
+
+<h4>DETALLES DE LA CONSULTA</h4>
+<p>
+	<strong>Llegada:</strong> may. 28 2025 <br/>
+	<strong>Salida:</strong> may. 29 2025<br/>
+	<strong>Noches:</strong> 1<br/>
+	<strong>Personas:</strong> 3<br/>
+	<strong>Propiedad:</strong> Logoxo 1: En el casco antiguo - Zarautz
+</p>
+
+
+<h4>DATOS DEL HU=C3=89SPED</h4>
+<p>
+	<strong>Nombre:</strong> Cynthia
+</p>
+
+
+<h4>MENSAJE</h4>
+<p>Bonjour, <br/>
+Nous souhaiterions s=C3=A9journer dans votre logement mais je souhaiterais =
+savoir si il =C3=A9t=C3=A9 possible d'arriver avant dans la matin=C3=A9e si=
+ possible car nous voulions profiter du logement plus longtemps ? <br/>
+Merci par avance <br/>
+Cordialement </p>
+
+
+<br/><br/>
+*--------------------------------------------------------------------------=
+----------------------*<br/>
+
+
+<h4>NECESITAS ACTUAR</h4>
+<p>
+	Para responder al hu=C3=A9sped, accede a tu <a href=3D"https://app.lodgify=
+=2Ecom/reservations/inbox/B14304365">sistema de reservas</a>.
+</p>
+
+
+*--------------------------------------------------------------------------=
+----------------------*<br/>
+<p>
+Saludos cordiales,<br/>
+Tu equipo de Lodgify
+</p>
+<p>
+Lodgify is a brand of Codebay Solutions Ltd., Magma House, 16 Davy Court Wa=
+y, Castle Mound Way, Rugby, Warwickshire, CV23 0UZ, United Kingdom
+</p><br/>
+<img width=3D"1" height=3D"1" alt=3D"" src=3D"http://email.messaging.lodgif=
+y.com/o/eJwcyV0KwyAMAODT1McSUxP1IYcxRp2jP9DCYLcf7PkzUWhFXRMfQ8Lsfc7uJbwlb71=
+sylZTMGaNpLVTjZCYDdwUBCQgZATkLa8aDABTj9kTUqAlwNGep4x5jnW_bMz-Xet1uFve16ntHu=
+0up80lwDjK3P_2EfwFAAD__1f8Kp0"></body>
+</html>

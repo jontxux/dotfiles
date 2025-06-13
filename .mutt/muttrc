@@ -1,0 +1,137 @@
+# ==============================================
+# Configuración básica
+# ==============================================
+set realname = "Jon Bergerandi Loidi"
+set from = "jonbergerandi@gmail.com"
+set editor = "vim"  # o tu editor preferido
+
+# ==============================================
+# Configuración SMTP
+# ==============================================
+set sendmail = "/usr/bin/msmtp"
+set use_from = yes
+set envelope_from = yes
+
+# ==============================================
+# Carpetas especiales Gmail
+# ==============================================
+set mbox_type = Maildir
+set folder = "~/Mail/gmail"
+set spoolfile = "+INBOX"
+set postponed = "+[Gmail]/Borradores"
+set record = "+[Gmail]/Enviados"
+set trash = "+[Gmail]/Papelera"
+
+# ==============================================
+# Interfaz y visualización
+# ==============================================
+set pager_index_lines = 10   # Mostrar 10 líneas de índice
+set pager_context = 5        # Contexto al navegar
+set menu_scroll = yes        # Scroll suave
+set sort = threads           # Ordenar por hilos
+set sort_aux = reverse-date  # Más recientes primero
+
+# ==============================================
+# Sidebar Configuration
+# ==============================================
+set sidebar_visible = yes       # Mostrar panel lateral
+set sidebar_width = 30          # Ancho del panel
+set sidebar_folder_indent = yes # Indentar subcarpetas
+set sidebar_format = "%B%?F? [%F]? %* %?N?%N/?%S" # Formato
+
+mailboxes = +INBOX \
+            "+[Gmail]/Todos" \
+            "+[Gmail]/Borradores" \
+            "+[Gmail]/Enviados" \
+            "+[Gmail]/Papelera" \
+            "+[Gmail]/Spam" \
+            "+[Gmail]/Destacados" \
+            +*
+
+# Navegación sidebar
+bind index,pager <left> sidebar-prev
+bind index,pager <right> sidebar-next
+bind index,pager <return> sidebar-open
+
+# Cambiar carpeta seleccionada
+macro index,pager \` "<enter-command>sidebar-toggle-visible<enter>" "Toggle sidebar"
+
+# ==============================================
+# Atajos personalizados (Gmail style)
+# ==============================================
+
+# Navegación rápida
+macro index,pager \Cu "<sidebar-prev>" "Carpeta anterior"
+macro index,pager \Cd "<sidebar-next>" "Carpeta siguiente"
+
+# ==============================================
+# Optimizaciones
+# ==============================================
+
+# ==============================================
+# Optimización para Gmail
+# ==============================================
+# set maildir_trash = yes         # Sincroniza con Papelera de Gmail
+
+# ==============================================
+# Seguridad y certificados
+# ==============================================
+set certificate_file = ~/.mutt/certificates
+
+# ==============================================
+# Visualización mejorada de correos
+# ==============================================
+
+# Orden de preferencia para tipos MIME
+alternative_order text/plain text/enriched text/html
+
+# Procesar HTML con w3m (instalar primero: sudo apt install w3m)
+auto_view text/html
+set mailcap_path = ~/.mutt/mailcap
+
+# Mapear G para ir al final
+bind index gg first-entry
+bind index G last-entry
+
+ignore *
+unignore from date subject to cc
+
+# ==============================================
+# Configuración de colores (basada en foot.ini)
+# ==============================================
+
+# Colores base
+color normal          color7 color0   # Texto normal (d5c4a1 sobre 282828)
+color indicator       color3 color8   # Indicador de scroll (fabd2f sobre 665c54)
+color status          color0 color4   # Barra de estado (282828 sobre 83a598)
+color tree            color6 color0   # Árbol de hilos (8ec07c sobre 282828)
+color sidebar_highlight color0 color4 # Carpeta seleccionada en sidebar
+color sidebar_divider color8 color0   # Divisor de sidebar (665c54)
+
+# Cabeceras de correo
+color header          color4 color0 "From:"     # Azul para Remitente
+color header          color4 color0 "Subject:"  # Azul para Asunto
+color header          color5 color0 "Date:"     # Magenta para Fecha
+
+# Lista de mensajes (índice)
+color index           color4 color0 "~N"       # Nuevos mensajes en azul
+color index           color3 color0 "~U"       # No leídos en amarillo
+color index           color1 color0 "~F"       # Marcados en rojo
+color index           color8 color0 "~D"       # Borradores en gris
+
+# Cuerpo del mensaje
+color quoted          color8 color0   # Cita nivel 1 (gris)
+color quoted1         color2 color0   # Cita nivel 2 (verde)
+color quoted2         color5 color0   # Cita nivel 3 (magenta)
+color quoted3         color6 color0   # Cita nivel 4 (cyan)
+color signature       color2 color0   # Firma en verde (b8bb26)
+
+# Elementos especiales
+color attachment      color5 color0   # Adjuntos en magenta
+color search          color0 color3   # Búsqueda (fondo amarillo)
+color progress        color8 color0   # Barra de progreso en gris
+
+# Alertas importantes
+color error           color1 color0   # Errores en rojo
+color message         color3 color0   # Mensajes informativos en amarillo
+color tilde           color8 color0   # Espacio vacío al final (gris) color sidebar_highlight $color_blue default

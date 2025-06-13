@@ -1,0 +1,1036 @@
+Delivered-To: jonbergerandi@gmail.com
+Received: by 2002:a5d:6e89:0:b0:3a0:718d:2fb9 with SMTP id k9csp2701120wrz;
+        Wed, 7 May 2025 04:14:06 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IH2FiVYeH53OhR23IMe3Be0vy8yxry3+9LouoSQ2GyJ5/vADp91ThN0GWljky3vg4QgBx1Q
+X-Received: by 2002:a5d:588b:0:b0:39f:601:85fb with SMTP id ffacd0b85a97d-3a0b4a04e27mr2389616f8f.2.1746616446419;
+        Wed, 07 May 2025 04:14:06 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1746616446; cv=none;
+        d=google.com; s=arc-20240605;
+        b=HDGn3/KtAmddOTnn/tl+Ku2ZrTLnwAdSuBfiVz6QloSYULvu3Wo2P9tjZPXNEkS1+e
+         5nfCfEdvdUOAS9wQ2jFO+XT6VZ8i31D8KTY6CKSomRTTObTGbXUo1BKvG/7G04OOqz3x
+         5pev47jrHLGmQ4La0mFl3h74VlhQAvZ2fWSbSFXvq6rpD16/k3/2yZx/WWUDcRZxE43O
+         A/PTWCu0h+Fl/UgNhAYh+E0Nfc5CzIicZke/StO8XfiuxY1CqyKug/TZ/P2r5xEe6v4Q
+         9HGu6hNwrc7AxZem4yrD3CeqhDEtGzQnQPvcuV8E8W+dZzf5fMnaB6mIrQNlQV5l52E0
+         ezWw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=date:feedback-id:list-unsubscribe-post:list-unsubscribe
+         :content-transfer-encoding:mime-version:subject:message-id:to:from
+         :dkim-signature:dkim-signature;
+        bh=MwP7kEycdtH7mNchoPNTunbAZFwQ//J6bgS0zXGVFUg=;
+        fh=rSDwJz6ZdtcTC8myiO2A84MXxnnaDfKQdrLgMUc62uM=;
+        b=DzSDjKMkrigzF3xrWUZQqpX9jrTcqGPg02Sdo3+23d6BwgvgY3u0YSROBeyjvAmWWH
+         YAKwgBqADNEZ7RRNFr+XVYGB/SMqP+aMth6XjlCR6zqNgsTzjLMh50yy4hzAU7N9DGwg
+         cVSKqB+zoK7cL2/pCrOGd5FrozJnYFmd8bL8Q31m/TEuxDzDT28ExkWIrO8Ry+IhjNvI
+         sinrwVWs6xSbc6Rb57ZHQHaxCWjss2TTT7pr8zOU8LHW3mLzhFS1vlNFudTGnfc+z/Qo
+         FF01aLbt6ouO132fEpGzCDwso2s8CMwT+FYn4AzfaoT/5lerVjQVMOOtPv+hJL7yKsta
+         J0uQ==;
+        dara=google.com
+ARC-Authentication-Results: i=1; mx.google.com;
+       dkim=pass header.i=@zarautz.eus header.s=ipz2 header.b=Xo+UjySL;
+       dkim=pass header.i=@mrelayip.com header.s=ipzs1 header.b="ZB/NQuji";
+       spf=pass (google.com: domain of b-yr5zgoan901qrk-ksyxkzlx22xltq@emails.zarautz.eus designates 82.199.156.79 as permitted sender) smtp.mailfrom=b-yr5zgoan901qrk-ksyxkzlx22xltq@emails.zarautz.eus;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=zarautz.eus
+Return-Path: <b-yr5zgoan901qrk-ksyxkzlx22xltq@emails.zarautz.eus>
+Received: from mail-ca.s156.mailrelay-iv.com (mail-ca.s156.mailrelay-iv.com. [82.199.156.79])
+        by mx.google.com with ESMTPS id ffacd0b85a97d-3a099ae30a9si8363929f8f.219.2025.05.07.04.14.06
+        for <jonbergerandi@gmail.com>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 07 May 2025 04:14:06 -0700 (PDT)
+Received-SPF: pass (google.com: domain of b-yr5zgoan901qrk-ksyxkzlx22xltq@emails.zarautz.eus designates 82.199.156.79 as permitted sender) client-ip=82.199.156.79;
+Authentication-Results: mx.google.com;
+       dkim=pass header.i=@zarautz.eus header.s=ipz2 header.b=Xo+UjySL;
+       dkim=pass header.i=@mrelayip.com header.s=ipzs1 header.b="ZB/NQuji";
+       spf=pass (google.com: domain of b-yr5zgoan901qrk-ksyxkzlx22xltq@emails.zarautz.eus designates 82.199.156.79 as permitted sender) smtp.mailfrom=b-yr5zgoan901qrk-ksyxkzlx22xltq@emails.zarautz.eus;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=zarautz.eus
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; s=ipz2; d=zarautz.eus;
+ h=From:To:Message-ID:Subject:MIME-Version:Content-Type:
+ Content-Transfer-Encoding:List-Unsubscribe:List-Unsubscribe-Post:Feedback-ID:
+ Date; i=partehartu@zarautz.eus;
+ bh=MwP7kEycdtH7mNchoPNTunbAZFwQ//J6bgS0zXGVFUg=;
+ b=Xo+UjySLxAkVZ2XHQSSNTlSg9yA8/AAMcLAcauJCbsDcVhjGx+xbzKNGl1ajpgS/xXAO7COkHZE0
+   BBClhZmSG65/btZjFPXsLMFIYtbOAAMxDhEmf0i8EexPJ9Lj4Pcmbc/ZICB3g4hLTkDNKjJiwxAx
+   4iBGflm+YvjIy0hReuTecks1e2fc7mb4q0+c0JEa/dLN5toB6SSxRd0lmnFGwuSlTppLrOJC+0sJ
+   DV12AZLr7Rrs+idAg7EJPZW7ptYlVRFhY9cWNk2WcFU6QHz/B+P2zu6EbnyHrmx2fW8Lzu3dQLhi
+   yoCOii6PozkAepHK7205SxyqsHiP2Oo9lnjkeA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; s=ipzs1; d=mrelayip.com;
+ h=From:To:Message-ID:Subject:MIME-Version:Content-Type:
+ Content-Transfer-Encoding:List-Unsubscribe:List-Unsubscribe-Post:Feedback-ID:
+ Date;
+ bh=MwP7kEycdtH7mNchoPNTunbAZFwQ//J6bgS0zXGVFUg=;
+ b=ZB/NQujimvUh1j+Bq4UbnXUF2Jk/BLH6Vr/3eFsshSAaviyPF/BpmH0dUhTvD0W0CZyeAR9x3Vo+
+   Rm8Md5Ekug9mvAVhCeKrLn8sZYBenpu2wNfi+KucSVeghTip9xGJKE6oyUbHwUWKxMAVQjLSvQje
+   1bm88wd9L/qDrWig0dMT0xQ4OK1WsKpvf6LRNupkV2fUz+tHeA915Co1xw2J1HX7srtNUK/e+e5c
+   JB2dZRlgwoiNShAJLsGvJK8OzuFZjMW0g3D55/l4LcgxRNX8zhvxx/gb3spYRYXOEqzFC9FHqxOJ
+   ST0fJu+FHrWDzEBGAVaPHxA8Nr33RrdjH3S1XQ==
+Return-Path: <b-yr5zgoan901qrk-ksyxkzlx22xltq@emails.zarautz.eus>
+From: Zarauzko Udala - Partaidetza <partehartu@zarautz.eus>
+To: jonbergerandi@gmail.com
+Message-ID: <1_xKn1XFzmjr@emails.zarautz.eus>
+Subject: Zarautzen Bizi
+MIME-Version: 1.0
+Content-Type: multipart/alternative;
+ boundary="--==_mimepart_681b4066ed9ad_139f6c27655790";
+ charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-SEID: 1_xKn1XFzmjr
+List-Unsubscribe: <mailto:yr5zgoan901qrk-ksyxkzlx22xltq@emails.zarautz.eus>,
+ <https://emails.zarautz.eus/unsubscribe/qr3m/list_unsubscribe?token=5_qutudm&unsubscribe_token=ksyxkzlx22xltq>
+List-Unsubscribe-Post: List-Unsubscribe=One-Click
+Feedback-ID: 456479:456479-26:campaign:IPZMR
+Date: Wed, 7 May 2025 11:14:06 +0000
+
+
+----==_mimepart_681b4066ed9ad_139f6c27655790
+Content-Type: text/plain;
+ charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+Zarautzen Bizi
+
+
+eu ( #eu ) / es ( #es )
+
+Herritar agurgarria:
+
+Zarauzko Udalak etxebizitzaren eta behe solairuetako
+lokalen inguruko datuak biltzeko helburuarekin azterketa bat
+egiteko eskatu zion 2023an IKEI enpresari, eta eskaera horren
+ondorioa 2024ean aurkeztutako =E2=80=9CZarauzko etxebizitzaren egoerari
+eta etxebizitza eta apartamentu turistikoen eraginari buruzko
+azterlana=E2=80=9D izan zen.
+
+Azterlan horrek azaleratutako datuetan oinarrituta
+Zarautzen bizi hausnarketa partekatua martxan jarri du Zarauzko
+Udalak, hainbat gairi heldu eta egun indarrean dauden zenbait
+ordenantza berritzearen eta udal arau propiorik ez duten beste
+zenbait gai arautzearen inguruan hausnartzeko.
+
+Aipatu gogoeta partekatu horren aurkezpen saio
+irekia maiatzaren 13an izango da, 18:00etatik 20:00etara, Santa
+Klara komentuan, eta ez da beharrezkoa izango aurrez izena
+ematea. Saio horretan azalduko da prozesuak oinarri duen
+azterlana, berrikusi nahi den araudia eta baita hausnarketa
+prozesuaren dinamika ere.
+
+Ondoren, 3 lan-saio egingo ditugu. Saio horiek ere irekiak
+izango dira, baina aldez aurretik izena ematea eskatzen dizuegu,
+kokalekua aforoaren arabera ezarriko baitugu. Beraz, lan-saioetan
+parte hartu nahi baduzu, eman izena hemen =
+
+( https://emails.zarautz.eus/c/qr3m/5_qutudm/p1d6wq7zymw ), edo,
+izen-ematea aurrez-aurre egitea nahiago baduzu, zoaz Kale
+Nagusian dagoen Herritarren Arreta Zerbitzura. Lan-saio horiek
+maiatzaren 20an, maiatzaren 27an eta ekainaren 3an egingo dira
+(ordutegia: 18:00etatik 20:00etara).
+
+Azkenik, prozesuaren ondorioak azaltzeko, beste saio ireki
+bat egingo da ekainaren 17an, Santa Klara komentuan, 18:00etatik
+20:00etara.
+
+* Lokalak etxebizitza bihurtzeko ordenantza.
+* Alde Zaharreko eta Zabalguneko Plan Berezietan behe
+solairuetako erabilerari dagokionez jasotzen dena.
+* Udal etxebizitza tasatuen ordenantza.
+* Etxebizitza eta logela turistikoen erregulazioa.
+* Apartamentu turistikoen erregulazioa.
+* Kaleen izaera eta horri lotutako merkataritzaren sustapena.
+* Etxebizitza parkean egin daitezkeen eskuhartzeak.
+
+Saio parte-hartzaile bakoitzaren aurretik, mezu bat
+bidaliko dizugu, zure parte-hartzea baieztatzeko.
+
+Prozesuaren informazio guztia Zarauzko Udaleko Webgunean
+eskuragarri duzu, PARTE HARTU atalean.
+
+Edozein zalantza edo informazio gehiago behar izanez gero,
+jarri gurekin harremanetan partehartu@zarautz.eus helbidearen
+bitartez.
+
+Eskerrik asko zure arretagatik,
+
+eu ( #eu ) / es ( #es )
+
+Estimado/a ciudadano/a:
+
+El Ayuntamiento de Zarautz encarg=C3=B3 a la empresa IKEI en
+2023 la realizaci=C3=B3n de un estudio con el fin de recabar datos
+sobre la vivienda y los locales de las plantas bajas. El
+resultado de esta solicitud fue el =E2=80=9CEstudio sobre la situaci=C3=B3=
+n de
+la vivienda en Zarautz y el impacto de las viviendas y
+apartamentos tur=C3=ADsticos=E2=80=9D presentado en 2024.
+
+A partir de los datos extra=C3=ADdos por dicho estudio, El
+Ayuntamiento de Zarautz ha puesto en marcha una reflexi=C3=B3n
+compartida llamada Zarautzen bizi, con el fin de abordar diversos
+temas y reflexionar sobre la renovaci=C3=B3n de algunas ordenanzas
+actualmente en vigor y la regulaci=C3=B3n de otras cuestiones que
+carecen de normativa municipal propia.
+
+La sesi=C3=B3n abierta de presentaci=C3=B3n de esta reflexi=C3=B3n
+compartida tendr=C3=A1 lugar el 13 de mayo, de 18:00h a 20:00h, en el
+convento de Santa Clara y no ser=C3=A1 necesaria la preinscripci=C3=B3n. =
+En
+esta sesi=C3=B3n se explicar=C3=A1 el estudio en el que se basa el proces=
+o,
+la normativa que se quiere revisar y la din=C3=A1mica del proceso de
+reflexi=C3=B3n.
+
+Despu=C3=A9s, realizaremos 3 sesiones de trabajo. Estas sesiones
+tambi=C3=A9n ser=C3=A1n abiertas, pero os pedimos que os inscrib=C3=A1is
+previamente, ya que estableceremos la ubicaci=C3=B3n seg=C3=BAn aforo. Po=
+r
+lo tanto, si quieres participar en las sesiones de trabajo,
+inscr=C3=ADbete aqu=C3=AD =
+
+( https://emails.zarautz.eus/c/qr3m/5_qutudm/ix2ups7pidi ) o, si
+prefieres hacer la inscripci=C3=B3n de manera presencial, acude al
+Servicio de Atenci=C3=B3n Ciudadana situado en Kale Nagusia. Estas
+sesiones de trabajo se realizar=C3=A1n los d=C3=ADas 20 de mayo, 27 de ma=
+yo
+y 3 de junio (horario: de 18:00h a 20:00h).
+
+Por =C3=BAltimo, se realizar=C3=A1 una nueva sesi=C3=B3n abierta de
+conclusiones del proceso el 17 de junio en el convento de Santa
+Clara, de 18:00h a 20:00h.
+
+Entre otras cuestiones, reflexionaremos sobre las
+siguientes cuestiones:
+
+* Ordenanza Municipal de cambio de uso de locales a
+viviendas.
+* La contemplada en los Planes Especiales del Casco Viejo y del
+Ensanche para el uso en plantas bajas.
+* Ordenanza reguladora de la vivienda tasada municipal de
+Zarautz.
+* Regulaci=C3=B3n de viviendas y habitaciones tur=C3=ADsticas.
+* Regulaci=C3=B3n de apartamentos tur=C3=ADsticos.
+* La naturaleza de las calles y la promoci=C3=B3n del comercio.
+* Posibles intervenciones en el parque de viviendas.
+
+Antes de cada sesi=C3=B3n participativa, enviaremos un mensaje
+recordatorio para la confirmaci=C3=B3n de asistencia a las sesiones de
+trabajo.
+
+Toda la informaci=C3=B3n del proceso est=C3=A1 disponible en la
+p=C3=A1gina web del Ayuntamiento de Zarautz, en el apartado PARTE
+HARTU. Para cualquier duda o informaci=C3=B3n adicional, ponte en
+contacto con nosotras a trav=C3=A9s de la direcci=C3=B3n
+partehartu@zarautz.eus.
+
+Atentamente,
+
+Buletin hau ez baduzu gehiago jaso nahi, hau da harpidetza
+kentzeko esteka =
+
+( https://emails.zarautz.eus/unsubscribe/qr3m/form?token=3D5_qutudm )
+.
+
+Si deseas darte de baja de nuestro bolet=C3=ADn, clica aqu=C3=AD =
+
+( https://emails.zarautz.eus/unsubscribe/qr3m/form?token=3D5_qutudm )=
+
+----==_mimepart_681b4066ed9ad_139f6c27655790
+Content-Type: text/html;
+ charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://ww=
+w.w3.org/TR/html4/loose.dtd">
+<html xmlns=3D"http://www.w3.org/1999/xhtml" xmlns:o=3D"urn:schemas-micro=
+soft-com:office:office" xmlns:v=3D"urn:schemas-microsoft-com:vml">
+<head>
+<!--[if gte mso 9]><xml>
+        <o:OfficeDocumentSettings>
+          <o:AllowPNG/>
+            <o:PixelsPerInch>96</o:PixelsPerInch>
+          </o:OfficeDocumentSettings>
+        </xml><![endif]--><!-- fix outlook zooming on 120 DPI windows dev=
+ices --><meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3D=
+UTF-8">
+<meta name=3D"viewport" content=3D"width=3Ddevice-width, initial-scale=3D=
+1">
+<!-- So that mobile will display zoomed in --><meta http-equiv=3D"X-UA-Co=
+mpatible" content=3D"IE=3Dedge">
+<!-- enable media queries for windows phone 8 --><meta name=3D"format-det=
+ection" content=3D"date=3Dno">
+<!-- disable auto date linking in iOS 7-9 --><meta name=3D"format-detecti=
+on" content=3D"telephone=3Dno">
+<!-- disable auto telephone linking in iOS 7-9 -->
+	=
+
+	<title>AMALUR LANDU</title>
+	=
+
+<style>body {
+margin: 0; padding: 0; -ms-text-size-adjust: 100%; -webkit-text-size-adju=
+st: 100%; font-family: 'Roboto Slab', serif;
+}
+.ExternalClass {
+width: 100%;
+}
+.ExternalClass {
+line-height: 100%;
+}
+.ReadMsgBody {
+width: 100%; background-color: #ebebeb;
+}
+img {
+-ms-interpolation-mode: bicubic;
+}
+@media screen and (max-width: 599px) {
+  .force-row {
+    width: 100% !important; max-width: 100% !important;
+  }
+  .container {
+    width: 100% !important; max-width: 100% !important;
+  }
+}
+</style>
+</head>
+<body bgcolor=3D"#F0F0F0" leftmargin=3D"0" marginheight=3D"0" marginwidth=
+=3D"0" style=3D"-ms-text-size-adjust: 100%; -webkit-text-size-adjust: 100=
+%; font-family: 'Roboto Slab', serif; margin: 0; padding: 0;" topmargin=3D=
+"0">
+<div class=3D"ed-preview-text" style=3D"display: none; font-size: 0px; li=
+ne-height: 0px; max-height: 0px; max-width: 0px; opacity: 0; overflow: hi=
+dden; visibility: hidden; mso-hide: all">Zarautzen Bizi</div>
+<!-- 100% background wrapper (grey background) -->
+<table bgcolor=3D"#F0F0F0" border=3D"0" cellpadding=3D"0" cellspacing=3D"=
+0" height=3D"100%" width=3D"100%" style=3D"border-spacing: 0; mso-table-l=
+space: 0pt; mso-table-rspace: 0pt;">
+	<tbody>
+		<tr>
+			<td align=3D"center" bgcolor=3D"#F0F0F0" style=3D"border-collapse: col=
+lapse;" valign=3D"top">
+<br>
+			<a name=3D"eu"> <!-- 600px container (white background) --> </a>
+			<table border=3D"0" cellpadding=3D"0" cellspacing=3D"0" class=3D"conta=
+iner" style=3D"width: 600px; max-width: 600px; border-spacing: 0; mso-tab=
+le-lspace: 0pt; mso-table-rspace: 0pt;" width=3D"600">
+				<tbody>
+					<tr>
+						<td align=3D"left" style=3D"color: #263573; font-size: 12px; font-f=
+amily: Arial, sans-serif; border-collapse: collapse; padding: 0px 0px 0px=
+ 5px;">
+						<p style=3D"color: #263573; font-size: 12px; font-family: Arial, sa=
+ns-serif; display: inline-block;" align=3D"right"><a name=3D"eu"></a><a h=
+ref=3D"#eu" style=3D"color: #263573; font-size: 12px; font-family: Arial,=
+ sans-serif;" target=3D"_top"><strong>eu</strong></a> / <a href=3D"#es" s=
+tyle=3D"color: #263573; font-size: 12px; font-family: Arial, sans-serif;"=
+ target=3D"_top">es</a></p>
+						</td>
+					</tr>
+					<tr>
+						<td align=3D"left" class=3D"container-padding header" style=3D"font=
+-family: 'Roboto Slab', serif; font-size: 24px; font-weight: bold; paddin=
+g-bottom: 0px; color: #DF4726; padding-left: 0px; padding-right: 0px; bor=
+der-collapse: collapse;" bgcolor=3D"#fff"><span class=3D"container-paddin=
+g header" style=3D"font-family: 'Roboto Slab', serif; font-size: 24px; fo=
+nt-weight: bold; padding-bottom: 0px; color: #DF4726; padding-left: 0px; =
+padding-right: 0px; background-color: #fff;"><img src=3D"https://emails.z=
+arautz.eus/data/ae7c863b6cb5c0a663d4b20f0017a74ae8311d6a/media_files/31/o=
+riginal/SAIOA1.jpg" style=3D"width: 600px; height: 381px; -ms-interpolati=
+on-mode: bicubic;" width=3D"600" height=3D"381"></span></td>
+					</tr>
+					<tr>
+						<td align=3D"left" class=3D"container-padding content" style=3D"bor=
+der-collapse: collapse; padding: 12px 24px;" bgcolor=3D"#ffffff">
+						<div class=3D"body-text" style=3D"font-family: 'Roboto Slab', serif=
+; font-size: 14px; line-height: 20px; color: #263573;" align=3D"left">
+<!--/ES-->
+						<p style=3D"font-family: 'Roboto Slab', serif; font-size: 16px; fon=
+t-weight: regular; line-height: 1.3;"><br>
+						<br>
+						<span style=3D"font-size: 12pt;"><span style=3D'font-family: "Times=
+ New Roman",serif;'><span style=3D'font-family: "Arial",sans-serif;'><spa=
+n style=3D"color: black;">Herritar agurgarria:=C2=A0</span></span></span>=
+</span><br>
+						<span style=3D"font-size: 12pt;"><span style=3D'font-family: "Times=
+ New Roman",serif;'>=C2=A0</span></span><br>
+						<span style=3D"font-size: 12pt;"><span style=3D'font-family: "Times=
+ New Roman",serif;'><span style=3D'font-family: "Arial",sans-serif;'><spa=
+n style=3D"color: black;">Zarauzko Udalak etxebizitzaren eta behe solairu=
+etako lokalen inguruko datuak biltzeko helburuarekin azterketa bat egitek=
+o eskatu zion 2023an IKEI enpresari, eta eskaera horren ondorioa 2024ean =
+aurkeztutako=C2=A0</span></span><strong><span style=3D'font-family: "Aria=
+l",sans-serif;'><span style=3D"color: #7ed321;">=E2=80=9CZarauzko etxebiz=
+itzaren egoerari eta etxebizitza eta apartamentu turistikoen eraginari bu=
+ruzko azterlana=E2=80=9D</span></span></strong><span style=3D'font-family=
+: "Arial",sans-serif;'><span style=3D"color: black;"> izan zen.</span></s=
+pan></span></span><br>
+						<span style=3D"font-size: 12pt;"><span style=3D'font-family: "Times=
+ New Roman",serif;'>=C2=A0</span></span><br>
+						<span style=3D"font-size: 12pt;"><span style=3D'font-family: "Times=
+ New Roman",serif;'><span style=3D'font-family: "Arial",sans-serif;'><spa=
+n style=3D"color: black;">Azterlan horrek azaleratutako datuetan oinarrit=
+uta Zarautzen bizi hausnarketa partekatua martxan jarri du Zarauzko Udala=
+k, hainbat gairi heldu eta egun indarrean dauden zenbait ordenantza berri=
+tzearen eta udal arau propiorik ez duten beste zenbait gai arautzearen in=
+guruan hausnartzeko.</span></span></span></span><br>
+						<span style=3D"font-size: 12pt;"><span style=3D'font-family: "Times=
+ New Roman",serif;'>=C2=A0</span></span><br>
+						<span style=3D"font-size: 12pt;"><span style=3D'font-family: "Times=
+ New Roman",serif;'><span style=3D'font-family: "Arial",sans-serif;'><spa=
+n style=3D"color: black;">Aipatu gogoeta partekatu horren aurkezpen saio =
+irekia=C2=A0</span></span><strong><span style=3D'font-family: "Arial",san=
+s-serif;'><span style=3D"color: #7ed321;">maiatzaren 13an izango da, 18:0=
+0etatik 20:00etara, Santa Klara komentuan</span></span></strong><span sty=
+le=3D'font-family: "Arial",sans-serif;'><span style=3D"color: black;">, e=
+ta ez da beharrezkoa izango aurrez izena ematea. Saio horretan azalduko d=
+a prozesuak oinarri duen azterlana, berrikusi nahi den araudia eta baita =
+hausnarketa prozesuaren dinamika ere.</span></span></span></span><br>
+						<span style=3D"font-size: 12pt;"><span style=3D'font-family: "Times=
+ New Roman",serif;'>=C2=A0</span></span><br>
+						<span style=3D"font-size: 12pt;"><span style=3D'font-family: "Times=
+ New Roman",serif;'><span style=3D'font-family: "Arial",sans-serif;'><spa=
+n style=3D"color: black;">Ondoren, 3 lan-saio egingo ditugu. Saio horiek =
+ere irekiak izango dira, baina aldez aurretik izena ematea eskatzen dizue=
+gu, kokalekua aforoaren arabera ezarriko baitugu. Beraz, lan-saioetan par=
+te hartu nahi baduzu, eman izena <a href=3D"https://emails.zarautz.eus/c/=
+qr3m/5_qutudm/p1d6wq7zymw">hemen</a>, edo, izen-ematea aurrez-aurre egite=
+a nahiago baduzu, zoaz Kale Nagusian dagoen Herritarren Arreta Zerbitzura=
+. Lan-saio horiek maiatzaren 20an, maiatzaren 27an eta ekainaren 3an egin=
+go dira (ordutegia: 18:00etatik 20:00etara).</span></span></span></span><=
+br>
+						<span style=3D"font-size: 12pt;"><span style=3D'font-family: "Times=
+ New Roman",serif;'>=C2=A0</span></span><br>
+						<span style=3D"font-size: 12pt;"><span style=3D'font-family: "Times=
+ New Roman",serif;'><span style=3D'font-family: "Arial",sans-serif;'><spa=
+n style=3D"color: black;">Azkenik, prozesuaren ondorioak azaltzeko, beste=
+ saio ireki bat egingo da ekainaren 17an, Santa Klara komentuan, 18:00eta=
+tik 20:00etara.</span></span></span></span><br>
+						<span style=3D"font-size: 12pt;"><span style=3D'font-family: "Times=
+ New Roman",serif;'>=C2=A0</span></span></p>
+
+						<ul>
+							<li><span style=3D"font-size: 12pt;"><span style=3D"color: black;"=
+><span style=3D"tab-stops: list 36.0pt;"><span style=3D'font-family: "Tim=
+es New Roman",serif;'><span style=3D'font-family: "Arial",sans-serif;'>Lo=
+kalak etxebizitza bihurtzeko ordenantza.=C2=A0</span></span></span></span=
+></span></li>
+							<li><span style=3D"font-size: 12pt;"><span style=3D"color: black;"=
+><span style=3D"tab-stops: list 36.0pt;"><span style=3D'font-family: "Tim=
+es New Roman",serif;'><span style=3D'font-family: "Arial",sans-serif;'>Al=
+de Zaharreko eta Zabalguneko Plan Berezietan behe solairuetako erabilerar=
+i dagokionez jasotzen dena.=C2=A0</span></span></span></span></span></li>=
+
+							<li><span style=3D"font-size: 12pt;"><span style=3D"color: black;"=
+><span style=3D"tab-stops: list 36.0pt;"><span style=3D'font-family: "Tim=
+es New Roman",serif;'><span style=3D'font-family: "Arial",sans-serif;'>Ud=
+al etxebizitza tasatuen ordenantza.=C2=A0</span></span></span></span></sp=
+an></li>
+							<li><span style=3D"font-size: 12pt;"><span style=3D"color: black;"=
+><span style=3D"tab-stops: list 36.0pt;"><span style=3D'font-family: "Tim=
+es New Roman",serif;'><span style=3D'font-family: "Arial",sans-serif;'>Et=
+xebizitza eta logela turistikoen erregulazioa.=C2=A0</span></span></span>=
+</span></span></li>
+							<li><span style=3D"font-size: 12pt;"><span style=3D"color: black;"=
+><span style=3D"tab-stops: list 36.0pt;"><span style=3D'font-family: "Tim=
+es New Roman",serif;'><span style=3D'font-family: "Arial",sans-serif;'>Ap=
+artamentu turistikoen erregulazioa.=C2=A0</span></span></span></span></sp=
+an></li>
+							<li><span style=3D"font-size: 12pt;"><span style=3D"color: black;"=
+><span style=3D"tab-stops: list 36.0pt;"><span style=3D'font-family: "Tim=
+es New Roman",serif;'><span style=3D'font-family: "Arial",sans-serif;'>Ka=
+leen izaera eta horri lotutako merkataritzaren sustapena.</span></span></=
+span></span></span></li>
+							<li><span style=3D"font-size: 12pt;"><span style=3D"color: black;"=
+><span style=3D"tab-stops: list 36.0pt;"><span style=3D'font-family: "Tim=
+es New Roman",serif;'><span style=3D'font-family: "Arial",sans-serif;'>Et=
+xebizitza parkean egin daitezkeen eskuhartzeak.</span></span></span></spa=
+n></span></li>
+						</ul>
+						<span style=3D"font-size: 16px;"><span style=3D"font-size: 12pt;"><=
+span style=3D'font-family: "Times New Roman",serif;'>=C2=A0</span></span>=
+<br>
+						<span style=3D"font-size: 12pt;"><span style=3D'font-family: "Times=
+ New Roman",serif;'><span style=3D'font-family: "Arial",sans-serif;'><spa=
+n style=3D"color: black;">Saio parte-hartzaile bakoitzaren aurretik, mezu=
+ bat bidaliko dizugu, zure parte-hartzea baieztatzeko.=C2=A0</span></span=
+></span></span><br>
+						<span style=3D"font-size: 12pt;"><span style=3D'font-family: "Times=
+ New Roman",serif;'>=C2=A0</span></span><br>
+						<span style=3D"font-size: 12pt;"><span style=3D'font-family: "Times=
+ New Roman",serif;'><span style=3D'font-family: "Arial",sans-serif;'><spa=
+n style=3D"color: black;">Prozesuaren informazio guztia Zarauzko Udaleko =
+Webgunean eskuragarri duzu, PARTE HARTU atalean.=C2=A0</span></span></spa=
+n></span><br>
+						<span style=3D"font-size: 12pt;"><span style=3D'font-family: "Times=
+ New Roman",serif;'>=C2=A0</span></span><br>
+						<span style=3D"font-size: 12pt;"><span style=3D'font-family: "Times=
+ New Roman",serif;'><span style=3D'font-family: "Arial",sans-serif;'><spa=
+n style=3D"color: black;">Edozein zalantza edo informazio gehiago behar i=
+zanez gero, jarri gurekin harremanetan <a href=3D"mailto:partehartu@zarau=
+tz.eus" style=3D"color: blue; text-decoration: underline;">partehartu@zar=
+autz.eus</a> helbidearen bitartez.</span></span></span></span><br>
+						<span style=3D"font-size: 12pt;"><span style=3D'font-family: "Times=
+ New Roman",serif;'>=C2=A0</span></span><br>
+						<span style=3D"font-size: 12.0pt;"><span style=3D'font-family: "Ari=
+al",sans-serif;'><span style=3D"color: black;">Eskerrik asko zure arretag=
+atik,=C2=A0</span></span></span></span>
+
+						<p>=C2=A0</p>
+
+						<p style=3D"" align=3D"center">=C2=A0</p>
+
+						<p style=3D"" align=3D"center">=C2=A0</p>
+
+						<hr style=3D"background-color: #cccccc; height: 1px; border-style: =
+none;">
+						<div style=3D"" align=3D"center"><img src=3D"https://emails.zarautz=
+.eus/data/ae7c863b6cb5c0a663d4b20f0017a74ae8311d6a/media_files/26/origina=
+l/footer-logos.png" style=3D"width: 194px; height: 73px; -ms-interpolatio=
+n-mode: bicubic;" width=3D"194" height=3D"73"></div>
+						</div>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+			<!--/600px container --><br>
+			<br>
+			<a name=3D"es"> <!-- 600px container (white background) --> </a>
+
+			<table border=3D"0" cellpadding=3D"0" cellspacing=3D"0" class=3D"conta=
+iner" style=3D"width: 600px; max-width: 600px; border-spacing: 0; mso-tab=
+le-lspace: 0pt; mso-table-rspace: 0pt;" width=3D"600">
+				<tbody>
+					<tr>
+						<td align=3D"left" style=3D"color: #263573; font-size: 12px; font-f=
+amily: Arial, sans-serif; border-collapse: collapse; padding: 0px 0px 0px=
+ 5px;">
+						<p style=3D"color: #263573; font-size: 12px; font-family: Arial, sa=
+ns-serif; display: inline-block;" align=3D"right"><a name=3D"es"></a><a h=
+ref=3D"#eu" style=3D"color: #263573; font-size: 12px; font-family: Arial,=
+ sans-serif;" target=3D"_top">eu</a> / <a href=3D"#es" style=3D"color: #2=
+63573; font-size: 12px; font-family: Arial, sans-serif;" target=3D"_top">=
+<strong>es</strong></a></p>
+						</td>
+					</tr>
+					<tr>
+						<td align=3D"left" class=3D"container-padding header" style=3D"font=
+-family: 'Roboto Slab', serif; font-size: 24px; font-weight: bold; paddin=
+g-bottom: 0px; color: #DF4726; padding-left: 0px; padding-right: 0px; bor=
+der-collapse: collapse; margin: 0px;" bgcolor=3D"#fff"><span class=3D"con=
+tainer-padding header" style=3D"font-family: 'Roboto Slab', serif; font-s=
+ize: 24px; font-weight: bold; padding-bottom: 0px; color: #DF4726; paddin=
+g-left: 0px; padding-right: 0px; background-color: #fff;"><img src=3D"htt=
+ps://emails.zarautz.eus/data/ae7c863b6cb5c0a663d4b20f0017a74ae8311d6a/med=
+ia_files/31/original/SAIOA1.jpg" style=3D"width: 600px; height: 381px; -m=
+s-interpolation-mode: bicubic;" width=3D"600" height=3D"381"></span></td>=
+
+					</tr>
+					<tr>
+						<td align=3D"center" class=3D"container-padding content" style=3D"b=
+order-collapse: collapse; padding: 12px 24px;" bgcolor=3D"#ffffff">
+						<div class=3D"body-text" style=3D"font-family: 'Roboto Slab', serif=
+; font-size: 14px; line-height: 20px; color: #263573;" align=3D"left">
+						<div data-slate-block=3D"HtmlBlockNode" data-slate-category=3D"bloc=
+k-node" data-slate-node=3D"element" data-slate-node-id=3D"TXD6-5fuemQRbWV=
+AEcJKy" data-slate-path=3D"0-1-0-0-0-0" data-slate-type=3D"html-block-nod=
+e">
+<br>
+						<br>
+						<span style=3D"color: #000000;"><span style=3D"font-size: 16px;"><s=
+pan style=3D"font-family: Arial,Helvetica,sans-serif;"><span data-slate-n=
+ode=3D"text"><span data-placeholder=3D"Type '/' for commands" data-slate-=
+leaf=3D"true" style=3D"white-space: pre-wrap;"><span data-slate-string=3D=
+"true">Estimado/a ciudadano/a:</span></span></span></span></span></span>
+</div>
+
+						<div data-slate-block=3D"HtmlBlockNode" data-slate-category=3D"bloc=
+k-node" data-slate-node=3D"element" data-slate-node-id=3D"_ir17j8de4brdrQ=
+djIBZI" data-slate-path=3D"0-1-0-0-0-1" data-slate-type=3D"html-block-nod=
+e">=C2=A0</div>
+
+						<div data-slate-block=3D"HtmlBlockNode" data-slate-category=3D"bloc=
+k-node" data-slate-node=3D"element" data-slate-node-id=3D"lS1kypKgA_t2vvv=
+-tPcDP" data-slate-path=3D"0-1-0-0-0-2" data-slate-type=3D"html-block-nod=
+e"><span style=3D"color: #000000;"><span style=3D"font-size: 16px;"><span=
+ style=3D"font-family: Arial,Helvetica,sans-serif;"><span data-slate-node=
+=3D"text"><span data-placeholder=3D"Type '/' for commands" data-slate-lea=
+f=3D"true" style=3D"white-space: pre-wrap;"><span data-slate-string=3D"tr=
+ue">El Ayuntamiento de Zarautz encarg=C3=B3 a la empresa IKEI en 2023 la =
+realizaci=C3=B3n de un estudio con el fin de recabar datos sobre la vivie=
+nda y los locales de las plantas bajas. El resultado de esta solicitud fu=
+e el</span></span></span><span data-slate-node=3D"text"><span data-placeh=
+older=3D"Type '/' for commands" data-slate-leaf=3D"true" style=3D"white-s=
+pace: pre-wrap;"><strong><span data-slate-string=3D"true"> =E2=80=9CEstud=
+io sobre la situaci=C3=B3n de la vivienda en Zarautz y el impacto de las =
+viviendas y apartamentos tur=C3=ADsticos=E2=80=9D</span></strong></span><=
+/span><span data-slate-node=3D"text"><span data-placeholder=3D"Type '/' f=
+or commands" data-slate-leaf=3D"true" style=3D"white-space: pre-wrap;"><s=
+pan data-slate-string=3D"true"> presentado en 2024.</span></span></span><=
+/span></span></span></div>
+
+						<div data-slate-block=3D"HtmlBlockNode" data-slate-category=3D"bloc=
+k-node" data-slate-node=3D"element" data-slate-node-id=3D"u9GbAdS32loRVF3=
+VubcEm" data-slate-path=3D"0-1-0-0-0-3" data-slate-type=3D"html-block-nod=
+e">=C2=A0</div>
+
+						<div data-slate-block=3D"HtmlBlockNode" data-slate-category=3D"bloc=
+k-node" data-slate-node=3D"element" data-slate-node-id=3D"WYMQJGVEKcVDGj5=
+aC1wgv" data-slate-path=3D"0-1-0-0-0-4" data-slate-type=3D"html-block-nod=
+e"><span style=3D"color: #000000;"><span style=3D"font-size: 16px;"><span=
+ style=3D"font-family: Arial,Helvetica,sans-serif;"><span data-slate-node=
+=3D"text"><span data-placeholder=3D"Type '/' for commands" data-slate-lea=
+f=3D"true" style=3D"white-space: pre-wrap;"><span data-slate-string=3D"tr=
+ue">A partir de los datos extra=C3=ADdos por dicho estudio, El Ayuntamien=
+to de Zarautz ha puesto en marcha una reflexi=C3=B3n compartida llamada Z=
+arautzen bizi, con el fin de abordar diversos temas y reflexionar sobre l=
+a renovaci=C3=B3n de algunas ordenanzas actualmente en vigor y la regulac=
+i=C3=B3n de otras cuestiones que carecen de normativa municipal propia.</=
+span></span></span></span></span></span></div>
+
+						<div data-slate-block=3D"HtmlBlockNode" data-slate-category=3D"bloc=
+k-node" data-slate-node=3D"element" data-slate-node-id=3D"TTUK44XeKNQTCg0=
+EeV-al" data-slate-path=3D"0-1-0-0-0-5" data-slate-type=3D"html-block-nod=
+e">=C2=A0</div>
+
+						<div data-slate-block=3D"HtmlBlockNode" data-slate-category=3D"bloc=
+k-node" data-slate-node=3D"element" data-slate-node-id=3D"HXiDyshvC_x-fyQ=
+LKg3OT" data-slate-path=3D"0-1-0-0-0-6" data-slate-type=3D"html-block-nod=
+e"><span style=3D"color: #000000;"><span style=3D"font-size: 16px;"><span=
+ style=3D"font-family: Arial,Helvetica,sans-serif;"><span data-slate-node=
+=3D"text"><span data-placeholder=3D"Type '/' for commands" data-slate-lea=
+f=3D"true" style=3D"white-space: pre-wrap;"><span data-slate-string=3D"tr=
+ue">La sesi=C3=B3n abierta de presentaci=C3=B3n de esta reflexi=C3=B3n co=
+mpartida tendr=C3=A1 lugar el</span></span></span><span data-slate-node=3D=
+"text"><span data-placeholder=3D"Type '/' for commands" data-slate-leaf=3D=
+"true" style=3D"white-space: pre-wrap;"><strong><span data-slate-string=3D=
+"true"> 13 de mayo, de 18:00h a 20:00h, en el convento de Santa Clara</sp=
+an></strong></span></span><span data-slate-node=3D"text"><span data-place=
+holder=3D"Type '/' for commands" data-slate-leaf=3D"true" style=3D"white-=
+space: pre-wrap;"><span data-slate-string=3D"true"> y no ser=C3=A1 necesa=
+ria la preinscripci=C3=B3n. En esta sesi=C3=B3n se explicar=C3=A1 el estu=
+dio en el que se basa el proceso, la normativa que se quiere revisar y la=
+ din=C3=A1mica del proceso de reflexi=C3=B3n.</span></span></span></span>=
+</span></span></div>
+
+						<div data-slate-block=3D"HtmlBlockNode" data-slate-category=3D"bloc=
+k-node" data-slate-node=3D"element" data-slate-node-id=3D"HBAiqHA8zTJyQYH=
+_wAQtD" data-slate-path=3D"0-1-0-0-0-7" data-slate-type=3D"html-block-nod=
+e">=C2=A0</div>
+
+						<div data-slate-block=3D"HtmlBlockNode" data-slate-category=3D"bloc=
+k-node" data-slate-node=3D"element" data-slate-node-id=3D"Pt3GVMfkcC0qS7O=
+dyULxg" data-slate-path=3D"0-1-0-0-0-8" data-slate-type=3D"html-block-nod=
+e"><span style=3D"font-size: 16px;"><span style=3D"font-family: Arial,Hel=
+vetica,sans-serif;"><span style=3D"color: #000000;"><span data-slate-node=
+=3D"text"><span data-placeholder=3D"Type '/' for commands" data-slate-lea=
+f=3D"true" style=3D"white-space: pre-wrap;"><span data-slate-string=3D"tr=
+ue">Despu=C3=A9s, realizaremos 3 sesiones de trabajo. Estas sesiones tamb=
+i=C3=A9n ser=C3=A1n abiertas, pero os pedimos que os inscrib=C3=A1is prev=
+iamente, ya que estableceremos la ubicaci=C3=B3n seg=C3=BAn aforo. Por lo=
+ tanto, si quieres participar en las sesiones de trabajo, inscr=C3=ADbete=
+</span></span></span><span data-slate-node=3D"text"><span data-placeholde=
+r=3D"Type '/' for commands" data-slate-leaf=3D"true" style=3D"white-space=
+: pre-wrap;"><strong><span data-slate-string=3D"true"> </span></strong></=
+span></span></span><span data-slate-node=3D"text"><span data-placeholder=3D=
+"Type '/' for commands" data-slate-leaf=3D"true" style=3D"white-space: pr=
+e-wrap;"><strong><a href=3D"https://emails.zarautz.eus/c/qr3m/5_qutudm/ix=
+2ups7pidi" target=3D"_blank"><span style=3D"color: #000000;"><span data-s=
+late-string=3D"true">aqu=C3=AD</span></span></a></strong></span></span><s=
+pan style=3D"color: #000000;"><span data-slate-node=3D"text"><span data-p=
+laceholder=3D"Type '/' for commands" data-slate-leaf=3D"true" style=3D"wh=
+ite-space: pre-wrap;"><span data-slate-string=3D"true"> o, si prefieres h=
+acer la inscripci=C3=B3n de manera presencial, acude al Servicio de Atenc=
+i=C3=B3n Ciudadana situado en Kale Nagusia. Estas sesiones de trabajo se =
+realizar=C3=A1n los d=C3=ADas 20 de mayo, 27 de mayo y 3 de junio (horari=
+o: de 18:00h a 20:00h).</span></span></span></span></span></span></div>
+
+						<div data-slate-block=3D"HtmlBlockNode" data-slate-category=3D"bloc=
+k-node" data-slate-node=3D"element" data-slate-node-id=3D"g9dofVLADInOr9S=
+TR5Eb8" data-slate-path=3D"0-1-0-0-0-9" data-slate-type=3D"html-block-nod=
+e">=C2=A0</div>
+
+						<div data-slate-block=3D"HtmlBlockNode" data-slate-category=3D"bloc=
+k-node" data-slate-node=3D"element" data-slate-node-id=3D"SyU_q1d1Muknykc=
+AWZfqs" data-slate-path=3D"0-1-0-0-0-10" data-slate-type=3D"html-block-no=
+de"><span style=3D"color: #000000;"><span style=3D"font-size: 16px;"><spa=
+n style=3D"font-family: Arial,Helvetica,sans-serif;"><span data-slate-nod=
+e=3D"text"><span data-placeholder=3D"Type '/' for commands" data-slate-le=
+af=3D"true" style=3D"white-space: pre-wrap;"><span data-slate-string=3D"t=
+rue">Por =C3=BAltimo, se realizar=C3=A1 una nueva sesi=C3=B3n abierta de =
+conclusiones del proceso el 17 de junio en el convento de Santa Clara, de=
+ 18:00h a 20:00h.</span></span></span></span></span></span></div>
+
+						<div data-slate-block=3D"HtmlBlockNode" data-slate-category=3D"bloc=
+k-node" data-slate-node=3D"element" data-slate-node-id=3D"KBbhYf8yQrtK-FM=
+-t6Me5" data-slate-path=3D"0-1-0-0-0-11" data-slate-type=3D"html-block-no=
+de"><span style=3D"color: #000000;"><span style=3D"font-size: 16px;"><spa=
+n style=3D"font-family: Arial,Helvetica,sans-serif;"><span data-slate-nod=
+e=3D"text"><span data-placeholder=3D"Type '/' for commands" data-slate-le=
+af=3D"true" style=3D"white-space: pre-wrap;"><span data-slate-string=3D"t=
+rue">Entre otras cuestiones, reflexionaremos sobre las siguientes cuestio=
+nes:</span></span></span></span></span></span></div>
+
+						<div data-slate-block=3D"HtmlBlockNode" data-slate-category=3D"bloc=
+k-node" data-slate-node=3D"element" data-slate-node-id=3D"Q_xHdAnBmd2PNGq=
+3qBD4Y" data-slate-path=3D"0-1-0-0-0-12" data-slate-type=3D"html-block-no=
+de">=C2=A0</div>
+
+						<ul data-slate-block=3D"HtmlBlockNode" data-slate-category=3D"block=
+-node" data-slate-node=3D"element" data-slate-node-id=3D"gIyGNKl5xkZEp71o=
+msDS2" data-slate-path=3D"0-1-0-0-0-13" data-slate-type=3D"html-block-nod=
+e">
+							<li data-slate-block=3D"HtmlBlockNode" data-slate-category=3D"bloc=
+k-node" data-slate-node=3D"element" data-slate-node-id=3D"sfsdF467HPIDNjr=
+ziqgp3" data-slate-path=3D"0-1-0-0-0-13-0" data-slate-type=3D"html-block-=
+node"><span style=3D"color: #000000;"><span style=3D"font-size: 16px;"><s=
+pan style=3D"font-family: Arial,Helvetica,sans-serif;"><span data-slate-n=
+ode=3D"text"><span data-placeholder=3D"Type '/' for commands" data-slate-=
+leaf=3D"true" style=3D"white-space: pre-wrap;"><span data-slate-string=3D=
+"true">Ordenanza Municipal de cambio de uso de locales a viviendas.</span=
+></span></span></span></span></span></li>
+							<li data-slate-block=3D"HtmlBlockNode" data-slate-category=3D"bloc=
+k-node" data-slate-node=3D"element" data-slate-node-id=3D"hXsJAmtmf8nOwT-=
+mabJeQ" data-slate-path=3D"0-1-0-0-0-13-1" data-slate-type=3D"html-block-=
+node"><span style=3D"color: #000000;"><span style=3D"font-size: 16px;"><s=
+pan style=3D"font-family: Arial,Helvetica,sans-serif;"><span data-slate-n=
+ode=3D"text"><span data-placeholder=3D"Type '/' for commands" data-slate-=
+leaf=3D"true" style=3D"white-space: pre-wrap;"><span data-slate-string=3D=
+"true">La contemplada en los Planes Especiales del Casco Viejo y del Ensa=
+nche para el uso en plantas bajas.</span></span></span></span></span></sp=
+an></li>
+							<li data-slate-block=3D"HtmlBlockNode" data-slate-category=3D"bloc=
+k-node" data-slate-node=3D"element" data-slate-node-id=3D"7oOXpb5n-oenCLs=
+-QvCOD" data-slate-path=3D"0-1-0-0-0-13-2" data-slate-type=3D"html-block-=
+node"><span style=3D"color: #000000;"><span style=3D"font-size: 16px;"><s=
+pan style=3D"font-family: Arial,Helvetica,sans-serif;"><span data-slate-n=
+ode=3D"text"><span data-placeholder=3D"Type '/' for commands" data-slate-=
+leaf=3D"true" style=3D"white-space: pre-wrap;"><span data-slate-string=3D=
+"true">Ordenanza reguladora de la vivienda tasada municipal de Zarautz.</=
+span></span></span></span></span></span></li>
+							<li data-slate-block=3D"HtmlBlockNode" data-slate-category=3D"bloc=
+k-node" data-slate-node=3D"element" data-slate-node-id=3D"JdHYCDwl5EvY3mR=
+0-YPpZ" data-slate-path=3D"0-1-0-0-0-13-3" data-slate-type=3D"html-block-=
+node"><span style=3D"color: #000000;"><span style=3D"font-size: 16px;"><s=
+pan style=3D"font-family: Arial,Helvetica,sans-serif;"><span data-slate-n=
+ode=3D"text"><span data-placeholder=3D"Type '/' for commands" data-slate-=
+leaf=3D"true" style=3D"white-space: pre-wrap;"><span data-slate-string=3D=
+"true">Regulaci=C3=B3n de viviendas y habitaciones tur=C3=ADsticas.</span=
+></span></span></span></span></span></li>
+							<li data-slate-block=3D"HtmlBlockNode" data-slate-category=3D"bloc=
+k-node" data-slate-node=3D"element" data-slate-node-id=3D"7BzbitCP3eosqm-=
+dX92k9" data-slate-path=3D"0-1-0-0-0-13-4" data-slate-type=3D"html-block-=
+node"><span style=3D"color: #000000;"><span style=3D"font-size: 16px;"><s=
+pan style=3D"font-family: Arial,Helvetica,sans-serif;"><span data-slate-n=
+ode=3D"text"><span data-placeholder=3D"Type '/' for commands" data-slate-=
+leaf=3D"true" style=3D"white-space: pre-wrap;"><span data-slate-string=3D=
+"true">Regulaci=C3=B3n de apartamentos tur=C3=ADsticos.</span></span></sp=
+an></span></span></span></li>
+							<li data-slate-block=3D"HtmlBlockNode" data-slate-category=3D"bloc=
+k-node" data-slate-node=3D"element" data-slate-node-id=3D"XzrTeO-92jx741q=
+RguaWP" data-slate-path=3D"0-1-0-0-0-13-5" data-slate-type=3D"html-block-=
+node"><span style=3D"color: #000000;"><span style=3D"font-size: 16px;"><s=
+pan style=3D"font-family: Arial,Helvetica,sans-serif;"><span data-slate-n=
+ode=3D"text"><span data-placeholder=3D"Type '/' for commands" data-slate-=
+leaf=3D"true" style=3D"white-space: pre-wrap;"><span data-slate-string=3D=
+"true">La naturaleza de las calles y la promoci=C3=B3n del comercio.</spa=
+n></span></span></span></span></span></li>
+							<li data-slate-block=3D"HtmlBlockNode" data-slate-category=3D"bloc=
+k-node" data-slate-node=3D"element" data-slate-node-id=3D"wlE6q76b5wZctz6=
+5V5i45" data-slate-path=3D"0-1-0-0-0-13-6" data-slate-type=3D"html-block-=
+node"><span style=3D"color: #000000;"><span style=3D"font-size: 16px;"><s=
+pan style=3D"font-family: Arial,Helvetica,sans-serif;"><span data-slate-n=
+ode=3D"text"><span data-placeholder=3D"Type '/' for commands" data-slate-=
+leaf=3D"true" style=3D"white-space: pre-wrap;"><span data-slate-string=3D=
+"true">Posibles intervenciones en el parque de viviendas.</span></span></=
+span></span></span></span></li>
+						</ul>
+
+						<div data-slate-block=3D"HtmlBlockNode" data-slate-category=3D"bloc=
+k-node" data-slate-node=3D"element" data-slate-node-id=3D"FJUbbRVOLUnqXSn=
+xm5RFd" data-slate-path=3D"0-1-0-0-0-14" data-slate-type=3D"html-block-no=
+de">=C2=A0</div>
+
+						<div data-slate-block=3D"HtmlBlockNode" data-slate-category=3D"bloc=
+k-node" data-slate-node=3D"element" data-slate-node-id=3D"E9LRnAHmB-7jv28=
+sdAwGi" data-slate-path=3D"0-1-0-0-0-15" data-slate-type=3D"html-block-no=
+de"><span style=3D"color: #000000;"><span style=3D"font-size: 16px;"><spa=
+n style=3D"font-family: Arial,Helvetica,sans-serif;"><span data-slate-nod=
+e=3D"text"><span data-placeholder=3D"Type '/' for commands" data-slate-le=
+af=3D"true" style=3D"white-space: pre-wrap;"><span data-slate-string=3D"t=
+rue">Antes de cada sesi=C3=B3n participativa, enviaremos un mensaje recor=
+datorio para la confirmaci=C3=B3n de asistencia a las sesiones de trabajo=
+. </span></span></span></span></span></span></div>
+
+						<div data-slate-block=3D"HtmlBlockNode" data-slate-category=3D"bloc=
+k-node" data-slate-node=3D"element" data-slate-node-id=3D"YxgYPchH0nzmuJx=
+hN-hun" data-slate-path=3D"0-1-0-0-0-16" data-slate-type=3D"html-block-no=
+de">=C2=A0</div>
+
+						<div data-slate-block=3D"HtmlBlockNode" data-slate-category=3D"bloc=
+k-node" data-slate-node=3D"element" data-slate-node-id=3D"22mGX4XFvwkoKxa=
+7jLRNu" data-slate-path=3D"0-1-0-0-0-17" data-slate-type=3D"html-block-no=
+de"><span style=3D"color: #000000;"><span style=3D"font-size: 16px;"><spa=
+n style=3D"font-family: Arial,Helvetica,sans-serif;"><span data-slate-nod=
+e=3D"text"><span data-placeholder=3D"Type '/' for commands" data-slate-le=
+af=3D"true" style=3D"white-space: pre-wrap;"><span data-slate-string=3D"t=
+rue">Toda la informaci=C3=B3n del proceso est=C3=A1 disponible en la p=C3=
+=A1gina web del Ayuntamiento de Zarautz, en el apartado PARTE HARTU. Para=
+ cualquier duda o informaci=C3=B3n adicional, ponte en contacto con nosot=
+ras a trav=C3=A9s de la direcci=C3=B3n partehartu@zarautz.eus.</span></sp=
+an></span></span></span></span></div>
+
+						<div data-slate-block=3D"HtmlBlockNode" data-slate-category=3D"bloc=
+k-node" data-slate-node=3D"element" data-slate-node-id=3D"1XQt49f6notNH31=
+AGViWq" data-slate-path=3D"0-1-0-0-0-18" data-slate-type=3D"html-block-no=
+de">=C2=A0</div>
+
+						<div data-slate-block=3D"HtmlBlockNode" data-slate-category=3D"bloc=
+k-node" data-slate-fragment=3D"JTVCJTdCJTIyZGF0YSUyMiUzQSU3QiUyMmJyZWFrcG=
+9pbnQlMjIlM0ElMjI0ODBweCUyMiUyQyUyMmdsb2JhbEF0dHJpYnV0ZXMlMjIlM0ElN0IlMjJ=
+mb250LWZhbWlseSUyMiUzQSUyMkFyaWFsJTJDJTIwc2Fucy1zZXJpZiUyMiU3RCUyQyUyMmNh=
+dGVnb3J5QXR0cmlidXRlcyUyMiUzQSU3QiUyMmJ1dHRvbiUyMiUzQSU3QiUyMmJhY2tncm91b=
+mQtY29sb3IlMjIlM0ElMjIlMjMzZjgzNDAlMjIlMkMlMjJmb250LXNpemUlMjIlM0ElMjIxNn=
+B4JTIyJTJDJTIyY29sb3IlMjIlM0ElMjIlMjNGRkZGRkYlMjIlMkMlMjJwYWRkaW5nLWxlZnQ=
+lMjIlM0ElMjIyNXB4JTIyJTJDJTIyZm9udC13ZWlnaHQlMjIlM0ElMjJib2xkJTIyJTdEJTdE=
+JTJDJTIyYmxvY2tBdHRyaWJ1dGVzJTIyJTNBJTdCJTIyc3RhbmRhcmQtcGFyYWdyYXBoJTIyJ=
+TNBJTdCJTIycGFkZGluZy1sZWZ0JTIyJTNBJTIyMjVweCUyMiU3RCU3RCU3RCUyQyUyMnR5cG=
+UlMjIlM0ElMjJwYWdlJTIyJTJDJTIyY2hpbGRyZW4lMjIlM0ElNUIlN0IlMjJ0eXBlJTIyJTN=
+BJTIyc3RhbmRhcmQtc2VjdGlvbiUyMiUyQyUyMmRhdGElMjIlM0ElN0IlN0QlMkMlMjJhdHRy=
+aWJ1dGVzJTIyJTNBJTdCJTIyYmFja2dyb3VuZC1yZXBlYXQlMjIlM0ElMjJuby1yZXBlYXQlM=
+jIlMkMlMjJiYWNrZ3JvdW5kLWNvbG9yJTIyJTNBJTIyJTIzRkZGRkZGJTIyJTJDJTIycGFkZG=
+luZy10b3AlMjIlM0ElMjI0MHB4JTIyJTJDJTIycGFkZGluZy1ib3R0b20lMjIlM0ElMjI0MHB=
+4JTIyJTdEJTJDJTIyY2hpbGRyZW4lMjIlM0ElNUIlN0IlMjJ0eXBlJTIyJTNBJTIyc3RhbmRh=
+cmQtY29sdW1uJTIyJTJDJTIyYXR0cmlidXRlcyUyMiUzQSU3QiUyMndpZHRoJTIyJTNBJTIyM=
+TAwJTI1JTIyJTdEJTJDJTIyZGF0YSUyMiUzQSU3QiU3RCUyQyUyMmNoaWxkcmVuJTIyJTNBJT=
+VCJTdCJTIybmFtZSUyMiUzQSUyMlRleHQlMjIlMkMlMjJ0eXBlJTIyJTNBJTIyc3RhbmRhcmQ=
+tcGFyYWdyYXBoJTIyJTJDJTIyZGF0YSUyMiUzQSU3QiU3RCUyQyUyMmF0dHJpYnV0ZXMlMjIl=
+M0ElN0IlMjJhbGlnbiUyMiUzQSUyMmxlZnQlMjIlN0QlMkMlMjJjaGlsZHJlbiUyMiUzQSU1Q=
+iU3QiUyMnR5cGUlMjIlM0ElMjJodG1sLWJsb2NrLW5vZGUlMjIlMkMlMjJjaGlsZHJlbiUyMi=
+UzQSU1QiU3QiUyMnR5cGUlMjIlM0ElMjJodG1sLWJsb2NrLW5vZGUlMjIlMkMlMjJjaGlsZHJ=
+lbiUyMiUzQSU1QiU3QiUyMnRleHQlMjIlM0ElMjJFc3RpbWFkbyUyRmElMjBjaXVkYWRhbm8l=
+MkZhJTNBJTIyJTdEJTVEJTJDJTIyYXR0cmlidXRlcyUyMiUzQSU3QiU3RCUyQyUyMmRhdGElM=
+jIlM0ElN0IlMjJ0YWdOYW1lJTIyJTNBJTIyZGl2JTIyJTdEJTJDJTIyaWQlMjIlM0ElMjJUWE=
+Q2LTVmdWVtUVJiV1ZBRWNKS3klMjIlN0QlMkMlN0IlMjJ0eXBlJTIyJTNBJTIyaHRtbC1ibG9=
+jay1ub2RlJTIyJTJDJTIyYXR0cmlidXRlcyUyMiUzQSU3QiU3RCUyQyUyMmRhdGElMjIlM0El=
+N0IlMjJ0YWdOYW1lJTIyJTNBJTIyZGl2JTIyJTdEJTJDJTIyaWQlMjIlM0ElMjJfaXIxN2o4Z=
+GU0YnJkclFkaklCWkklMjIlMkMlMjJjaGlsZHJlbiUyMiUzQSU1QiU3QiUyMnRleHQlMjIlM0=
+ElMjIlMjIlN0QlNUQlN0QlMkMlN0IlMjJ0eXBlJTIyJTNBJTIyaHRtbC1ibG9jay1ub2RlJTI=
+yJTJDJTIyY2hpbGRyZW4lMjIlM0ElNUIlN0IlMjJ0ZXh0JTIyJTNBJTIyRWwlMjBBeXVudGFt=
+aWVudG8lMjBkZSUyMFphcmF1dHolMjBlbmNhcmclQzMlQjMlMjBhJTIwbGElMjBlbXByZXNhJ=
+TIwSUtFSSUyMGVuJTIwMjAyMyUyMGxhJTIwcmVhbGl6YWNpJUMzJUIzbiUyMGRlJTIwdW4lMj=
+Blc3R1ZGlvJTIwY29uJTIwZWwlMjBmaW4lMjBkZSUyMHJlY2FiYXIlMjBkYXRvcyUyMHNvYnJ=
+lJTIwbGElMjB2aXZpZW5kYSUyMHklMjBsb3MlMjBsb2NhbGVzJTIwZGUlMjBsYXMlMjBwbGFu=
+dGFzJTIwYmFqYXMuJTIwRWwlMjByZXN1bHRhZG8lMjBkZSUyMGVzdGElMjBzb2xpY2l0dWQlM=
+jBmdWUlMjBlbCUyMiU3RCUyQyU3QiUyMnRleHQlMjIlM0ElMjIlMjAlRTIlODAlOUNFc3R1ZG=
+lvJTIwc29icmUlMjBsYSUyMHNpdHVhY2klQzMlQjNuJTIwZGUlMjBsYSUyMHZpdmllbmRhJTI=
+wZW4lMjBaYXJhdXR6JTIweSUyMGVsJTIwaW1wYWN0byUyMGRlJTIwbGFzJTIwdml2aWVuZGFz=
+JTIweSUyMGFwYXJ0YW1lbnRvcyUyMHR1ciVDMyVBRHN0aWNvcyVFMiU4MCU5RCUyMiUyQyUyM=
+mNvbG9yJTIyJTNBJTIyJTIzN2VkMzIxJTIyJTJDJTIyYm9sZCUyMiUzQXRydWUlN0QlMkMlN0=
+IlMjJ0ZXh0JTIyJTNBJTIyJTIwcHJlc2VudGFkbyUyMGVuJTIwMjAyNC4lMjIlN0QlNUQlMkM=
+lMjJhdHRyaWJ1dGVzJTIyJTNBJTdCJTdEJTJDJTIyZGF0YSUyMiUzQSU3QiUyMnRhZ05hbWUl=
+MjIlM0ElMjJkaXYlMjIlN0QlMkMlMjJpZCUyMiUzQSUyMmxTMWt5cEtnQV90MnZ2di10UGNEU=
+CUyMiU3RCUyQyU3QiUyMnR5cGUlMjIlM0ElMjJodG1sLWJsb2NrLW5vZGUlMjIlMkMlMjJhdH=
+RyaWJ1dGVzJTIyJTNBJTdCJTdEJTJDJTIyZGF0YSUyMiUzQSU3QiUyMnRhZ05hbWUlMjIlM0E=
+lMjJkaXYlMjIlN0QlMkMlMjJpZCUyMiUzQSUyMnU5R2JBZFMzMmxvUlZGM1Z1YmNFbSUyMiUy=
+QyUyMmNoaWxkcmVuJTIyJTNBJTVCJTdCJTIydGV4dCUyMiUzQSUyMiUyMiU3RCU1RCU3RCUyQ=
+yU3QiUyMnR5cGUlMjIlM0ElMjJodG1sLWJsb2NrLW5vZGUlMjIlMkMlMjJjaGlsZHJlbiUyMi=
+UzQSU1QiU3QiUyMnRleHQlMjIlM0ElMjJBJTIwcGFydGlyJTIwZGUlMjBsb3MlMjBkYXRvcyU=
+yMGV4dHJhJUMzJUFEZG9zJTIwcG9yJTIwZGljaG8lMjBlc3R1ZGlvJTJDJTIwRWwlMjBBeXVu=
+dGFtaWVudG8lMjBkZSUyMFphcmF1dHolMjBoYSUyMHB1ZXN0byUyMGVuJTIwbWFyY2hhJTIwd=
+W5hJTIwcmVmbGV4aSVDMyVCM24lMjBjb21wYXJ0aWRhJTIwbGxhbWFkYSUyMFphcmF1dHplbi=
+UyMGJpemklMkMlMjBjb24lMjBlbCUyMGZpbiUyMGRlJTIwYWJvcmRhciUyMGRpdmVyc29zJTI=
+wdGVtYXMlMjB5JTIwcmVmbGV4aW9uYXIlMjBzb2JyZSUyMGxhJTIwcmVub3ZhY2klQzMlQjNu=
+JTIwZGUlMjBhbGd1bmFzJTIwb3JkZW5hbnphcyUyMGFjdHVhbG1lbnRlJTIwZW4lMjB2aWdvc=
+iUyMHklMjBsYSUyMHJlZ3VsYWNpJUMzJUIzbiUyMGRlJTIwb3RyYXMlMjBjdWVzdGlvbmVzJT=
+IwcXVlJTIwY2FyZWNlbiUyMGRlJTIwbm9ybWF0aXZhJTIwbXVuaWNpcGFsJTIwcHJvcGlhLiU=
+yMiU3RCU1RCUyQyUyMmF0dHJpYnV0ZXMlMjIlM0ElN0IlN0QlMkMlMjJkYXRhJTIyJTNBJTdC=
+JTIydGFnTmFtZSUyMiUzQSUyMmRpdiUyMiU3RCUyQyUyMmlkJTIyJTNBJTIyV1lNUUpHVkVLY=
+1ZER2o1YUMxd2d2JTIyJTdEJTJDJTdCJTIydHlwZSUyMiUzQSUyMmh0bWwtYmxvY2stbm9kZS=
+UyMiUyQyUyMmF0dHJpYnV0ZXMlMjIlM0ElN0IlN0QlMkMlMjJkYXRhJTIyJTNBJTdCJTIydGF=
+nTmFtZSUyMiUzQSUyMmRpdiUyMiU3RCUyQyUyMmlkJTIyJTNBJTIyVFRVSzQ0WGVLTlFUQ2cw=
+RWVWLWFsJTIyJTJDJTIyY2hpbGRyZW4lMjIlM0ElNUIlN0IlMjJ0ZXh0JTIyJTNBJTIyJTIyJ=
+TdEJTVEJTdEJTJDJTdCJTIydHlwZSUyMiUzQSUyMmh0bWwtYmxvY2stbm9kZSUyMiUyQyUyMm=
+NoaWxkcmVuJTIyJTNBJTVCJTdCJTIydGV4dCUyMiUzQSUyMkxhJTIwc2VzaSVDMyVCM24lMjB=
+hYmllcnRhJTIwZGUlMjBwcmVzZW50YWNpJUMzJUIzbiUyMGRlJTIwZXN0YSUyMHJlZmxleGkl=
+QzMlQjNuJTIwY29tcGFydGlkYSUyMHRlbmRyJUMzJUExJTIwbHVnYXIlMjBlbCUyMiU3RCUyQ=
+yU3QiUyMnRleHQlMjIlM0ElMjIlMjAxMyUyMGRlJTIwbWF5byUyQyUyMGRlJTIwMTglM0EwMG=
+glMjBhJTIwMjAlM0EwMGglMkMlMjBlbiUyMGVsJTIwY29udmVudG8lMjBkZSUyMFNhbnRhJTI=
+wQ2xhcmElMjIlMkMlMjJjb2xvciUyMiUzQSUyMiUyMzdlZDMyMSUyMiUyQyUyMmJvbGQlMjIl=
+M0F0cnVlJTdEJTJDJTdCJTIydGV4dCUyMiUzQSUyMiUyMHklMjBubyUyMHNlciVDMyVBMSUyM=
+G5lY2VzYXJpYSUyMGxhJTIwcHJlaW5zY3JpcGNpJUMzJUIzbi4lMjBFbiUyMGVzdGElMjBzZX=
+NpJUMzJUIzbiUyMHNlJTIwZXhwbGljYXIlQzMlQTElMjBlbCUyMGVzdHVkaW8lMjBlbiUyMGV=
+sJTIwcXVlJTIwc2UlMjBiYXNhJTIwZWwlMjBwcm9jZXNvJTJDJTIwbGElMjBub3JtYXRpdmEl=
+MjBxdWUlMjBzZSUyMHF1aWVyZSUyMHJldmlzYXIlMjB5JTIwbGElMjBkaW4lQzMlQTFtaWNhJ=
+TIwZGVsJTIwcHJvY2VzbyUyMGRlJTIwcmVmbGV4aSVDMyVCM24uJTIyJTdEJTVEJTJDJTIyYX=
+R0cmlidXRlcyUyMiUzQSU3QiU3RCUyQyUyMmRhdGElMjIlM0ElN0IlMjJ0YWdOYW1lJTIyJTN=
+BJTIyZGl2JTIyJTdEJTJDJTIyaWQlMjIlM0ElMjJIWGlEeXNodkNfeC1meVFMS2czT1QlMjIl=
+N0QlMkMlN0IlMjJ0eXBlJTIyJTNBJTIyaHRtbC1ibG9jay1ub2RlJTIyJTJDJTIyYXR0cmlid=
+XRlcyUyMiUzQSU3QiU3RCUyQyUyMmRhdGElMjIlM0ElN0IlMjJ0YWdOYW1lJTIyJTNBJTIyZG=
+l2JTIyJTdEJTJDJTIyaWQlMjIlM0ElMjJIQkFpcUhBOHpUSnlRWUhfd0FRdEQlMjIlMkMlMjJ=
+jaGlsZHJlbiUyMiUzQSU1QiU3QiUyMnRleHQlMjIlM0ElMjIlMjIlN0QlNUQlN0QlMkMlN0Il=
+MjJ0eXBlJTIyJTNBJTIyaHRtbC1ibG9jay1ub2RlJTIyJTJDJTIyY2hpbGRyZW4lMjIlM0ElN=
+UIlN0IlMjJ0ZXh0JTIyJTNBJTIyRGVzcHUlQzMlQTlzJTJDJTIwcmVhbGl6YXJlbW9zJTIwMy=
+UyMHNlc2lvbmVzJTIwZGUlMjB0cmFiYWpvLiUyMEVzdGFzJTIwc2VzaW9uZXMlMjB0YW1iaSV=
+DMyVBOW4lMjBzZXIlQzMlQTFuJTIwYWJpZXJ0YXMlMkMlMjBwZXJvJTIwb3MlMjBwZWRpbW9z=
+JTIwcXVlJTIwb3MlMjBpbnNjcmliJUMzJUExaXMlMjBwcmV2aWFtZW50ZSUyQyUyMHlhJTIwc=
+XVlJTIwZXN0YWJsZWNlcmVtb3MlMjBsYSUyMHViaWNhY2klQzMlQjNuJTIwc2VnJUMzJUJBbi=
+UyMGFmb3JvLiUyMFBvciUyMGxvJTIwdGFudG8lMkMlMjBzaSUyMHF1aWVyZXMlMjBwYXJ0aWN=
+pcGFyJTIwZW4lMjBsYXMlMjBzZXNpb25lcyUyMGRlJTIwdHJhYmFqbyUyQyUyMGluc2NyJUMz=
+JUFEYmV0ZSUyMiU3RCUyQyU3QiUyMnRleHQlMjIlM0ElMjIlMjAlMjIlMkMlMjJjb2xvciUyM=
+iUzQSUyMiUyMzdlZDMyMSUyMiUyQyUyMmJvbGQlMjIlM0F0cnVlJTdEJTJDJTdCJTIydGV4dC=
+UyMiUzQSUyMmFxdSVDMyVBRCUyMiUyQyUyMmxpbmslMjIlM0ElN0IlMjJocmVmJTIyJTNBJTI=
+yaHR0cHMlM0ElMkYlMkZmb3JtLmpvdGZvcm0uY29tJTJGMjUxMTcxNTkyMDQ2MzUzJTIyJTJD=
+JTIyYmxhbmslMjIlM0F0cnVlJTdEJTJDJTIyY29sb3IlMjIlM0ElMjIlMjM3ZWQzMjElMjIlM=
+kMlMjJib2xkJTIyJTNBdHJ1ZSU3RCUyQyU3QiUyMnRleHQlMjIlM0ElMjIlMjBvJTJDJTIwc2=
+klMjBwcmVmaWVyZXMlMjBoYWNlciUyMGxhJTIwaW5zY3JpcGNpJUMzJUIzbiUyMGRlJTIwbWF=
+uZXJhJTIwcHJlc2VuY2lhbCUyQyUyMGFjdWRlJTIwYWwlMjBTZXJ2aWNpbyUyMGRlJTIwQXRl=
+bmNpJUMzJUIzbiUyMENpdWRhZGFuYSUyMHNpdHVhZG8lMjBlbiUyMEthbGUlMjBOYWd1c2lhL=
+iUyMEVzdGFzJTIwc2VzaW9uZXMlMjBkZSUyMHRyYWJham8lMjBzZSUyMHJlYWxpemFyJUMzJU=
+ExbiUyMGxvcyUyMGQlQzMlQURhcyUyMDIwJTIwZGUlMjBtYXlvJTJDJTIwMjclMjBkZSUyMG1=
+heW8lMjB5JTIwMyUyMGRlJTIwanVuaW8lMjAoaG9yYXJpbyUzQSUyMGRlJTIwMTglM0EwMGgl=
+MjBhJTIwMjAlM0EwMGgpLiUyMiU3RCU1RCUyQyUyMmF0dHJpYnV0ZXMlMjIlM0ElN0IlN0QlM=
+kMlMjJkYXRhJTIyJTNBJTdCJTIydGFnTmFtZSUyMiUzQSUyMmRpdiUyMiU3RCUyQyUyMmlkJT=
+IyJTNBJTIyUHQzR1ZNZmtjQzBxUzdPZHlVTHhnJTIyJTdEJTJDJTdCJTIydHlwZSUyMiUzQSU=
+yMmh0bWwtYmxvY2stbm9kZSUyMiUyQyUyMmF0dHJpYnV0ZXMlMjIlM0ElN0IlN0QlMkMlMjJk=
+YXRhJTIyJTNBJTdCJTIydGFnTmFtZSUyMiUzQSUyMmRpdiUyMiU3RCUyQyUyMmlkJTIyJTNBJ=
+TIyZzlkb2ZWTEFESW5PcjlTVFI1RWI4JTIyJTJDJTIyY2hpbGRyZW4lMjIlM0ElNUIlN0IlMj=
+J0ZXh0JTIyJTNBJTIyJTIyJTdEJTVEJTdEJTJDJTdCJTIydHlwZSUyMiUzQSUyMmh0bWwtYmx=
+vY2stbm9kZSUyMiUyQyUyMmNoaWxkcmVuJTIyJTNBJTVCJTdCJTIydGV4dCUyMiUzQSUyMlBv=
+ciUyMCVDMyVCQWx0aW1vJTJDJTIwc2UlMjByZWFsaXphciVDMyVBMSUyMHVuYSUyMG51ZXZhJ=
+TIwc2VzaSVDMyVCM24lMjBhYmllcnRhJTIwZGUlMjBjb25jbHVzaW9uZXMlMjBkZWwlMjBwcm=
+9jZXNvJTIwZWwlMjAxNyUyMGRlJTIwanVuaW8lMjBlbiUyMGVsJTIwY29udmVudG8lMjBkZSU=
+yMFNhbnRhJTIwQ2xhcmElMkMlMjBkZSUyMDE4JTNBMDBoJTIwYSUyMDIwJTNBMDBoLiUyMiU3=
+RCU1RCUyQyUyMmF0dHJpYnV0ZXMlMjIlM0ElN0IlN0QlMkMlMjJkYXRhJTIyJTNBJTdCJTIyd=
+GFnTmFtZSUyMiUzQSUyMmRpdiUyMiU3RCUyQyUyMmlkJTIyJTNBJTIyU3lVX3ExZDFNdWtueW=
+tjQVdaZnFzJTIyJTdEJTJDJTdCJTIydHlwZSUyMiUzQSUyMmh0bWwtYmxvY2stbm9kZSUyMiU=
+yQyUyMmNoaWxkcmVuJTIyJTNBJTVCJTdCJTIydGV4dCUyMiUzQSUyMkVudHJlJTIwb3RyYXMl=
+MjBjdWVzdGlvbmVzJTJDJTIwcmVmbGV4aW9uYXJlbW9zJTIwc29icmUlMjBsYXMlMjBzaWd1a=
+WVudGVzJTIwY3Vlc3Rpb25lcyUzQSUyMiU3RCU1RCUyQyUyMmF0dHJpYnV0ZXMlMjIlM0ElN0=
+IlN0QlMkMlMjJkYXRhJTIyJTNBJTdCJTIydGFnTmFtZSUyMiUzQSUyMmRpdiUyMiU3RCUyQyU=
+yMmlkJTIyJTNBJTIyS0JiaFlmOHlRcnRLLUZNLXQ2TWU1JTIyJTdEJTJDJTdCJTIydHlwZSUy=
+MiUzQSUyMmh0bWwtYmxvY2stbm9kZSUyMiUyQyUyMmF0dHJpYnV0ZXMlMjIlM0ElN0IlN0QlM=
+kMlMjJkYXRhJTIyJTNBJTdCJTIydGFnTmFtZSUyMiUzQSUyMmRpdiUyMiU3RCUyQyUyMmlkJT=
+IyJTNBJTIyUV94SGRBbkJtZDJQTkdxM3FCRDRZJTIyJTJDJTIyY2hpbGRyZW4lMjIlM0ElNUI=
+lN0IlMjJ0ZXh0JTIyJTNBJTIyJTIyJTdEJTVEJTdEJTJDJTdCJTIydHlwZSUyMiUzQSUyMmh0=
+bWwtYmxvY2stbm9kZSUyMiUyQyUyMmNoaWxkcmVuJTIyJTNBJTVCJTdCJTIydHlwZSUyMiUzQ=
+SUyMmh0bWwtYmxvY2stbm9kZSUyMiUyQyUyMmNoaWxkcmVuJTIyJTNBJTVCJTdCJTIydGV4dC=
+UyMiUzQSUyMk9yZGVuYW56YSUyME11bmljaXBhbCUyMGRlJTIwY2FtYmlvJTIwZGUlMjB1c28=
+lMjBkZSUyMGxvY2FsZXMlMjBhJTIwdml2aWVuZGFzLiUyMiU3RCU1RCUyQyUyMmF0dHJpYnV0=
+ZXMlMjIlM0ElN0IlN0QlMkMlMjJkYXRhJTIyJTNBJTdCJTIydGFnTmFtZSUyMiUzQSUyMmxpJ=
+TIyJTdEJTJDJTIyaWQlMjIlM0ElMjJzZnNkRjQ2N0hQSUROanJ6aXFncDMlMjIlN0QlMkMlN0=
+IlMjJ0eXBlJTIyJTNBJTIyaHRtbC1ibG9jay1ub2RlJTIyJTJDJTIyYXR0cmlidXRlcyUyMiU=
+zQSU3QiU3RCUyQyUyMmRhdGElMjIlM0ElN0IlMjJ0YWdOYW1lJTIyJTNBJTIybGklMjIlN0Ql=
+MkMlMjJpZCUyMiUzQSUyMmhYc0pBbXRtZjhuT3dULW1hYkplUSUyMiUyQyUyMmNoaWxkcmVuJ=
+TIyJTNBJTVCJTdCJTIydGV4dCUyMiUzQSUyMkxhJTIwY29udGVtcGxhZGElMjBlbiUyMGxvcy=
+UyMFBsYW5lcyUyMEVzcGVjaWFsZXMlMjBkZWwlMjBDYXNjbyUyMFZpZWpvJTIweSUyMGRlbCU=
+yMEVuc2FuY2hlJTIwcGFyYSUyMGVsJTIwdXNvJTIwZW4lMjBwbGFudGFzJTIwYmFqYXMuJTIy=
+JTdEJTVEJTdEJTJDJTdCJTIydHlwZSUyMiUzQSUyMmh0bWwtYmxvY2stbm9kZSUyMiUyQyUyM=
+mF0dHJpYnV0ZXMlMjIlM0ElN0IlN0QlMkMlMjJkYXRhJTIyJTNBJTdCJTIydGFnTmFtZSUyMi=
+UzQSUyMmxpJTIyJTdEJTJDJTIyaWQlMjIlM0ElMjI3b09YcGI1bi1vZW5DTHMtUXZDT0QlMjI=
+lMkMlMjJjaGlsZHJlbiUyMiUzQSU1QiU3QiUyMnRleHQlMjIlM0ElMjJPcmRlbmFuemElMjBy=
+ZWd1bGFkb3JhJTIwZGUlMjBsYSUyMHZpdmllbmRhJTIwdGFzYWRhJTIwbXVuaWNpcGFsJTIwZ=
+GUlMjBaYXJhdXR6LiUyMiU3RCU1RCU3RCUyQyU3QiUyMnR5cGUlMjIlM0ElMjJodG1sLWJsb2=
+NrLW5vZGUlMjIlMkMlMjJhdHRyaWJ1dGVzJTIyJTNBJTdCJTdEJTJDJTIyZGF0YSUyMiUzQSU=
+3QiUyMnRhZ05hbWUlMjIlM0ElMjJsaSUyMiU3RCUyQyUyMmlkJTIyJTNBJTIySmRIWUNEd2w1=
+RXZZM21SMC1ZUHBaJTIyJTJDJTIyY2hpbGRyZW4lMjIlM0ElNUIlN0IlMjJ0ZXh0JTIyJTNBJ=
+TIyUmVndWxhY2klQzMlQjNuJTIwZGUlMjB2aXZpZW5kYXMlMjB5JTIwaGFiaXRhY2lvbmVzJT=
+IwdHVyJUMzJUFEc3RpY2FzLiUyMiU3RCU1RCU3RCUyQyU3QiUyMnR5cGUlMjIlM0ElMjJodG1=
+sLWJsb2NrLW5vZGUlMjIlMkMlMjJhdHRyaWJ1dGVzJTIyJTNBJTdCJTdEJTJDJTIyZGF0YSUy=
+MiUzQSU3QiUyMnRhZ05hbWUlMjIlM0ElMjJsaSUyMiU3RCUyQyUyMmlkJTIyJTNBJTIyN0J6Y=
+ml0Q1AzZW9zcW0tZFg5Mms5JTIyJTJDJTIyY2hpbGRyZW4lMjIlM0ElNUIlN0IlMjJ0ZXh0JT=
+IyJTNBJTIyUmVndWxhY2klQzMlQjNuJTIwZGUlMjBhcGFydGFtZW50b3MlMjB0dXIlQzMlQUR=
+zdGljb3MuJTIyJTdEJTVEJTdEJTJDJTdCJTIydHlwZSUyMiUzQSUyMmh0bWwtYmxvY2stbm9k=
+ZSUyMiUyQyUyMmF0dHJpYnV0ZXMlMjIlM0ElN0IlN0QlMkMlMjJkYXRhJTIyJTNBJTdCJTIyd=
+GFnTmFtZSUyMiUzQSUyMmxpJTIyJTdEJTJDJTIyaWQlMjIlM0ElMjJYenJUZU8tOTJqeDc0MX=
+FSZ3VhV1AlMjIlMkMlMjJjaGlsZHJlbiUyMiUzQSU1QiU3QiUyMnRleHQlMjIlM0ElMjJMYSU=
+yMG5hdHVyYWxlemElMjBkZSUyMGxhcyUyMGNhbGxlcyUyMHklMjBsYSUyMHByb21vY2klQzMl=
+QjNuJTIwZGVsJTIwY29tZXJjaW8uJTIyJTdEJTVEJTdEJTJDJTdCJTIydHlwZSUyMiUzQSUyM=
+mh0bWwtYmxvY2stbm9kZSUyMiUyQyUyMmF0dHJpYnV0ZXMlMjIlM0ElN0IlN0QlMkMlMjJkYX=
+RhJTIyJTNBJTdCJTIydGFnTmFtZSUyMiUzQSUyMmxpJTIyJTdEJTJDJTIyaWQlMjIlM0ElMjJ=
+3bEU2cTc2YjV3WmN0ejY1VjVpNDUlMjIlMkMlMjJjaGlsZHJlbiUyMiUzQSU1QiU3QiUyMnRl=
+eHQlMjIlM0ElMjJQb3NpYmxlcyUyMGludGVydmVuY2lvbmVzJTIwZW4lMjBlbCUyMHBhcnF1Z=
+SUyMGRlJTIwdml2aWVuZGFzLiUyMiU3RCU1RCU3RCU1RCUyQyUyMmRhdGElMjIlM0ElN0IlMj=
+J0YWdOYW1lJTIyJTNBJTIydWwlMjIlN0QlMkMlMjJhdHRyaWJ1dGVzJTIyJTNBJTdCJTdEJTJ=
+DJTIyaWQlMjIlM0ElMjJnSXlHTktsNXhrWkVwNzFvbXNEUzIlMjIlN0QlMkMlN0IlMjJ0eXBl=
+JTIyJTNBJTIyaHRtbC1ibG9jay1ub2RlJTIyJTJDJTIyY2hpbGRyZW4lMjIlM0ElNUIlN0IlM=
+jJ0ZXh0JTIyJTNBJTIyJTIyJTdEJTVEJTJDJTIyYXR0cmlidXRlcyUyMiUzQSU3QiU3RCUyQy=
+UyMmRhdGElMjIlM0ElN0IlMjJ0YWdOYW1lJTIyJTNBJTIyZGl2JTIyJTdEJTJDJTIyaWQlMjI=
+lM0ElMjJGSlViYlJWT0xVbnFYU254bTVSRmQlMjIlN0QlMkMlN0IlMjJ0eXBlJTIyJTNBJTIy=
+aHRtbC1ibG9jay1ub2RlJTIyJTJDJTIyY2hpbGRyZW4lMjIlM0ElNUIlN0IlMjJ0ZXh0JTIyJ=
+TNBJTIyQW50ZXMlMjBkZSUyMGNhZGElMjBzZXNpJUMzJUIzbiUyMHBhcnRpY2lwYXRpdmElMk=
+MlMjBlbnZpYXJlbW9zJTIwdW4lMjBtZW5zYWplJTIwcmVjb3JkYXRvcmlvJTIwcGFyYSUyMGx=
+hJTIwY29uZmlybWFjaSVDMyVCM24lMjBkZSUyMGFzaXN0ZW5jaWElMjBhJTIwbGFzJTIwc2Vz=
+aW9uZXMlMjBkZSUyMHRyYWJham8uJTIwJTIyJTdEJTVEJTJDJTIyYXR0cmlidXRlcyUyMiUzQ=
+SU3QiU3RCUyQyUyMmRhdGElMjIlM0ElN0IlMjJ0YWdOYW1lJTIyJTNBJTIyZGl2JTIyJTdEJT=
+JDJTIyaWQlMjIlM0ElMjJFOUxSbkFIbUItN2p2MjhzZEF3R2klMjIlN0QlMkMlN0IlMjJ0eXB=
+lJTIyJTNBJTIyaHRtbC1ibG9jay1ub2RlJTIyJTJDJTIyY2hpbGRyZW4lMjIlM0ElNUIlN0Il=
+MjJ0ZXh0JTIyJTNBJTIyJTIyJTdEJTVEJTJDJTIyYXR0cmlidXRlcyUyMiUzQSU3QiU3RCUyQ=
+yUyMmRhdGElMjIlM0ElN0IlMjJ0YWdOYW1lJTIyJTNBJTIyZGl2JTIyJTdEJTJDJTIyaWQlMj=
+IlM0ElMjJZeGdZUGNoSDBuem11SnhoTi1odW4lMjIlN0QlMkMlN0IlMjJ0eXBlJTIyJTNBJTI=
+yaHRtbC1ibG9jay1ub2RlJTIyJTJDJTIyY2hpbGRyZW4lMjIlM0ElNUIlN0IlMjJ0ZXh0JTIy=
+JTNBJTIyVG9kYSUyMGxhJTIwaW5mb3JtYWNpJUMzJUIzbiUyMGRlbCUyMHByb2Nlc28lMjBlc=
+3QlQzMlQTElMjBkaXNwb25pYmxlJTIwZW4lMjBsYSUyMHAlQzMlQTFnaW5hJTIwd2ViJTIwZG=
+VsJTIwQXl1bnRhbWllbnRvJTIwZGUlMjBaYXJhdXR6JTJDJTIwZW4lMjBlbCUyMGFwYXJ0YWR=
+vJTIwUEFSVEUlMjBIQVJUVS4lMjBQYXJhJTIwY3VhbHF1aWVyJTIwZHVkYSUyMG8lMjBpbmZv=
+cm1hY2klQzMlQjNuJTIwYWRpY2lvbmFsJTJDJTIwcG9udGUlMjBlbiUyMGNvbnRhY3RvJTIwY=
+29uJTIwbm9zb3RyYXMlMjBhJTIwdHJhdiVDMyVBOXMlMjBkZSUyMGxhJTIwZGlyZWNjaSVDMy=
+VCM24lMjBwYXJ0ZWhhcnR1JTQwemFyYXV0ei5ldXMuJTIyJTdEJTVEJTJDJTIyYXR0cmlidXR=
+lcyUyMiUzQSU3QiU3RCUyQyUyMmRhdGElMjIlM0ElN0IlMjJ0YWdOYW1lJTIyJTNBJTIyZGl2=
+JTIyJTdEJTJDJTIyaWQlMjIlM0ElMjIyMm1HWDRYRnZ3a29LeGE3akxSTnUlMjIlN0QlMkMlN=
+0IlMjJ0eXBlJTIyJTNBJTIyaHRtbC1ibG9jay1ub2RlJTIyJTJDJTIyY2hpbGRyZW4lMjIlM0=
+ElNUIlN0IlMjJ0ZXh0JTIyJTNBJTIyJTIyJTdEJTVEJTJDJTIyYXR0cmlidXRlcyUyMiUzQSU=
+3QiU3RCUyQyUyMmRhdGElMjIlM0ElN0IlMjJ0YWdOYW1lJTIyJTNBJTIyZGl2JTIyJTdEJTJD=
+JTIyaWQlMjIlM0ElMjIxWFF0NDlmNm5vdE5IMzFBR1ZpV3ElMjIlN0QlMkMlN0IlMjJ0eXBlJ=
+TIyJTNBJTIyaHRtbC1ibG9jay1ub2RlJTIyJTJDJTIyY2hpbGRyZW4lMjIlM0ElNUIlN0IlMj=
+J0ZXh0JTIyJTNBJTIyQXRlbnRhbWVudGUlMkMlMjAlMjIlN0QlNUQlMkMlMjJhdHRyaWJ1dGV=
+zJTIyJTNBJTdCJTdEJTJDJTIyZGF0YSUyMiUzQSU3QiUyMnRhZ05hbWUlMjIlM0ElMjJkaXYl=
+MjIlN0QlMkMlMjJpZCUyMiUzQSUyMks1YmpjZHNaYjZCNEtBenFEQXdQciUyMiU3RCU1RCUyQ=
+yUyMmF0dHJpYnV0ZXMlMjIlM0ElN0IlN0QlMkMlMjJkYXRhJTIyJTNBJTdCJTIydGFnTmFtZS=
+UyMiUzQSUyMmRpdiUyMiU3RCUyQyUyMmlkJTIyJTNBJTIyTjRocUdKVXJ6RGRaTXFYQlU4UHh=
+MJTIyJTdEJTVEJTJDJTIyaWQlMjIlM0ElMjJhRjNvVGt2cGVRUXFNUnhJcXFyaEolMjIlN0Ql=
+NUQlMkMlMjJpZCUyMiUzQSUyMmhWZmZSOUd1bHJKZXZ1UGdXM3UzeCUyMiU3RCU1RCUyQyUyM=
+mlkJTIyJTNBJTIyWnBxdXhKTlNUTFJyc0RaN09lSEsxJTIyJTdEJTVEJTJDJTIyYXR0cmlidX=
+RlcyUyMiUzQSU3QiUyMmJhY2tncm91bmQtY29sb3IlMjIlM0ElMjIlMjNGM0YzRjMlMjIlMkM=
+lMjJjb250ZW50LWJhY2tncm91bmQtY29sb3IlMjIlM0ElMjIlMjNmZmZmZmYlMjIlMkMlMjJt=
+YXJnaW4tdG9wJTIyJTNBJTIyMTBweCUyMiU3RCUyQyUyMnRlbXBsYXRlVmVyc2lvbiUyMiUzQ=
+SUyMjExMi0yMDI0MDcxNzE1MDQyMyUyMiUyQyUyMmlkJTIyJTNBJTIyc1J4dUJoeHdXMEtjRT=
+lEQW9VV1ZoJTIyJTdEJTVE" data-slate-node=3D"element" data-slate-node-id=3D=
+"K5bjcdsZb6B4KAzqDAwPr" data-slate-path=3D"0-1-0-0-0-19" data-slate-type=3D=
+"html-block-node"><span style=3D"color: #000000;"><span style=3D"font-siz=
+e: 16px;"><span style=3D"font-family: Arial,Helvetica,sans-serif;"><span =
+data-slate-node=3D"text"><span data-placeholder=3D"Type '/' for commands"=
+ data-slate-leaf=3D"true" style=3D"white-space: pre-wrap;"><span data-sla=
+te-string=3D"true">Atentamente, </span></span></span></span></span></span=
+></div>
+
+						<p>=C2=A0</p>
+
+						<p style=3D"" align=3D"center">=C2=A0</p>
+
+						<p style=3D"" align=3D"center">=C2=A0</p>
+
+						<hr style=3D"background-color: #cccccc; height: 1px; border-style: =
+none;">
+						<div style=3D"" align=3D"center"><img src=3D"https://emails.zarautz=
+.eus/data/ae7c863b6cb5c0a663d4b20f0017a74ae8311d6a/media_files/26/origina=
+l/footer-logos.png" style=3D"width: 194px; height: 73px; -ms-interpolatio=
+n-mode: bicubic;" width=3D"194" height=3D"73"></div>
+						</div>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+			<!--/600px container --><br>
+			=C2=A0</td>
+		</tr>
+	</tbody>
+</table>
+<!--/100% background wrapper-->
+
+<p>Buletin hau ez baduzu gehiago jaso nahi, hau da <a href=3D"https://ema=
+ils.zarautz.eus/unsubscribe/qr3m/form?token=3D5_qutudm">harpidetza kentze=
+ko esteka</a>.<br>
+Si deseas darte de baja de nuestro bolet=C3=ADn, <a href=3D"https://email=
+s.zarautz.eus/unsubscribe/qr3m/form?token=3D5_qutudm">clica aqu=C3=AD</a>=
+</p>
+<img src=3D"https://emails.zarautz.eus/i/qr3m/5_qutudm.gif" width=3D"1" h=
+eight=3D"1" alt=3D"">
+</body>
+</html>
+
+----==_mimepart_681b4066ed9ad_139f6c27655790--

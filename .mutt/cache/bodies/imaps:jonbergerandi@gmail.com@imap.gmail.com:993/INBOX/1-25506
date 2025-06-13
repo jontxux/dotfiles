@@ -1,0 +1,175 @@
+Delivered-To: jonbergerandi@gmail.com
+Received: by 2002:a5d:5648:0:b0:391:6ea:9c9c with SMTP id j8csp2613395wrw;
+        Wed, 16 Apr 2025 08:01:58 -0700 (PDT)
+X-Forwarded-Encrypted: i=2; AJvYcCVkIorFTqoXlvt/8DeWEQYnZeRWBfXIo2J/d4bV5LdRiuUfiOiql/93BZ/QT3tDX1Vds65qnX+Rn0lYpGKB@gmail.com
+X-Received: by 2002:a05:6402:912:b0:5ed:c1a7:d005 with SMTP id 4fb4d7f45d1cf-5f4b73225d8mr2084917a12.11.1744815717978;
+        Wed, 16 Apr 2025 08:01:57 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1744815717; cv=none;
+        d=google.com; s=arc-20240605;
+        b=Uwut289XA9763El9wd9KFU+hDzRg5pomHcAfqMFcfJbMainOmXCV0rtIkybIFvd0rx
+         2cxuoW8VknPrROZfP7MhYHTMYyf0R18jORU2e3vKpe7Bb1yDCRgXANXVsB3vmf664v6Y
+         vY/aHUEyaZnzbxHNV4bfbdbN7FjxE3ObGDpbNdixUdWw9LG0bH5Zi8qnQPxOvg8sC/Ah
+         dgA179IOrSYQ0V3PmPi2wEBtj3HLPSO4tLipWaJQIEZwrSWgaKUUM1+HHkc3iixj4+Wc
+         4n3pJtvemXH53qdvWy45w+SZLfqeEBawdqcFMIUGeE2XH8eR8GBbAC0aHlnwCLu1qTGb
+         cuDg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=to:subject:message-id:date:from:mime-version:dkim-signature;
+        bh=IHooJX+TugvlRN7h/XDShaNdVIdJT3MNTZmZkz3gEFQ=;
+        fh=hbuochTLSCvYij1Kcwe8ojM/QIHMZrpNC5wVMy040eo=;
+        b=SQssCc5iZqBzttvaF58pK3BjUMbJHC9ZyhJ6KYF1681BB5+XHEcL/0EopVM92R6CNy
+         JRUfjbYZCs2QWwIcggp1lRK7x7RaUOJDT/scd0HvbEkIfJzivSqjLnRDOODs6hQDWJoo
+         LL7yYOP5m4VtVHiA4b59Y36q9QVVPBdqqd22NwvV7fo/wUlaVPVHE8r6nkT830tGXSD6
+         kfcOuJKAA4F+9f1YQdWHoYPwALQE0hvDFDhvDpM4IepIywfMJ1qvFiTAKSQRb4/xHKB1
+         wcrWgIs8Dq1dCUgBvOqN+aW5pDfbwfp0AvTHmQSo3iyAN8pwGCYGaEr+g5H+ZuJXnCpo
+         QU5A==;
+        dara=google.com
+ARC-Authentication-Results: i=1; mx.google.com;
+       dkim=pass header.i=@orokietaikaskom-com.20230601.gappssmtp.com header.s=20230601 header.b=F38dUI0s;
+       spf=pass (google.com: domain of orokietaherrieskola@orokietaikaskom.com designates 209.85.220.41 as permitted sender) smtp.mailfrom=orokietaherrieskola@orokietaikaskom.com;
+       dara=pass header.i=@gmail.com
+Return-Path: <orokietaherrieskola@orokietaikaskom.com>
+Received: from mail-sor-f41.google.com (mail-sor-f41.google.com. [209.85.220.41])
+        by mx.google.com with SMTPS id 4fb4d7f45d1cf-5f32d78908esor5826625a12.3.2025.04.16.08.01.57
+        for <jonbergerandi@gmail.com>
+        (Google Transport Security);
+        Wed, 16 Apr 2025 08:01:57 -0700 (PDT)
+Received-SPF: pass (google.com: domain of orokietaherrieskola@orokietaikaskom.com designates 209.85.220.41 as permitted sender) client-ip=209.85.220.41;
+Authentication-Results: mx.google.com;
+       dkim=pass header.i=@orokietaikaskom-com.20230601.gappssmtp.com header.s=20230601 header.b=F38dUI0s;
+       spf=pass (google.com: domain of orokietaherrieskola@orokietaikaskom.com designates 209.85.220.41 as permitted sender) smtp.mailfrom=orokietaherrieskola@orokietaikaskom.com;
+       dara=pass header.i=@gmail.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=orokietaikaskom-com.20230601.gappssmtp.com; s=20230601; t=1744815717; x=1745420517; dara=google.com;
+        h=to:subject:message-id:date:from:mime-version:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=IHooJX+TugvlRN7h/XDShaNdVIdJT3MNTZmZkz3gEFQ=;
+        b=F38dUI0sva38RvDGCE//YzH4QLC1q6T+Px3Vy2SC5ilstK70sNEmtOjtHeA69PIJ0c
+         FYuBRPZtcWyeV/8XY7Ykw3Q8f3qXeP94Jyg0sFznavOW3k2Xft3LhFz2GZ9k0a4LfSdE
+         ER6axYCHoMVSf2kKUwTeWAyyARsK5adDwyIo7Pgfzgj5WCHHpDlN1FZ2Av8yjpu4aP9x
+         lSx99bZj/Yo038Aey7PVWfs4Y2ArG/Sd1mZsPMLX9VvzNbUvPsM0Ns4c9/T/rnjYCE5E
+         qZiJ0v7kVNGC61b/Ibpk1Bwv2qXkyADgYsKGCZnkJ8Iq1JvynTcqrONrgGJPeSONxDxJ
+         K4Ng==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1744815717; x=1745420517;
+        h=to:subject:message-id:date:from:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=IHooJX+TugvlRN7h/XDShaNdVIdJT3MNTZmZkz3gEFQ=;
+        b=kF1uNsRJ+bxD8qpV8dxtRQVZ9SFUNy9bSTfYTqPOkb4lGAG9QDVrvaohCmtxMqt9iM
+         kkyOySaiRoXnj+k14qPXWquCkrx951HajeqJklMlreY/2nQVN+LuK7l4pElZfvSsEbi3
+         IoCR5HQvxFD9IUMTON8WbPFAXwcsVXiIdNsYHWxu/wktSHeuXGqZcHqB5Jc9gRVyBAZQ
+         VVSHrgZkLFX6gw/9/4uPZXtcGMjvScFNKg4df6icDAo1B+OnHjdreopFlXkd3TrnvzFI
+         ZLiQTZJ2WtUzHYcSMoCx/VsQoTPUu5cT2AEPpc/WnzJIgTeB6CC42xk45n0v4fsLRBZq
+         MRHg==
+X-Forwarded-Encrypted: i=1; AJvYcCUuCbawrJLXzBUzXN5c7jvabxPZXAcFyGIxIsNW+VSe1Dca0RwLqBe3FNRaTYJivMrG1BeE4Zy54MgvuXIB@gmail.com
+X-Gm-Message-State: AOJu0YyJF7+J43PH0F3nF6fIu8eAmF1q38iHKvh6Qr5j5CpSiTZUHGjZ
+	jbxkgXlqFREtp6ZMKwEl9BRDnL3jufzGhUIeE9heJzS77g8IJijJUeTzLMpSNq179g3IfUnAEJA
+	Spt1sdg6n13nA+hKl3qvXYplQZZTwHqk6iEHlyDk7Q3ZCSe+ABv0Sb9dj
+X-Gm-Gg: ASbGncvmQnqj/GhOonxe1ADb5JV6cfTiT3IDCZ/frzfOwJkBjkT6i/0EXqMTsEPU/Vg
+	5uA+As1asbB0o9AmGWBVKIFwy9A/icRU4he4r0lRxPcyVqHDdU3UsabGP39b6GQ1xNrRrzpCVDU
+	QvzRHdKTJNIEWeF/lezaJ9
+X-Google-Smtp-Source: AGHT+IF48q+lR0ulEPvE8rG72Kz+7qup4DZhby/7sgEDRBgsn1PPeZ5E4ujmUDq9UeQT6mJHAD0k/2xjmQiLTFWdHTo=
+X-Received: by 2002:a05:6402:3511:b0:5ec:cd52:27c9 with SMTP id
+ 4fb4d7f45d1cf-5f4b76e8374mr1770130a12.31.1744815715715; Wed, 16 Apr 2025
+ 08:01:55 -0700 (PDT)
+MIME-Version: 1.0
+From: Orokieta Herri Eskola <orokietaherrieskola@orokietaikaskom.com>
+Date: Wed, 16 Apr 2025 17:00:00 +0200
+X-Gm-Features: ATxdqUEr6g-NNqBqeCjU848Zf3jsh2ruz8ILgCt47E90QHEOrbg6FyOF6Vrg5gI
+Message-ID: <CAEXySh3qe--46dujaNptvAzHPXyv6+vAa4iESonudVLVg4R7vw@mail.gmail.com>
+Subject: =?UTF-8?Q?Matrikulazioa=2E_Behin=2Dbetiko_esleipena=2FMatriculaci=C3=B3n?=
+	=?UTF-8?Q?=2E_Listas_definitivas?=
+To: undisclosed-recipients:;
+Content-Type: multipart/alternative; boundary="000000000000ef2aac0632e690cc"
+Bcc: jonbergerandi@gmail.com
+
+--000000000000ef2aac0632e690cc
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+Kaixo familiak:
+
+Jakinarazten dizuegu behin-betiko matrikulazio zerrendak argitaratu direla
+eta zuen seme-alabak Orokietan onartuak izan direla. Albiste bikaina
+denontzat!
+Ekainaren amaieran edo uztailaren hasieran zuekin harremanetan jarriko gara
+bilera bat egiteko eta bertan, irailerako beharko duzuen informazio guztia
+helaraziko dizuegu.
+
+
+
+*Os informamos que se han publicado las listas definitivas de matriculaci=
+=C3=B3n
+y vuestros hijos/as han sido admitidos/as en Orokieta. =C2=A1Excelente noti=
+cia
+para todos y todas!A finales de junio o principios de julio nos pondremos
+en contacto con vosotras/as para mantener una reuni=C3=B3n en la que les ha=
+remos
+llegar toda la informaci=C3=B3n que necesitareis  para septiembre.*
+
+Bitartean, ondo pasa eta izan zoriontsu!
+
+Zuzendaritza Taldea
+
+Aran, Maider eta Saioa
+
+
+
+
+
+                   Orokieta Herri Eskola
+                     943 899 130
+                 www.orokieta.eus
+
+--000000000000ef2aac0632e690cc
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div><div style=3D"font-family:arial,sans-serif;color:rgb(=
+68,68,68)" class=3D"gmail_default">Kaixo familiak:</div><div style=3D"font-=
+family:arial,sans-serif;color:rgb(68,68,68)" class=3D"gmail_default"><br></=
+div><div style=3D"font-family:arial,sans-serif;color:rgb(68,68,68)" class=
+=3D"gmail_default">Jakinarazten dizuegu behin-betiko matrikulazio zerrendak=
+ argitaratu direla eta zuen seme-alabak Orokietan onartuak izan direla. Alb=
+iste bikaina denontzat!</div><div style=3D"font-family:arial,sans-serif;col=
+or:rgb(68,68,68)" class=3D"gmail_default">Ekainaren amaieran edo uztailaren=
+ hasieran zuekin harremanetan jarriko gara bilera bat egiteko eta bertan, i=
+railerako beharko duzuen informazio guztia helaraziko dizuegu.</div><div st=
+yle=3D"font-family:arial,sans-serif;color:rgb(68,68,68)" class=3D"gmail_def=
+ault"><br></div><div style=3D"font-family:arial,sans-serif;color:rgb(68,68,=
+68)" class=3D"gmail_default"><br></div><div style=3D"font-family:arial,sans=
+-serif;color:rgb(68,68,68)" class=3D"gmail_default">
+<span class=3D"gmail-form-control-text gmail-textarea" role=3D"textbox" id=
+=3D"gmail-translation_box" style=3D"display:block"><div class=3D"gmail-row"=
+><div class=3D"gmail-col-md-12 gmail-col-xs-12"><i>Os
+ informamos que se han publicado las listas definitivas de matriculaci=C3=
+=B3n
+ y vuestros hijos/as han sido admitidos/as en Orokieta. =C2=A1Excelente not=
+icia=20
+para todos y todas!<br>A finales de junio o principios de julio nos pondrem=
+os en
+ contacto con vosotras/as para mantener una reuni=C3=B3n en la que les hare=
+mos=20
+llegar toda la informaci=C3=B3n que necesitareis=C2=A0 para septiembre.</i>=
+</div><div class=3D"gmail-col-md-12 gmail-col-xs-12"><br></div><div class=
+=3D"gmail-col-md-12 gmail-col-xs-12">
+Bitartean, ondo pasa eta izan zoriontsu! <br></div><div class=3D"gmail-col-=
+md-12 gmail-col-xs-12"><br></div><div class=3D"gmail-col-md-12 gmail-col-xs=
+-12">Zuzendaritza Taldea</div><div class=3D"gmail-col-md-12 gmail-col-xs-12=
+"><br></div><div class=3D"gmail-col-md-12 gmail-col-xs-12">Aran, Maider eta=
+ Saioa</div><div class=3D"gmail-col-md-12 gmail-col-xs-12"><br></div><div c=
+lass=3D"gmail-col-md-12 gmail-col-xs-12">=C2=A0</div></div></span>
+
+<br></div><br clear=3D"all"></div><div><div dir=3D"ltr" class=3D"gmail_sign=
+ature" data-smartmail=3D"gmail_signature"><div dir=3D"ltr">=C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0<img width=3D"200" height=3D"167" src=3D"https:/=
+/ci3.googleusercontent.com/mail-sig/AIorK4zE9sANzyAaFKOFeA4q1UtzNkQQMfe8P-B=
+-EykOmGwjOjRIMNvX3Zv7c6Ho-r280NZkzjc1nAOAQOgv">=C2=A0 =C2=A0<br><div>=C2=A0=
+ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0<font face=3D"verda=
+na, sans-serif" color=3D"#0b5394"> =C2=A0Orokieta Herri Eskola</font></div>=
+<div><font face=3D"verdana, sans-serif" color=3D"#0b5394">=C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0943 899 130</fon=
+t></div><div><font face=3D"verdana, sans-serif" color=3D"#0b5394">=C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0www.orokieta.eus</fo=
+nt></div></div></div></div></div>
+
+--000000000000ef2aac0632e690cc--
