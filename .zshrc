@@ -4,6 +4,9 @@ case $- in
     *) return;;
 esac
 
+# Configuración GPG: establecer la terminal actual para que la use GPG
+export GPG_TTY=$TTY
+
 # Aliases
 [ -r ~/.aliases ] && . ~/.aliases
 
