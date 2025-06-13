@@ -64,14 +64,78 @@ macro index,pager \` "<enter-command>sidebar-toggle-visible<enter>" "Toggle side
 macro index,pager \Cu "<sidebar-prev>" "Carpeta anterior"
 macro index,pager \Cd "<sidebar-next>" "Carpeta siguiente"
 
-# ==============================================
-# Optimizaciones
-# ==============================================
+# =====================================================================
+# DESHABILITAR TECLAS POR DEFECTO
+# =====================================================================
+bind index,pager i noop        # Deshabilita 'i'
+bind index,pager g noop        # Deshabilita 'g'
+bind index \Cf noop            # Deshabilita Ctrl+F
+bind index,pager M noop        # Deshabilita 'M'
+bind index,pager C noop        # Deshabilita 'C'
 
-# ==============================================
-# Optimización para Gmail
-# ==============================================
-# set maildir_trash = yes         # Sincroniza con Papelera de Gmail
+# =====================================================================
+# NAVEGACIÓN TIPO VIM (INDEX/PAGER)
+# =====================================================================
+bind index gg first-entry      # gg: Primer mensaje
+bind index j next-entry        # j: Mensaje siguiente
+bind index k previous-entry    # k: Mensaje anterior
+bind index G last-entry        # G: Último mensaje
+bind index l display-message   # l: Mostrar mensaje completo
+
+bind pager j next-line         # j: Bajar línea (mensaje abierto)
+bind pager k previous-line     # k: Subir línea (mensaje abierto)
+bind pager gg top              # gg: Inicio del mensaje
+bind pager G bottom            # G: Fin del mensaje
+bind pager h exit              # h: Salir del visor de mensajes
+
+# =====================================================================
+# GESTIÓN DE MENSAJES
+# =====================================================================
+bind index D delete-message    # D: Eliminar mensaje
+bind index U undelete-message  # U: Recuperar mensaje
+bind index L limit             # L: Filtrar mensajes
+bind index,query <space> tag-entry  # Espacio: Seleccionar mensaje
+bind index,pager S sync-mailbox     # S: Sincronizar buzón
+bind index,pager R group-reply      # R: Responder a todos
+# bind index,pager H view-raw-message # H: Ver código fuente del mensaje
+
+# =====================================================================
+# ADJUNTOS
+# =====================================================================
+bind attach <return> view-mailcap  # Enter: Ver adjunto con mailcap
+bind attach l view-mailcap         # l: Ver adjunto
+bind pager l view-attachments      # l: Listar adjuntos (desde mensaje)
+
+# =====================================================================
+# NAVEGACIÓN ENTRE CARPETAS (BROWSER)
+# =====================================================================
+bind browser l select-entry    # l: Entrar en carpeta
+bind browser gg top-page       # gg: Primera carpeta
+bind browser G bottom-page     # G: Última carpeta
+macro browser h '<change-dir><kill-line>..<enter>' # h: Subir carpeta
+
+# =====================================================================
+# SCROLL Y VISUALIZACIÓN AVANZADA
+# =====================================================================
+bind index,pager,browser d half-down  # d: Media página abajo
+bind index,pager,browser u half-up    # u: Media página arriba
+
+# Soporte para rueda del ratón
+bind index \031 previous-undeleted  # Scroll ↑: Mensaje anterior
+bind index \005 next-undeleted      # Scroll ↓: Mensaje siguiente
+bind pager \031 previous-line       # Scroll ↑: Subir línea
+bind pager \005 next-line           # Scroll ↓: Bajar línea
+
+# =====================================================================
+# EDITOR DE MENSAJES
+# =====================================================================
+bind editor <Tab> complete-query  # Tab: Autocompletar
+bind editor <space> noop          # Deshabilita espacio en editor
+
+# =====================================================================
+# ACCIONES DESHABILITADAS
+# =====================================================================
+bind index h noop  # h: Sin función (reservado para navegación)
 
 # ==============================================
 # Seguridad y certificados
