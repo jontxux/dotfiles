@@ -85,7 +85,6 @@ refresh() {
     refresh_token=$(echo "$tokens_json" | jq -r '.refresh_token')
     tkn_uri="https://accounts.google.com/o/oauth2/token"
 
-    echo "Refrescando token..."
     response=$(curl -s -X POST -d \
         "client_id=$id&client_secret=$secret&refresh_token=$refresh_token&grant_type=refresh_token" \
         "$tkn_uri")
