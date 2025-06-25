@@ -1,0 +1,8 @@
+[options]
+# Relleno de fondo con color sólido (sin overlay)
+background = 282828
+
+[binds]
+n = next
+<Shift+N> = prev
+N = prev
