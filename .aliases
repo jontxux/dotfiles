@@ -1,0 +1,63 @@
+# Alias para montar y desmontar USB en español
+alias montarusb='doas mount -v /dev/sdb1 /media/usb'
+alias desmontarusb='doas umount -v /media/usb'
+
+# Aliases para ls con colores
+alias ls='eza --icons --color=auto --group-directories-first'  # Listado básico con iconos
+alias la='eza --icons --color=auto --group-directories-first -a'  # Listado con iconos
+alias ll='eza -lah --icons --color=auto --group-directories-first --git'  # Listado detallado + git
+alias lt='eza --tree -L 2 --icons --color=auto --group-directories-first'  # Vista árbol
+alias ltg='eza --tree -L 2 --git-ignore --icons --color=auto'  # Vista árbol + git status
+
+# Alias para grep con colores
+alias grep='grep --color=auto'
+alias egrep='egrep --color=auto'
+alias fgrep='fgrep --color=auto'
+
+# Alias para buscar y mostrar contenido de archivos con fd
+alias fca='fd -tf -x sh -c "echo {}; cat {}"'
+
+# Alias para ver procesos
+alias psg='ps aux | grep'
+
+# Alias para emerge
+alias actualizar='doas emerge --sync && doas emerge --ask --verbose --update --deep --newuse @world'
+alias actualizar_sin_sync='doas emerge --ask --verbose --update --deep --newuse @world'
+alias pulir_mundo='doas emerge --ask --emptytree --verbose @world'
+alias recompilar_todo='doas emerge --ask --emptytree --verbose @world'
+alias repo_sync='doas emerge --sync'
+alias instalar='doas emerge -av'
+alias desinstalar='doas emerge --unmerge'
+alias limpiar='doas emerge --depclean'
+alias buscar='emerge --search'
+alias info_paquete='emerge --info'
+alias ver_instalados='eix -I'
+
+# Alias para apagar y reiniciar
+alias shutdown='doas shutdown -h now'
+alias reboot='doas reboot'
+
+# Alias de Git
+alias gpl='git pull'
+alias gps='git push'
+alias gdf='git diff'
+alias gst='git status'
+alias gcm='git commit'
+alias gco='git checkout'
+alias gbr='git branch'
+alias glg='git log --oneline --graph --all --decorate'
+
+# Alias adicionales recomendados
+alias gad='git add'
+alias gaa='git add .'
+alias gca='git commit -a -m'
+alias gamend='git commit --amend'
+alias gundo='git reset --soft HEAD~1'
+
+alias sudo='doas'
+alias weather='curl es.wttr.in/Zarautz'
+
+#fzf
+alias rmfzf='fzf -m --print0 | xargs -0 rm -v'
+alias cpfzf='fzf -m --print0 | xargs -0 -I {} cp -rv "{}"'
+
