@@ -411,8 +411,6 @@ map D delete
 map E extract
 map Z comprimir
 map T nuevo
-map S firmar
-map M seleccionar_fzf
 
 # Mapeos de teclas para operaciones comunes
 map <f-7> push :mkdir<space>""<left>
@@ -435,4 +433,6 @@ map V push :!vim<space>
 map Y $printf "%s" "$fx" | wl-copy
 map gs :fzf_search
 map gf :fzf_jump
+map S firmar
+map M seleccionar_fzf
 
