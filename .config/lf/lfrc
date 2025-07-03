@@ -51,7 +51,7 @@ cmd on-cd &{{
 # Apertura de archivos basada en MIME
 cmd open ${{
     case $(file --mime-type -b "$f") in
-        text/*|application/json) $EDITOR "$f" ;;
+        text/*|application/json|application/pgp-signature) $EDITOR "$f" ;;
         application/pdf) setsid -f zathura "$f" >/dev/null 2>&1 & ;;
         audio/*|video/*) setsid -f mpv -- "$f" >/dev/null 2>&1 & ;;
         image/*) setsid -f imv "$f" >/dev/null 2>&1 & ;;

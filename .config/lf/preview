@@ -31,7 +31,7 @@ case "$(file --dereference --brief --mime-type -- "$1")" in
         transmission-show "$1"
         ;;
     text/html) lynx -width="$4" -display_charset=utf-8 -dump "$1" ;;
-    text/* | */xml | application/json | application/x-ndjson | application/x-wine-extension-ini)
+    text/* | */xml | application/json | application/x-ndjson | application/x-wine-extension-ini | application/pgp-signature)
         # Usamos 'head' para mostrar solo las primeras 100 líneas
         use_pager "$1" ;;
     video/*)
