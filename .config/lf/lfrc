@@ -421,12 +421,28 @@ cmd encriptar ${{
     echo "  $f"
     printf "%b%s%b\n" "${BOLD}${BLUE}╰────────────────────────${RESET}"
 
-    # Mostrar claves públicas disponibles
+    # Mostrar claves públicas disponibles de manera más limpia
     printf "%bClaves públicas disponibles:%b\n" "${BOLD}" "${RESET}"
-    gpg --list-public-keys --keyid-format LONG | awk '/pub/ {getline; print "  " $0}'
+    gpg --list-public-keys --keyid-format LONG | 
+        awk '
+            /^pub/ {
+                if (key_id) printf "  %s - %s\n", key_id, uid
+                key_id = $2
+                sub(/.*\//, "", key_id)   # Extraer solo el ID de clave
+                uid = ""
+            }
+            /^uid/ {
+                # Limpiar la línea UID: quitar "uid" y cualquier etiqueta
+                uid = substr($0, index($0, "]") + 2)
+                if (uid == "") uid = substr($0, 5)
+            }
+            END {
+                if (key_id) printf "  %s - %s\n", key_id, uid
+            }
+        '
 
     # Solicitar ID de clave del destinatario
-    read -p "${BOLD}${MAGENTA}ID de clave del destinatario: ${RESET}" key_id
+    read -p "${BOLD}${MAGENTA}ID de clave (corto) o correo: ${RESET}" key_id
 
     if [ -z "$key_id" ]; then
         printf "%b%s%b\n" "${RED}${BOLD}" "${CROSS} Error: Debe especificar un destinatario" "${RESET}"
