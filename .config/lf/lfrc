@@ -119,52 +119,7 @@ cmd nuevo ${{
 
 # Eliminación de archivos
 cmd delete ${{
-    # Generar códigos ANSI en cada ejecución
-    BOLD=$(tput bold)
-    BLUE=$(tput setaf 4)      # Reemplaza rojo
-    MAGENTA=$(tput setaf 5)   # Reemplaza amarillo
-    CYAN=$(tput setaf 6)      # Nuevo color
-    GREEN=$(tput setaf 2)
-    RESET=$(tput sgr0)
-    CHECK=$'\u2713'  # ✓
-    CROSS=$'\u2717'  # ✗
-
-    clear
-    files_count=$(echo "$fx" | grep -c '^')
-
-    # Calcular tamaño total
-    total_size=$(echo "$fx" | xargs -d '\n' du -sch 2>/dev/null | grep total | cut -f1)
-    [ -z "$total_size" ] && total_size="0"
-
-    printf "%b%s%b\n" "${BOLD}${BLUE}╭── ELIMINACIÓN DE ARCHIVOS ──${RESET}"
-    printf "%bArchivos seleccionados:%b\n" "${BOLD}" "${RESET}"
-    echo "$fx" | nl -s ") " -w 2 | sed "s/^/  /"
-    printf "\n%bTamaño total: %s%b\n" "${BOLD}${CYAN}" "${total_size}" "${RESET}"
-    printf "%b%s%b\n" "${BOLD}${BLUE}╰─────────────────────────────${RESET}"
-
-    read -p "${BOLD}${MAGENTA}¿Eliminar permanentemente? [y/N]:${RESET} " ans
-
-    if [ "$ans" = "y" ]; then
-        errors=0
-        while IFS= read -r -d $'\n' file; do
-            [ -z "$file" ] && continue
-            printf "%bEliminando %s...%b" "${MAGENTA}" "$file" "${RESET}"
-            if rm -rf "$file"; then
-                printf "\r%b%-50s %b%s%b\n" "${GREEN}" "${CHECK} $file" "${RESET}" "OK"
-            else
-                printf "\r%b%-50s %b%s%b\n" "${CYAN}" "${CROSS} $file" "${RESET}" "ERROR"
-                ((errors++))
-            fi
-        done <<< "$fx"
-
-        [ $errors -eq 0 ] && status="${GREEN}Completado sin errores${RESET}" || status="${CYAN}Completado con $errors error(es)${RESET}"
-        printf "%b%s%b\n" "${BOLD}" "Resultado: $status" "${RESET}"
-        read -p "${BOLD}${MAGENTA}Presione Enter para continuar...${RESET}"
-        lf -remote "send load"
-    else
-        printf "%b%s%b\n" "${BOLD}${MAGENTA}" "${CROSS} Operación cancelada" "${RESET}"
-        read -p "${BOLD}${MAGENTA}Presione Enter para continuar...${RESET}"
-    fi
+    bash ~/.config/lf/scripts/delete.sh "$fx"
 }}
 
 cmd checksum ${{
@@ -211,67 +166,8 @@ cmd permissions ${{
 }}
 
 # Comando para firmar archivos con GPG
-cmd firmar ${{ 
-    # Configuración de estilos
-    BOLD=$(tput bold)
-    BLUE=$(tput setaf 4)
-    MAGENTA=$(tput setaf 5)
-    CYAN=$(tput setaf 6)
-    GREEN=$(tput setaf 2)
-    RED=$(tput setaf 1)
-    RESET=$(tput sgr0)
-    CHECK=$'\u2713'  # ✓
-    CROSS=$'\u2717'  # ✗
-
-    clear
-
-    # Verificar si GPG está instalado
-    if ! command -v gpg &>/dev/null; then
-        printf "%b%s%b\n" "${RED}${BOLD}" "${CROSS} Error: GPG no está instalado" "${RESET}"
-        read -p "${BOLD}${MAGENTA}Presione Enter para continuar...${RESET}"
-        return 1
-    fi
-
-    # Encabezado
-    printf "%b%s%b\n" "${BOLD}${BLUE}╭── FIRMAR ARCHIVO ───${RESET}"
-    printf "%bArchivo seleccionado:%b\n" "${BOLD}" "${RESET}"
-    echo "  $f"
-    printf "%b%s%b\n" "${BOLD}${BLUE}╰──────────────────────${RESET}"
-
-    # Mostrar claves disponibles
-    printf "%bClaves GPG disponibles:%b\n" "${BOLD}" "${RESET}"
-    gpg --list-secret-keys --keyid-format LONG | grep -A1 sec | awk '{ if (NR%3==1) print $2 }' | cut -d'/' -f2 | while read -r key; do
-        gpg --list-key "$key" | awk '/uid/ {print "  " $0}'
-    done
-
-    # Solicitar ID de clave
-    read -p "${BOLD}${MAGENTA}ID de clave GPG (dejar vacío para predeterminada): ${RESET}" key_id
-
-    # Confirmar firma
-    read -p "${BOLD}${MAGENTA}¿Firmar el archivo? [y/N]: ${RESET}" ans
-    if [ "$ans" = "y" ]; then
-        # Construir comando de firma
-        if [ -z "$key_id" ]; then
-            cmd="gpg --detach-sign --armor \"$f\""
-            output_file="$f.asc"
-        else
-            cmd="gpg --detach-sign --armor -u \"$key_id\" \"$f\""
-            output_file="$f.$key_id.asc"
-        fi
-
-        # Ejecutar firma
-        printf "%b%s%b\n" "${CYAN}⌛ Firmando archivo...${RESET}"
-        if eval "$cmd"; then
-            printf "\r%b%-50s %b%s%b\n" "${GREEN}" "${CHECK} Éxito: " "${RESET}" "Firma creada: $output_file"
-            lf -remote "send load"
-        else
-            printf "\r%b%-50s %b%s%b\n" "${RED}" "${CROSS} Error: " "${RESET}" "Fallo en la firma"
-        fi
-    else
-        printf "%b%s%b\n" "${MAGENTA}" "${CROSS} Operación cancelada" "${RESET}"
-    fi
-
-    read -p "${BOLD}${MAGENTA}Presione Enter para continuar...${RESET}"
+cmd firmar ${{
+    bash ~/.config/lf/scripts/sign.sh "$id" "$f"
 }}
 
 # Comando para encriptar archivos con GPG
