@@ -1,12 +1,7 @@
 #!/usr/bin/env bash
 
 # Recibir múltiples archivos como parámetros
-files=()
-for arg in "$@"; do
-    while IFS= read -r line; do
-        [ -n "$line" ] && files+=("$line")
-    done <<< "$arg"
-done
+files=("$@")
 
 # Configuración de estilos
 BOLD=$(tput bold)
@@ -30,7 +25,7 @@ fi
 
 # Validar que los archivos existan
 valid_files=()
-for file in "${files[@]}"; do
+for file in ${files[@]}; do
     if [ ! -e "$file" ]; then
         printf "%b%s %b%s%b\n" "${RED}${BOLD}" "${CROSS}" "${RESET}" "Error: El archivo no existe: $file"
     else
@@ -88,7 +83,7 @@ if [[ "$ans" = "y" || "$ans" = "Y" ]]; then
     else
         status="${RED}Completado con $errors error(es)${RESET}"
     fi
-    
+
     printf "\n%b%s%b\n" "${BOLD}" "Resultado: $status" "${RESET}"
 else
     printf "%b%s %b%s%b\n" "${BOLD}${MAGENTA}" "${CROSS}" "${RESET}" "Operación cancelada"
