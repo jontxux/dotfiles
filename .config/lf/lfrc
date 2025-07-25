@@ -123,34 +123,7 @@ cmd delete ${{
 }}
 
 cmd checksum ${{
-    # Determinar archivos a procesar usando $fx
-    files="$fx"
-
-    # Validar que existan archivos
-    if [ -z "$files" ]; then
-        echo "No hay archivos para procesar"
-        read -p "${BOLD}${MAGENTA}Presione Enter para continuar...${RESET}"
-        return
-    fi
-
-    # Selección de algoritmo
-    printf "Seleccione algoritmo:\n1) MD5\n2) SHA256\n3) SHA1\n"
-    read -p "Opción: " algo
-
-    case $algo in
-        1) checksum="md5sum" ;;
-        2) checksum="sha256sum" ;;
-        3) checksum="sha1sum" ;;
-        *) return ;;
-    esac
-
-    # Procesar todos los archivos
-    for file in $files; do
-        printf "\n${BOLD}${CYAN}%s:${RESET}\n" "$file"
-        $checksum "$file" | awk '{print $1}'
-    done
-
-    read -p "${BOLD}${MAGENTA}Presione Enter para continuar...${RESET}"
+    bash ~/.config/lf/scripts/checksum.sh "$fx"
 }}
 
 cmd permissions ${{
