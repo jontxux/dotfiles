@@ -51,7 +51,7 @@ cmd on-cd &{{
 # Apertura de archivos basada en MIME
 cmd open ${{
     case $(file --mime-type -b "$f") in
-        text/*|application/json|application/pgp-*) $EDITOR "$f" ;;
+        text/*|application/json|application/pgp-*|inode/x-empty) $EDITOR "$f" ;;
         application/pdf) setsid -f zathura "$f" >/dev/null 2>&1 & ;;
         audio/*|video/*) setsid -f mpv -- "$f" >/dev/null 2>&1 & ;;
         image/*) setsid -f imv "$f" >/dev/null 2>&1 & ;;
@@ -74,47 +74,7 @@ cmd comprimir ${{
 
 # Creación de nuevos archivos
 cmd nuevo ${{
-    # Generar códigos ANSI en cada ejecución
-    BOLD=$(tput bold)
-    BLUE=$(tput setaf 4)
-    MAGENTA=$(tput setaf 5)
-    CYAN=$(tput setaf 6)
-    GREEN=$(tput setaf 2)
-    RESET=$(tput sgr0)
-    CHECK=$'\u2713'  # ✓
-    CROSS=$'\u2717'  # ✗
-
-    clear
-    # Encabezado estilo delete
-    printf "%b%s%b\n" "${BOLD}${BLUE}╭── NUEVO ARCHIVO ────${RESET}"
-
-    # Input con estilo consistente
-    read -p "${BOLD}${MAGENTA}Nombre del archivo: ${RESET}" nombre_archivo
-
-    # Pie de sección
-    printf "%b%s%b\n" "${BOLD}${BLUE}╰─────────────────────${RESET}"
-
-    if [ -z "$nombre_archivo" ]; then
-        printf "\n%b%-50s %b%s%b\n" "${CYAN}" "${CROSS} Error: " "${RESET}" "Nombre no válido"
-        read -p "${BOLD}${MAGENTA}Presione Enter para continuar...${RESET}"
-        return
-    fi
-
-    if [ -e "$nombre_archivo" ]; then
-        printf "\n%b%-50s %b%s%b\n" "${CYAN}" "${CROSS} Error: " "${RESET}" "El archivo ya existe"
-        read -p "${BOLD}${MAGENTA}Presione Enter para continuar...${RESET}"
-        return
-    fi
-
-    if touch "$nombre_archivo"; then
-        printf "\n%b%-50s %b%s%b\n" "${GREEN}" "${CHECK} Éxito: " "${RESET}" "Archivo creado: $nombre_archivo"
-        read -p "${BOLD}${MAGENTA}Presione Enter para continuar...${RESET}"
-        lf -remote "send $id select \"$nombre_archivo\""
-        lf -remote "send load"
-    else
-        printf "\n%b%-50s %b%s%b\n" "${CYAN}" "${CROSS} Error: " "${RESET}" "No se pudo crear el archivo"
-        read -p "${BOLD}${MAGENTA}Presione Enter para continuar...${RESET}"
-    fi
+    bash ~/.config/lf/scripts/new.sh "$id"
 }}
 
 # Eliminación de archivos
@@ -127,15 +87,78 @@ cmd checksum ${{
 }}
 
 cmd permissions ${{
+
+    # Definir colores y estilos
+    BOLD=$(tput bold)
+    BLUE=$(tput setaf 4)
+    MAGENTA=$(tput setaf 5)
+    CYAN=$(tput setaf 6)
+    YELLOW=$(tput setaf 3)
+    RED=$(tput setaf 1)
+    GREEN=$(tput setaf 2)
+    RESET=$(tput sgr0)
+    CHECK=$'\u2713'  # ✓
+    CROSS=$'\u2717'  # ✗
+
+    # Verificar que se haya seleccionado al menos un archivo
+    if [ -z "$fx" ]; then
+        printf "%b%s %b%s%b\n" "${RED}${BOLD}" "${CROSS}" "${RESET}" "Error: Debe seleccionar al menos un archivo"
+        printf "\n%bPresione cualquier tecla para continuar...%b" "${BOLD}${MAGENTA}" "${RESET}"
+        read -n1 -s
+        return 1
+    fi
+
     clear
-    stat -c "Nombre: %n" "$f"
-    stat -c "Tamaño: %s bytes" "$f"
-    stat -c "Permisos: %A" "$f"
-    stat -c "Dueño: %U:%G" "$f"
-    stat -c "Último acceso: %x" "$f"
-    stat -c "Última modificación: %y" "$f"
-    echo "Presione cualquier tecla para continuar..."
-    read -n1
+
+    # Encabezado principal
+    printf "%b%s%b\n" "${BOLD}${BLUE}╭── PERMISOS DE ARCHIVOS ──${RESET}"
+    printf "%bArchivos seleccionados:%b %d\n\n" "${BOLD}${CYAN}" "${RESET}" $(echo "$fx" | wc -l)
+
+    # Procesar cada archivo
+    for file in $fx; do
+        # Verificar que el archivo existe
+        if [ ! -e "$file" ]; then
+            printf "%b%s %b%s '%s'%b\n" "${RED}${BOLD}" "${CROSS}" "${RESET}" "Error: El archivo" "${YELLOW}$file${RESET}" "no existe"
+            continue
+        fi
+
+        # Encabezado para cada archivo
+        printf "%b%s:%b\n" "${BOLD}${GREEN}" "$file" "${RESET}"
+
+        # Obtener los datos con stat
+        stats=$(stat -c $'  Permisos: %A\n  Tamaño: %s bytes\n  Dueño: %U:%G\n  Último acceso: %x\n  Última modificación: %y' "$file")
+
+        # Formatear cada línea con colores y simplificar fechas
+        while IFS= read -r line; do
+            if [[ "$line" =~ ^([^:]+):[[:space:]]*(.*)$ ]]; then
+                label="${BOLD}${CYAN}${BASH_REMATCH[1]}${RESET}"
+                value="${BASH_REMATCH[2]}"
+
+                # Simplificar fechas (eliminar fracciones de segundo y zona horaria)
+                if [[ "$line" == *"acceso"* || "$line" == *"modificación"* ]]; then
+                    value=$(echo "$value" | awk '{print $1, $2}' | cut -d. -f1)
+                fi
+
+                # Color especial para permisos
+                if [[ "$line" == *"Permisos:"* ]]; then
+                    value="${BOLD}${MAGENTA}${value}${RESET}"
+                fi
+
+                printf "%-18s %s\n" "$label" "$value"
+            else
+                printf "%s\n" "$line"
+            fi
+        done <<< "$stats"
+
+        echo ""  # Espacio entre archivos
+    done
+
+    # Pie de sección
+    printf "%b%s%b\n" "${BOLD}${BLUE}╰──────────────────────────${RESET}"
+
+    # Mensaje final con estilo consistente
+    printf "\n%bPresione cualquier tecla para continuar...%b" "${BOLD}${MAGENTA}" "${RESET}"
+    read -n1 -s
 }}
 
 # Comando para firmar archivos con GPG
