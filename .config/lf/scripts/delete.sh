@@ -1,7 +1,12 @@
 #!/usr/bin/env bash
 
 # Recibir múltiples archivos como parámetros
-files=("$@")
+files="$1"
+
+# Si solo hay un parámetro y contiene saltos de línea, dividirlo
+if [ ${#files[@]} -eq 1 ] && [[ "${files[0]}" == *$'\n'* ]]; then
+    IFS=$'\n' read -d '' -r -a files <<< "${files[0]}"
+fi
 
 # Configuración de estilos
 BOLD=$(tput bold)
@@ -25,7 +30,7 @@ fi
 
 # Validar que los archivos existan
 valid_files=()
-for file in ${files[@]}; do
+for file in "${files[@]}"; do
     if [ ! -e "$file" ]; then
         printf "%b%s %b%s%b\n" "${RED}${BOLD}" "${CROSS}" "${RESET}" "Error: El archivo no existe: $file"
     else
