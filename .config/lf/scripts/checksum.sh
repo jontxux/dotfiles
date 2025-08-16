@@ -1,7 +1,12 @@
 #!/usr/bin/env bash
 
 # Recibir archivos como parámetros
-files=("$@")
+files="$1"
+
+# Si solo hay un parámetro y contiene saltos de línea, dividirlo
+if [ ${#files[@]} -eq 1 ] && [[ "${files[0]}" == *$'\n'* ]]; then
+    IFS=$'\n' read -d '' -r -a files <<< "${files[0]}"
+fi
 
 # Configuración de estilos
 BOLD=$(tput bold)
@@ -53,7 +58,7 @@ esac
 # Procesar archivos
 printf "\n%b%s%b\n" "${CYAN}⌛ Calculando checksums...${RESET}"
 all_success=true
-for file in ${files[@]}; do
+for file in "${files[@]}"; do
     if [ ! -e "$file" ]; then
         printf "\n%b%s %b%s%b\n" "${RED}${BOLD}" "${CROSS}" "${RESET}" "Error: Archivo no encontrado: $file"
         all_success=false
