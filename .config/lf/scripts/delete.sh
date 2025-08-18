@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 # Recibir múltiples archivos como parámetros
-files="$1"
+files=("$@")
 
 # Si solo hay un parámetro y contiene saltos de línea, dividirlo
 if [ ${#files[@]} -eq 1 ] && [[ "${files[0]}" == *$'\n'* ]]; then
