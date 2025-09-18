@@ -61,7 +61,7 @@
 #define TAMAÑO_MAX_MENSAJE_IPC (2 * 1024 * 1024)  // 2MB es más que suficiente
 #define TAMAÑO_MAX_JSON_SWAY (1024 * 1024)     /* 1MB máximo para JSON de sway */
 #define PROFUNDIDAD_MAX_JSON 50                /* Evitar stack overflow en recursión */
-                                                  //
+//
 
 /* -------------------------
  *  Estructuras
@@ -190,7 +190,7 @@ static void notificar_evento(struct Contexto *cx) {
 static int volumen_a_porcentaje(const pa_cvolume *cv) {
     if (!cv || cv->channels == 0) return -1;
     pa_volume_t v = pa_cvolume_avg(cv);
-    long pct = (long)((v * 100ULL + (PA_VOLUME_NORM/2)) / PA_VOLUME_NORM);
+    long pct = (long)((v * 100ULL + (PA_VOLUME_NORM / 2)) / PA_VOLUME_NORM);
     if (pct < 0) pct = 0;
     if (pct > 200) pct = 200;
     return (int)pct;
@@ -295,7 +295,7 @@ static void solicitar_info_sumidero_actual(struct Contexto *cx) {
     if (cx->estado.nombre_sumidero[0] != '\0') {
         pa_operation *op = pa_context_get_sink_info_by_name(cx->ctx, cx->estado.nombre_sumidero, cb_info_sumidero, cx);
         if (op) pa_operation_unref(op);
-    } else if (cx->estado.indice_sumidero != (uint32_t)-1) {
+    } else if (cx->estado.indice_sumidero != (uint32_t) -1) {
         pa_operation *op = pa_context_get_sink_info_by_index(cx->ctx, cx->estado.indice_sumidero, cb_info_sumidero, cx);
         if (op) pa_operation_unref(op);
     }
@@ -338,8 +338,8 @@ static void cb_info_servidor(pa_context *c, const pa_server_info *info, void *us
 
     pthread_mutex_lock(&cx->candado);
     if (info && info->default_sink_name) {
-        strncpy(cx->estado.nombre_sumidero, info->default_sink_name, sizeof(cx->estado.nombre_sumidero)-1);
-        cx->estado.nombre_sumidero[sizeof(cx->estado.nombre_sumidero)-1] = '\0';
+        strncpy(cx->estado.nombre_sumidero, info->default_sink_name, sizeof(cx->estado.nombre_sumidero) -1);
+        cx->estado.nombre_sumidero[sizeof(cx->estado.nombre_sumidero) -1] = '\0';
     }
     pthread_mutex_unlock(&cx->candado);
 
@@ -456,7 +456,7 @@ static int leer_ipc(int fd, uint32_t *type_out, char **out_buf, uint32_t *out_le
     }
 
     if (r != (ssize_t)sizeof(header)) {
-        fprintf(stderr, "Error: cabecera IPC incompleta (recibidos %zd de %zu bytes)\n", 
+        fprintf(stderr, "Error: cabecera IPC incompleta (recibidos %zd de %zu bytes)\n",
                 r, sizeof(header));
         return -1;
     }
@@ -469,18 +469,18 @@ static int leer_ipc(int fd, uint32_t *type_out, char **out_buf, uint32_t *out_le
 
     /* === EXTRAER LONGITUD Y TIPO (little-endian) === */
     uint32_t len = (uint32_t)header[MAGIC_LEN + 0]
-                 | ((uint32_t)header[MAGIC_LEN + 1] << 8)
-                 | ((uint32_t)header[MAGIC_LEN + 2] << 16)
-                 | ((uint32_t)header[MAGIC_LEN + 3] << 24);
+                   | ((uint32_t)header[MAGIC_LEN + 1] << 8)
+                   | ((uint32_t)header[MAGIC_LEN + 2] << 16)
+                   | ((uint32_t)header[MAGIC_LEN + 3] << 24);
 
     uint32_t type = (uint32_t)header[MAGIC_LEN + 4]
-                  | ((uint32_t)header[MAGIC_LEN + 5] << 8)
-                  | ((uint32_t)header[MAGIC_LEN + 6] << 16)
-                  | ((uint32_t)header[MAGIC_LEN + 7] << 24);
+                    | ((uint32_t)header[MAGIC_LEN + 5] << 8)
+                    | ((uint32_t)header[MAGIC_LEN + 6] << 16)
+                    | ((uint32_t)header[MAGIC_LEN + 7] << 24);
 
     /* === VALIDACIONES DE SEGURIDAD CRÍTICAS === */
     if (len > TAMAÑO_MAX_MENSAJE_IPC) {
-        fprintf(stderr, "Error crítico: mensaje IPC demasiado grande (%u bytes, máximo %d)\n", 
+        fprintf(stderr, "Error crítico: mensaje IPC demasiado grande (%u bytes, máximo %d)\n",
                 len, TAMAÑO_MAX_MENSAJE_IPC);
         return -1;
     }
@@ -513,7 +513,7 @@ static int leer_ipc(int fd, uint32_t *type_out, char **out_buf, uint32_t *out_le
         /* === LEER PAYLOAD DEL MENSAJE === */
         ssize_t r_payload = leer_exacto(fd, buf, len);
         if (r_payload != (ssize_t)len) {
-            fprintf(stderr, "Error: payload IPC incompleto (recibidos %zd de %u bytes)\n", 
+            fprintf(stderr, "Error: payload IPC incompleto (recibidos %zd de %u bytes)\n",
                     r_payload, len);
             free(buf);
             return -1;
@@ -582,7 +582,7 @@ static char* crear_cadena_fallback(const char* mensaje_fallback) {
     if (!mensaje_fallback) {
         mensaje_fallback = "[error interno]";
     }
-    
+
     char* resultado = strdup(mensaje_fallback);
     if (!resultado) {
         fprintf(stderr, "Error crítico: no se pudo asignar memoria para mensaje de fallback\n");
@@ -599,30 +599,30 @@ static bool validar_json_entrada(const char *json_str, uint32_t len) {
         fprintf(stderr, "Error: cadena JSON es NULL\n");
         return false;
     }
-    
+
     if (len == 0) {
         fprintf(stderr, "Error: longitud JSON es cero\n");
         return false;
     }
-    
+
     if (len > TAMAÑO_MAX_JSON_SWAY) {
-        fprintf(stderr, "Error: JSON demasiado grande (%u bytes, máximo %d)\n", 
+        fprintf(stderr, "Error: JSON demasiado grande (%u bytes, máximo %d)\n",
                 len, TAMAÑO_MAX_JSON_SWAY);
         return false;
     }
-    
+
     /* Verificar que la cadena no esté truncada */
     if (strlen(json_str) != len) {
         fprintf(stderr, "Advertencia: longitud JSON no coincide con strlen()\n");
         /* No es fatal, pero sí sospechoso */
     }
-    
+
     /* Verificar que contenga al menos caracteres básicos de JSON */
     if (json_str[0] != '{' && json_str[0] != '[') {
         fprintf(stderr, "Error: JSON no comienza con { o [\n");
         return false;
     }
-    
+
     return true;
 }
 
@@ -633,67 +633,67 @@ static void buscar_foco_recursivo_seguro(struct json_object *array, char **nombr
         fprintf(stderr, "Error: parámetros inválidos en buscar_foco_recursivo_seguro\n");
         return;
     }
-    
+
     if (*nombre_salida) {
         return; /* Ya encontramos el foco */
     }
-    
+
     /* Protección contra stack overflow */
     if (profundidad > PROFUNDIDAD_MAX_JSON) {
         fprintf(stderr, "Advertencia: profundidad JSON excesiva (%d), abortando búsqueda\n", profundidad);
         *nombre_salida = crear_cadena_fallback("[JSON demasiado profundo]");
         return;
     }
-    
+
     if (!json_object_is_type(array, json_type_array)) {
         fprintf(stderr, "Advertencia: objeto JSON no es array en profundidad %d\n", profundidad);
         return;
     }
-    
+
     int len = json_object_array_length(array);
     if (len < 0) {
         fprintf(stderr, "Error: longitud de array JSON inválida\n");
         return;
     }
-    
+
     if (len > 10000) { /* Límite razonable para evitar DoS */
         fprintf(stderr, "Advertencia: array JSON muy grande (%d elementos), limitando a 1000\n", len);
         len = 1000;
     }
-    
+
     /* === BÚSQUEDA EN EL ARRAY === */
     for (int i = 0; i < len && !*nombre_salida; i++) {
         struct json_object *item = json_object_array_get_idx(array, i);
         if (!item) {
             continue; /* Elemento nulo, seguir con el siguiente */
         }
-        
+
         /* Verificar si este nodo tiene foco */
         struct json_object *focused = NULL;
-        if (json_object_object_get_ex(item, "focused", &focused) && 
-            json_object_is_type(focused, json_type_boolean) &&
-            json_object_get_boolean(focused)) {
-            
+        if (json_object_object_get_ex(item, "focused", &focused) &&
+                json_object_is_type(focused, json_type_boolean) &&
+                json_object_get_boolean(focused)) {
+
             /* Este nodo tiene foco - extraer información */
             struct json_object *type_obj = NULL;
             const char *tipo_nodo = NULL;
-            
-            if (json_object_object_get_ex(item, "type", &type_obj) && 
-                json_object_is_type(type_obj, json_type_string)) {
+
+            if (json_object_object_get_ex(item, "type", &type_obj) &&
+                    json_object_is_type(type_obj, json_type_string)) {
                 tipo_nodo = json_object_get_string(type_obj);
             }
-            
+
             if (tipo_nodo && strcmp(tipo_nodo, "workspace") == 0) {
                 *nombre_salida = crear_cadena_fallback("[workspace activo]");
                 return;
             }
-            
+
             /* Es una ventana real - extraer nombre */
             if (tipo_nodo && (strcmp(tipo_nodo, "con") == 0 || strcmp(tipo_nodo, "floating_con") == 0)) {
                 struct json_object *name_obj = NULL;
-                if (json_object_object_get_ex(item, "name", &name_obj) && 
-                    json_object_is_type(name_obj, json_type_string)) {
-                    
+                if (json_object_object_get_ex(item, "name", &name_obj) &&
+                        json_object_is_type(name_obj, json_type_string)) {
+
                     const char *nombre_ventana = json_object_get_string(name_obj);
                     if (nombre_ventana && strlen(nombre_ventana) > 0) {
                         *nombre_salida = strdup(nombre_ventana);
@@ -706,24 +706,24 @@ static void buscar_foco_recursivo_seguro(struct json_object *array, char **nombr
                     return;
                 }
             }
-            
+
             /* Foco encontrado pero sin información útil */
             *nombre_salida = crear_cadena_fallback("[ventana desconocida]");
             return;
         }
-        
+
         /* Buscar recursivamente en nodos hijos */
         struct json_object *nodes = NULL;
-        if (json_object_object_get_ex(item, "nodes", &nodes) && 
-            json_object_is_type(nodes, json_type_array)) {
+        if (json_object_object_get_ex(item, "nodes", &nodes) &&
+                json_object_is_type(nodes, json_type_array)) {
             buscar_foco_recursivo_seguro(nodes, nombre_salida, profundidad + 1);
             if (*nombre_salida) return;
         }
-        
+
         /* Buscar recursivamente en nodos flotantes */
         struct json_object *floating = NULL;
-        if (json_object_object_get_ex(item, "floating_nodes", &floating) && 
-            json_object_is_type(floating, json_type_array)) {
+        if (json_object_object_get_ex(item, "floating_nodes", &floating) &&
+                json_object_is_type(floating, json_type_array)) {
             buscar_foco_recursivo_seguro(floating, nombre_salida, profundidad + 1);
             if (*nombre_salida) return;
         }
@@ -735,41 +735,41 @@ static char *extraer_ventana_foco_de_arbol(const char *json_str, uint32_t len) {
     if (!validar_json_entrada(json_str, len)) {
         return crear_cadena_fallback("[JSON inválido]");
     }
-    
+
     /* === CREAR PARSER JSON === */
     struct json_tokener *tok = json_tokener_new();
     if (!tok) {
         fprintf(stderr, "Error: no se pudo crear tokener JSON\n");
         return crear_cadena_fallback("[error parser JSON]");
     }
-    
+
     /* === PARSEAR JSON === */
     struct json_object *root = json_tokener_parse_ex(tok, json_str, (int)len);
     enum json_tokener_error error_parse = json_tokener_get_error(tok);
     json_tokener_free(tok); /* Liberar tokener inmediatamente */
-    
+
     if (!root) {
         fprintf(stderr, "Error al parsear JSON: %s\n", json_tokener_error_desc(error_parse));
         return crear_cadena_fallback("[JSON malformado]");
     }
-    
+
     /* === VALIDAR ESTRUCTURA RAÍZ === */
     if (!json_object_is_type(root, json_type_object)) {
         fprintf(stderr, "Error: JSON raíz no es un objeto\n");
         json_object_put(root);
         return crear_cadena_fallback("[JSON no es objeto]");
     }
-    
+
     /* === BUSCAR NODOS === */
     char *resultado = NULL;
     struct json_object *nodes = NULL;
-    
-    if (json_object_object_get_ex(root, "nodes", &nodes) && 
-        json_object_is_type(nodes, json_type_array)) {
-        
+
+    if (json_object_object_get_ex(root, "nodes", &nodes) &&
+            json_object_is_type(nodes, json_type_array)) {
+
         /* Buscar foco en el árbol */
         buscar_foco_recursivo_seguro(nodes, &resultado, 0);
-        
+
         if (!resultado) {
             resultado = crear_cadena_fallback("[sin ventana con foco]");
         }
@@ -777,10 +777,10 @@ static char *extraer_ventana_foco_de_arbol(const char *json_str, uint32_t len) {
         fprintf(stderr, "Advertencia: no se encontró campo 'nodes' o no es array\n");
         resultado = crear_cadena_fallback("[estructura JSON inesperada]");
     }
-    
+
     /* === LIMPIEZA === */
     json_object_put(root); /* SIEMPRE liberar la raíz */
-    
+
     return resultado;
 }
 
@@ -950,19 +950,19 @@ static void imprimir_bloques_json(const struct EstadoAudio *estado, bool *es_pri
 
 static int configurar_descriptores_poll(struct pollfd *fds, int tfd, int efd, int sway_fd) {
     memset(fds, 0, sizeof(struct pollfd) * 3);
-    
+
     fds[0].fd = tfd;
     fds[0].events = POLLIN;
     fds[1].fd = efd;
     fds[1].events = POLLIN;
-    
+
     int nfds = 2;
     if (sway_fd >= 0) {
         fds[2].fd = sway_fd;
         fds[2].events = POLLIN;
         nfds = 3;
     }
-    
+
     return nfds;
 }
 
@@ -1006,7 +1006,7 @@ static void manejar_evento_sway(int sway_fd, struct Contexto *cx, int *nfds) {
     uint32_t ev_type;
     char *ev_msg = NULL;
     uint32_t ev_len = 0;
-    
+
     int rc = leer_ipc(sway_fd, &ev_type, &ev_msg, &ev_len);
     if (rc == 1) {
         /* EOF: socket cerrado por sway */
@@ -1031,7 +1031,7 @@ static void manejar_evento_sway(int sway_fd, struct Contexto *cx, int *nfds) {
 static void inicializar_contexto(struct Contexto *cx) {
     memset(cx, 0, sizeof(*cx));
     cx->estado.volumen_porcentaje = -1;
-    cx->estado.indice_sumidero = (uint32_t)-1;
+    cx->estado.indice_sumidero = (uint32_t) -1;
     cx->estado.nombre_sumidero[0] = '\0';
     cx->estado.foco_actual[0] = '\0';
     cx->estado.listo = false;
@@ -1058,7 +1058,7 @@ static void limpiar_recursos(struct Contexto *cx, int sway_fd, int tfd) {
 static int configurar_sway_ipc(void) {
     const char *socket_path = getenv("SWAYSOCK");
     if (!socket_path) socket_path = getenv("I3SOCK");
-    
+
     if (!socket_path) {
         fprintf(stderr, "Warning: $SWAYSOCK y $I3SOCK no definidos; skip sway events\n");
         return -1;
