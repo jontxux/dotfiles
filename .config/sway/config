@@ -241,26 +241,32 @@ bindsym $mod+r mode "resize"
 
 seat seat0 xcursor_theme Adwaita 24
 
-exec yambar
+# exec yambar
 
 #
 # Status Bar:
 #
 # Read `man 5 sway-bar` for more information about this section.
-# bar {
-#     position top
+bar {
+    position top
+    font pango:DejaVuSansM Nerd Font 10
 
 #     # When the status_command prints a new line to stdout, swaybar updates.
 #     # The default just shows the current date and time.
-#     status_command while true; do date +'%Y-%m-%d %X'; sleep 1; done
-
+    # status_command while true; do date +'%Y-%m-%d %X'; sleep 1; done
+    status_command ~/.config/sway/barra
 #     # swaybar_command waybar
 
-#     colors {
-#         statusline #ffffff
-#         background #323232
-#         inactive_workspace #32323200 #32323200 #5c5c5c
-#     }
-# }
+    colors {
+        statusline #d5c4a1
+        background #282828
+
+        # Estado de los workspaces
+        focused_workspace  #fabd2f #fabd2f #282828
+        active_workspace   #323232 #323232 #d5c4a1
+        inactive_workspace #282828 #282828 #d5c4a1
+        urgent_workspace   #fb4934 #fb4934 #282828
+    }
+}
 
 # include /etc/sway/config.d/*
