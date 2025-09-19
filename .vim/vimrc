@@ -269,8 +269,8 @@ let g:formatters_cpp = ['astyle_cpp']
 let g:formatters_json = ['jq']
 
 " Opciones personalizadas para astyle (Estilo Allman con ajustes)
-let g:formatdef_astyle_c = '"astyle --mode=c --style=allman --indent=spaces=4"'
-let g:formatdef_astyle_cpp = '"astyle --mode=cpp --style=allman --indent=spaces=4"'
+let g:formatdef_astyle_c = '"astyle --mode=c --style=attach --indent=spaces=4 --pad-oper --pad-header --align-pointer=name --align-reference=name"'
+let g:formatdef_astyle_cpp = '"astyle --mode=cpp --style=attach --indent=spaces=4 --align-pointer=name --align-reference=name"'
 
 " Configuración especial para jq (formateador JSON)
 let g:formatdef_jq = '"jq ."'
