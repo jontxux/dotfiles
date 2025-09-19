@@ -123,7 +123,7 @@ static void actualizar_foco_desde_sway(struct Contexto *cx, int sway_fd);
 static char *extraer_ventana_foco_de_arbol(const char *json_str, uint32_t len);
 
 // Funciones auxiliares para Sway/i3 (nuevas)
-static char *crear_cadena_fallback(const char* mensaje_fallback);
+static char *crear_cadena_fallback(const char *mensaje_fallback);
 static bool validar_json_entrada(const char *json_str, uint32_t len);
 static void buscar_foco_recursivo_seguro(struct json_object *array, char **nombre_salida, int profundidad);
 
@@ -578,7 +578,7 @@ static int suscribirse_eventos_sway(int sway_fd) {
 
 
 /* Función auxiliar para crear cadenas de fallback seguras */
-static char *crear_cadena_fallback(const char* mensaje_fallback) {
+static char *crear_cadena_fallback(const char *mensaje_fallback) {
     if (!mensaje_fallback) {
         mensaje_fallback = "[error interno]";
     }
@@ -684,7 +684,7 @@ static void buscar_foco_recursivo_seguro(struct json_object *array, char **nombr
             }
 
             if (tipo_nodo && strcmp(tipo_nodo, "workspace") == 0) {
-                *nombre_salida = crear_cadena_fallback("[workspace activo]");
+                *nombre_salida = crear_cadena_fallback("");
                 return;
             }
 
@@ -863,7 +863,7 @@ static void obtener_colores_volumen(bool mute, const char **color_fondo, const c
 }
 
 static void crear_bloque_foco(struct json_object *array, const struct EstadoAudio *estado) {
-    const char *texto_ventana_foco = estado->foco_actual[0] ? estado->foco_actual : "[sin foco]";
+    const char *texto_ventana_foco = estado->foco_actual;
 
     struct json_object *bloque = json_object_new_object();
     json_object_object_add(bloque, "name", json_object_new_string("foco"));
