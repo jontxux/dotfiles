@@ -858,7 +858,7 @@ static void obtener_colores_volumen(bool mute, const char **color_fondo, const c
         *color_texto = "#282828ff"; // Texto oscuro
     } else {
         *color_fondo = "#282828ff"; // Fondo estándar
-        *color_texto = "#d5c4a1ff"; // Texto estándar
+        *color_texto = "#ebdbb2ff"; // Texto estándar
     }
 }
 

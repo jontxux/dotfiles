@@ -1,125 +1,181 @@
-# Default config for sway
-#
-# Copy this to ~/.config/sway/config and edit it to your liking.
-#
-# Read `man 5 sway` for a complete reference.
+# ============================================================================
+# CONFIGURACIÓN DE SWAY
+# ============================================================================
+# Copia este archivo a ~/.config/sway/config
+# Lee `man 5 sway` para documentación completa
 
-### Variables
-#
-# Logo key. Use Mod1 for Alt.
+# ============================================================================
+# PALETA DE COLORES (Gruvbox)
+# ============================================================================
+set $color_bg           #282828
+set $color_bg_dark      #1c1c1c
+set $color_bg_darker    #323232
+set $color_fg           #ebdbb2
+set $color_fg_dark      #666666
+set $color_fg_darker    #444444
+set $color_accent       #fe8019
+set $color_urgent       #fb4934
+set $color_urgent_dark  #900000
+set $color_black        #000000
+
+# ============================================================================
+# VARIABLES PRINCIPALES
+# ============================================================================
+# Tecla modificadora (Mod4 = tecla Super/Windows)
 set $mod Mod4
+
+# Distribución de teclado español
 input * xkb_layout es
-# Home row direction keys, like vim
+
+# Habilitar Bloq Num al inicio
+input type:keyboard xkb_numlock enabled
+
+# Teclas de dirección estilo Vim
 set $left h
 set $down j
 set $up k
 set $right l
-# Your preferred terminal emulator
+
+# Terminal preferido (usa foot con servidor para mejor rendimiento)
 set $term footclient
 
+# Menú dmenu básico (se sobreescribe más abajo con bemenu)
 set $menu dmenu_path | wmenu | xargs swaymsg exec --
 
-# Color de resaltado (mismo que bemenu)
-set $highlight_color #fabd2f
-
-# Espaciado y bordes
+# ============================================================================
+# APARIENCIA: ESPACIADO Y BORDES
+# ============================================================================
+# Espaciado entre ventanas
 gaps inner 3
 gaps outer 3
+
+# Grosor del borde de las ventanas
 default_border pixel 3
 
-# Oculta el borde (y su color) si sólo hay UNA ventana en el workspace
+# Ocultar bordes cuando solo hay una ventana en el workspace
 smart_borders on
 
-client.focused          $highlight_color $highlight_color #282828 $highlight_color
-client.focused_inactive #333333 #333333 #666666 #222222
-client.unfocused        #1c1c1c #1c1c1c #444444 #000000
-client.urgent           #900000 #900000 #ff0000 #900000
+# Colores de los bordes de ventanas
+client.focused          $color_accent $color_accent $color_bg $color_accent
+client.focused_inactive #333333 #333333 $color_fg_dark #222222
+client.unfocused        $color_bg_dark $color_bg_dark $color_fg_darker $color_black
+client.urgent           $color_urgent_dark $color_urgent_dark #ff0000 $color_urgent_dark
 
-include /etc/sway/config-vars.d/*
-
-### Output configuration
-#
-# Default wallpaper (more resolutions are available in /usr/share/backgrounds/sway/)
-# output * bg /usr/share/backgrounds/sway/Sway_Wallpaper_Blue_1920x1080.png fill
+# ============================================================================
+# CONFIGURACIÓN DE PANTALLAS
+# ============================================================================
+# Fondo de pantalla (color sólido gris oscuro)
 output * bg #404040 solid_color
+
+# Escala de pantalla (125% para mejor legibilidad en pantallas HiDPI)
 output * scale 1.25
 
-
-input type:keyboard xkb_numlock enabled
-
-# Iniciar PulseAudio automáticamente al iniciar Sway
-# exec pulseaudio --start
-
-# Iniciar foot con un servidor para reutilizar instancias, solo al inicio
+# ============================================================================
+# APLICACIONES AL INICIO
+# ============================================================================
+# Servidor de terminal foot (permite reutilizar instancias)
 exec foot --server
 
-# Iniciar transmission-daemon, solo al inicio
-# exec transmission-daemon
-
-# git clone https://github.com/ammgws/autotiling-rs.git
-# cd autotiling-rs
-# cargo build --release
-# cp target/release/autotiling-rs /home/jb/.local/bin/
+# Autotiling: organiza ventanas automáticamente en horizontal/vertical
+# Requiere: https://github.com/ammgws/autotiling-rs
 exec autotiling-rs
 
-# Iniciar aMule daemon automáticamente
+# Bloqueo automático de pantalla tras inactividad
+exec swayidle -w \
+    timeout 900 'swaylock -f -c 000000' \
+    timeout 901 'swaymsg "output * dpms off"' \
+    resume 'swaymsg "output * dpms on"'
+
+# Aplicaciones opcionales (descomentadas)
+# exec pulseaudio --start
+# exec transmission-daemon
 # exec amuled
 
-### Key bindings
-#
-# Basics:
-#
-# Start a terminal
+# ============================================================================
+# ATAJOS DE TECLADO: APLICACIONES
+# ============================================================================
+# Abrir terminal
 bindsym $mod+Return exec $term
 
-# Kill focused window
+# Cerrar ventana enfocada
 bindsym $mod+Shift+q kill
 
-# Start your launcher
-bindsym $mod+Shift+d exec $menu
-
+# Calculadora en terminal
 bindsym $mod+c exec $term -e qalc
 
-# Drag floating windows by holding down $mod and left mouse button.
-# Resize them with right mouse button + $mod.
-# Despite the name, also works for non-floating windows.
-# Change normal to inverse to use left mouse button for resizing and right
-# mouse button for dragging.
-floating_modifier $mod normal
+# Lanzador de aplicaciones (bemenu con tema Gruvbox)
+set $launcher bemenu-run -H '23' -i \
+  --fn 'DejaVuSansM Nerd Font 11' \
+  --tb '$color_bg' --tf '$color_fg' \
+  --fb '$color_bg' --ff '$color_fg' \
+  --nb '$color_bg' --nf '$color_fg' \
+  --hb '$color_accent' --hf '$color_bg' \
+  --sb '$color_accent' --sf '$color_bg' \
+  --ab '$color_bg' --af '$color_fg' \
+  --hp 10 \
+  -p 'Run: '
 
-# Reload the configuration file
-bindsym $mod+Shift+c reload
+bindsym $mod+d exec $launcher
+bindsym $mod+Shift+d exec $menu
 
-# Exit sway (logs you out of your Wayland session)
-bindsym $mod+Shift+e exec swaynag -t warning -m 'You pressed the exit shortcut. Do you really want to exit sway? This will end your Wayland session.' -B 'Yes, exit sway' 'swaymsg exit'
-#
-# Moving around:
-#
-# Move your focus around
+# Bloquear pantalla manualmente
+bindsym $mod+Shift+x exec swaylock -c 000000
+
+# ============================================================================
+# ATAJOS DE TECLADO: CAPTURAS DE PANTALLA
+# ============================================================================
+# Captura de toda la pantalla
+bindsym $mod+Print exec grim ~/Imágenes/screenshot-$(date +'%Y-%m-%d-%H%M%S').png
+
+# Captura de área seleccionada (guardada)
+bindsym $mod+Shift+Print exec grim -g "$(slurp)" ~/Imágenes/screenshot-$(date +'%Y-%m-%d-%H%M%S').png
+
+# Captura de área seleccionada (al portapapeles)
+bindsym Ctrl+Print exec grim -g "$(slurp)" - | wl-copy --type image/png
+
+# ============================================================================
+# ATAJOS DE TECLADO: CONTROL DE AUDIO
+# ============================================================================
+# Subir volumen 5%
+bindsym Ctrl+Shift+Mod4+Up exec pactl set-sink-volume @DEFAULT_SINK@ +5%
+
+# Bajar volumen 5%
+bindsym Ctrl+Shift+Mod4+Down exec pactl set-sink-volume @DEFAULT_SINK@ -5%
+
+# Silenciar/desilenciar
+bindsym Ctrl+Shift+Mod4+m exec pactl set-sink-mute @DEFAULT_SINK@ toggle
+
+# ============================================================================
+# ATAJOS DE TECLADO: NAVEGACIÓN ENTRE VENTANAS
+# ============================================================================
+# Mover foco con teclas Vim (h,j,k,l)
 bindsym $mod+$left focus left
 bindsym $mod+$down focus down
 bindsym $mod+$up focus up
 bindsym $mod+$right focus right
-# Or use $mod+[up|down|left|right]
+
+# Mover foco con flechas
 bindsym $mod+Left focus left
 bindsym $mod+Down focus down
 bindsym $mod+Up focus up
 bindsym $mod+Right focus right
 
-# Move the focused window with the same, but add Shift
+# Mover ventanas con teclas Vim + Shift
 bindsym $mod+Shift+$left move left
 bindsym $mod+Shift+$down move down
 bindsym $mod+Shift+$up move up
 bindsym $mod+Shift+$right move right
-# Ditto, with arrow keys
+
+# Mover ventanas con flechas + Shift
 bindsym $mod+Shift+Left move left
 bindsym $mod+Shift+Down move down
 bindsym $mod+Shift+Up move up
 bindsym $mod+Shift+Right move right
-#
-# Workspaces:
-#
-# Switch to workspace
+
+# ============================================================================
+# ATAJOS DE TECLADO: WORKSPACES
+# ============================================================================
+# Cambiar a workspace específico
 bindsym $mod+1 workspace number 1
 bindsym $mod+2 workspace number 2
 bindsym $mod+3 workspace number 3
@@ -130,13 +186,12 @@ bindsym $mod+7 workspace number 7
 bindsym $mod+8 workspace number 8
 bindsym $mod+9 workspace number 9
 bindsym $mod+0 workspace number 10
-# Moverse al workspace anterior con Mod+Control+h
-bindsym $mod+Control+h workspace prev
 
-# Moverse al workspace siguiente con Mod+Control+l
+# Navegar entre workspaces (Control+h/l)
+bindsym $mod+Control+h workspace prev
 bindsym $mod+Control+l workspace next
 
-# Move focused container to workspace
+# Mover ventana a workspace específico
 bindsym $mod+Shift+1 move container to workspace number 1
 bindsym $mod+Shift+2 move container to workspace number 2
 bindsym $mod+Shift+3 move container to workspace number 3
@@ -148,125 +203,112 @@ bindsym $mod+Shift+8 move container to workspace number 8
 bindsym $mod+Shift+9 move container to workspace number 9
 bindsym $mod+Shift+0 move container to workspace number 10
 
+# ============================================================================
+# ATAJOS DE TECLADO: DISEÑO DE VENTANAS
+# ============================================================================
+# Dividir horizontalmente
 bindsym $mod+b splith
+
+# Dividir verticalmente
 bindsym $mod+v splitv
 
-# Switch the current container between different layout styles
+# Cambiar modo de diseño
 bindsym $mod+s layout stacking
 bindsym $mod+w layout tabbed
 bindsym $mod+e layout toggle split
 
-# Make the current focus fullscreen
+# Pantalla completa
 bindsym $mod+f fullscreen
 
-# Subir volumen
-bindsym Ctrl+Shift+Mod4+Up exec pactl set-sink-volume @DEFAULT_SINK@ +5%
-# Bajar volumen
-bindsym Ctrl+Shift+Mod4+Down exec pactl set-sink-volume @DEFAULT_SINK@ -5%
-# Silenciar o desilenciar
-bindsym Ctrl+Shift+Mod4+m exec pactl set-sink-mute @DEFAULT_SINK@ toggle
-
-
-bindsym $mod+Print exec grim ~/Imágenes/screenshot-$(date +'%Y-%m-%d-%H%M%S').png
-
-bindsym $mod+Shift+Print exec grim -g "$(slurp)" ~/Imágenes/screenshot-$(date +'%Y-%m-%d-%H%M%S').png
-
-bindsym Ctrl+Print exec grim -g "$(slurp)" - | wl-copy --type image/png
-
-# Usar bemenu como lanzador de aplicaciones
-set $launcher bemenu-run -H '23' -i \
-  --fn 'DejaVuSansM Nerd Font 11' \
-  --tb '#282828' --tf '#d5c4a1' \
-  --fb '#282828' --ff '#d5c4a1' \
-  --nb '#282828' --nf '#d5c4a1' \
-  --hb '#fabd2f' --hf '#282828' \
-  --sb '#fabd2f' --sf '#282828' \
-  --ab '#282828' --af '#d5c4a1' \
-  --hp 10 \
-  -p 'Run: '
-
-bindsym $mod+d exec $launcher
-
-bindsym $mod+Shift+x exec swaylock -c 000000
-
-
-for_window [title="Firefox - Indicador de compartición"] floating enable
-
-exec swayidle -w \
-    timeout 900 'swaylock -f -c 000000' \
-    timeout 901 'swaymsg "output * dpms off"' \
-    resume 'swaymsg "output * dpms on"'
-    # before-sleep 'swaylock -f -c 000000'
-
-# Toggle the current focus between tiling and floating mode
+# Alternar entre ventana flotante y en mosaico
 bindsym $mod+Shift+space floating toggle
 
-# Swap focus between the tiling area and the floating area
+# Cambiar foco entre ventanas flotantes y en mosaico
 bindsym $mod+space focus mode_toggle
 
-# Move focus to the parent container
+# Enfocar contenedor padre
 bindsym $mod+a focus parent
 
-# Move the currently focused window to the scratchpad
+# ============================================================================
+# SCRATCHPAD (VENTANAS OCULTAS)
+# ============================================================================
+# Mover ventana al scratchpad
 bindsym $mod+Shift+minus move scratchpad
 
-# Show the next scratchpad window or hide the focused scratchpad window.
-# If there are multiple scratchpad windows, this command cycles through them.
+# Mostrar/ocultar ventana del scratchpad
 bindsym $mod+minus scratchpad show
-#
-# Resizing containers:
-#
+
+# ============================================================================
+# MODO REDIMENSIÓN
+# ============================================================================
 mode "resize" {
-# left will shrink the containers width
-# right will grow the containers width
-# up will shrink the containers height
-# down will grow the containers height
+    # Redimensionar con teclas Vim
     bindsym $left resize shrink width 10px
     bindsym $down resize grow height 10px
     bindsym $up resize shrink height 10px
     bindsym $right resize grow width 10px
 
-# Ditto, with arrow keys
+    # Redimensionar con flechas
     bindsym Left resize shrink width 10px
     bindsym Down resize grow height 10px
     bindsym Up resize shrink height 10px
     bindsym Right resize grow width 10px
 
-# Return to default mode
+    # Salir del modo redimensión
     bindsym Return mode "default"
     bindsym Escape mode "default"
 }
 
 bindsym $mod+r mode "resize"
 
+# ============================================================================
+# CONFIGURACIÓN DEL RATÓN
+# ============================================================================
+# Mover/redimensionar ventanas con Super + ratón
+floating_modifier $mod normal
+
+# Tema del cursor
 seat seat0 xcursor_theme Adwaita 24
 
-# exec yambar
+# ============================================================================
+# REGLAS PARA VENTANAS ESPECÍFICAS
+# ============================================================================
+# Firefox: indicador de compartición de pantalla flotante
+for_window [title="Firefox - Indicador de compartición"] floating enable
 
-#
-# Status Bar:
-#
-# Read `man 5 sway-bar` for more information about this section.
+# ============================================================================
+# SISTEMA: RECARGAR Y SALIR
+# ============================================================================
+# Recargar configuración
+bindsym $mod+Shift+c reload
+
+# Salir de Sway (con confirmación)
+bindsym $mod+Shift+e exec swaynag -t warning -m 'You pressed the exit shortcut. Do you really want to exit sway? This will end your Wayland session.' -B 'Yes, exit sway' 'swaymsg exit'
+
+# ============================================================================
+# BARRA DE ESTADO
+# ============================================================================
 bar {
     position top
     font pango:DejaVuSansM Nerd Font 10
-
-#     # When the status_command prints a new line to stdout, swaybar updates.
-#     # The default just shows the current date and time.
-    # status_command while true; do date +'%Y-%m-%d %X'; sleep 1; done
+    
+    # Script personalizado para la barra de estado
     status_command ~/.config/sway/barra
-#     # swaybar_command waybar
-
+    
     colors {
-        statusline #d5c4a1
-        background #282828
+        statusline $color_fg
+        background $color_bg
 
-        # Estado de los workspaces
-        focused_workspace  #fabd2f #fabd2f #282828
-        active_workspace   #323232 #323232 #d5c4a1
-        inactive_workspace #282828 #282828 #d5c4a1
-        urgent_workspace   #fb4934 #fb4934 #282828
+        # Colores de los workspaces
+        focused_workspace  $color_accent $color_accent $color_bg
+        active_workspace   $color_bg_darker $color_bg_darker $color_fg
+        inactive_workspace $color_bg $color_bg $color_fg
+        urgent_workspace   $color_urgent $color_urgent $color_bg
     }
 }
 
+# ============================================================================
+# CONFIGURACIONES ADICIONALES
+# ============================================================================
+include /etc/sway/config-vars.d/*
 # include /etc/sway/config.d/*
