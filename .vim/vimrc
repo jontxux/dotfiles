@@ -151,8 +151,9 @@ Plug 'liuchengxu/vista.vim'                     " Vista de tags
 
 " Syntax
 Plug 'sheerun/vim-polyglot'                     " Soporte multi-lenguaje
-Plug 'styled-components/vim-styled-components'   " Styled Components
+Plug 'styled-components/vim-styled-components'  " Styled Components
 Plug 'HerringtonDarkholme/yats.vim'             " TypeScript
+Plug 'ap/vim-css-color'                         " Resaltado de colores
 
 " Productividad
 Plug 'Chiel92/vim-autoformat'                   " Autoformateo de código
@@ -340,7 +341,17 @@ augroup END
 syntax enable
 set termguicolors
 set background=dark
-colorscheme base16-gruvbox-dark-medium
+colorscheme gruvbox
+
+let g:gruvbox_bold = 0
+let g:gruvbox_italic = 0
+let g:gruvbox_invert_selection = 0
+
+" Hace que columnas y barras usen el mismo fondo que el editor
+let g:gruvbox_number_column = 'bg0'
+let g:gruvbox_sign_column = 'bg0'
+let g:gruvbox_color_column = 'bg0'
+let g:gruvbox_vert_split = 'bg0'
 
 let g:everforest_background = 'soft'
 let g:gruvbox_material_background = 'soft'
