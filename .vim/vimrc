@@ -81,14 +81,14 @@ set grepformat=%f:%l:%c:%m
 set fileformats=unix,dos,mac
 set autoread
 set autowrite
-set autochdir
+set noautochdir
 set confirm
 set noerrorbells
 set novisualbell
 set encoding=utf-8
 set fileencoding=utf-8
-set bomb
-set binary
+set nobomb
+set nobinary
 
 " ==============================================================================
 " 5. Indentación y Formato
@@ -113,6 +113,13 @@ augroup filetype_indent
   autocmd FileType javascript,typescript,html,css setlocal tabstop=2 shiftwidth=2 softtabstop=2
   autocmd FileType json,yaml setlocal tabstop=2 shiftwidth=2 softtabstop=2
   autocmd FileType markdown setlocal wrap linebreak nolist
+augroup END
+
+" Sobrescribir estilo de comentarios por archivo
+" foot.ini usa # en lugar de ; (estándar .ini)
+augroup custom_comments
+  autocmd!
+  autocmd FileType dosini if expand('%:p') =~ '/foot/foot\.ini$' | setlocal commentstring=#\ %s | endif
 augroup END
 
 " ==============================================================================
