@@ -291,10 +291,10 @@ bindsym $mod+Shift+e exec swaynag -t warning -m 'You pressed the exit shortcut. 
 bar {
     position top
     font pango:DejaVuSansM Nerd Font 10
-    
+
     # Script personalizado para la barra de estado
     status_command ~/.config/sway/barra
-    
+
     colors {
         statusline $color_fg
         background $color_bg
