@@ -21,5 +21,6 @@
         "clangdFileStatus": true // Muestra estado en la barra
       }
     }
-  }
+  },
+  "inlayHint.enable": false
 }
