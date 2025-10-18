@@ -45,8 +45,8 @@ PATH=$PATH:/sbin:/usr/sbin
 export PATH
 export MOZ_ENABLE_WAYLAND=1
 
-# Añadir Flatpak directories a XDG_DATA_DIRS
-export XDG_DATA_DIRS="$HOME/.local/share/flatpak/exports/share:/var/lib/flatpak/exports/share:$XDG_DATA_DIRS"
+# Añadir rutas de iconos y datos necesarias para GTK/Firefox en Wayland
+export XDG_DATA_DIRS="/usr/share:/usr/local/share:$HOME/.local/share/flatpak/exports/share:/var/lib/flatpak/exports/share"
 export XDG_CURRENT_DESKTOP=sway
 
 # Iniciar sway en la primera terminal virtual si no está en Wayland
