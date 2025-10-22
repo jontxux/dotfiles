@@ -9,6 +9,9 @@ export LC_ALL="es_ES.UTF-8"
 # Configuración para GPG
 export GPG_TTY=$(tty)
 
+# Configuración para Qt6
+export QT_QPA_PLATFORMTHEME=qt6ct
+
 if test -z "${XDG_RUNTIME_DIR}"; then
   export XDG_RUNTIME_DIR=/tmp/"${UID}"-runtime-dir
     if ! test -d "${XDG_RUNTIME_DIR}"; then
