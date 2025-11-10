@@ -96,7 +96,7 @@ Documentación de extensiones y atajos de búsqueda personalizados.
 
 | Nombre | Palabra clave | URL |
 |--------|---------------|-----|
-| Linux Die Man Pages | `lman` | `https://linux.die.net/search/?q=%s` |
+| Linux Die Man Pages | `lman` | `https://www.die.net/search/?q=%s` |
 | TLDR Pages | `tldr` | `https://tldr.inbrowser.app/pages/common/%s` |
 | MDN Web Docs | `mdn` | `https://developer.mozilla.org/es/search?q=%s` |
 | DevDocs | `dd` | `https://devdocs.io/#q=%s` |
