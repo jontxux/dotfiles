@@ -1,116 +1,69 @@
 #!/bin/bash
+# Script para entrar en Gentoo con chroot (usando UUID)
+# Uso: ./gentoo-chroot.sh [enter|exit]
 
-set -e
+GENTOO_ROOT="/mnt/gentoo"
+GENTOO_UUID="fc3a17e6-b7e4-445e-9699-265f4513ab3b"
 
-# Función para mostrar uso
-usage() {
-  echo "Uso: $0 /ruta/a/chroot [dispositivo]"
-  exit 1
+mount_gentoo() {
+    echo "Montando Gentoo en $GENTOO_ROOT..."
+    
+    # Crea el directorio si no existe
+    doas mkdir -p "$GENTOO_ROOT"
+    
+    # Monta la partición principal si no está montada
+    if ! mountpoint -q "$GENTOO_ROOT"; then
+        doas mount UUID="$GENTOO_UUID" "$GENTOO_ROOT" || {
+            echo "Error: No se pudo montar UUID=$GENTOO_UUID"
+            exit 1
+        }
+    fi
+    
+    # Monta los sistemas de archivos necesarios
+    doas mount --types proc /proc "$GENTOO_ROOT/proc" 2>/dev/null
+    doas mount --rbind /sys "$GENTOO_ROOT/sys" 2>/dev/null
+    doas mount --make-rslave "$GENTOO_ROOT/sys" 2>/dev/null
+    doas mount --rbind /dev "$GENTOO_ROOT/dev" 2>/dev/null
+    doas mount --make-rslave "$GENTOO_ROOT/dev" 2>/dev/null
+    doas mount --bind /run "$GENTOO_ROOT/run" 2>/dev/null
+    doas mount --make-slave "$GENTOO_ROOT/run" 2>/dev/null
+    
+    # Copia resolv.conf para tener DNS
+    doas cp -L /etc/resolv.conf "$GENTOO_ROOT/etc/" 2>/dev/null
+    
+    echo "✓ Gentoo montado correctamente"
 }
 
-# Comprobar si el script se ejecuta como root
-if [ "$EUID" -ne 0 ]; then
-  echo "Este script debe ejecutarse como root."
-  exit 1
-fi
+unmount_gentoo() {
+    echo "Desmontando Gentoo..."
+    # Desmonta todo recursivamente
+    doas umount -l "$GENTOO_ROOT/dev" 2>/dev/null
+    doas umount -l "$GENTOO_ROOT/proc" 2>/dev/null
+    doas umount -l "$GENTOO_ROOT/sys" 2>/dev/null
+    doas umount -l "$GENTOO_ROOT/run" 2>/dev/null
+    doas umount -l "$GENTOO_ROOT" 2>/dev/null
+    echo "✓ Gentoo desmontado"
+}
 
-# Comprobar si se proporciona al menos una ruta
-if [ -z "$1" ]; then
-  usage
-fi
+enter_chroot() {
+    mount_gentoo
+    echo "Entrando en Gentoo chroot..."
+    echo "Para salir escribe: exit"
+    echo ""
+    doas chroot "$GENTOO_ROOT" /bin/bash -c "source /etc/profile && exec /bin/bash"
+}
 
-CHROOT_DIR="$1"
-DEVICE="$2"
-
-# Comprobar si la ruta existe
-if [ ! -d "$CHROOT_DIR" ]; then
-  echo "Error: La ruta especificada no existe: $CHROOT_DIR"
-  exit 1
-fi
-
-BASE_MOUNTED=false
-
-# Comprobar si el directorio base está montado
-if ! mountpoint -q "$CHROOT_DIR"; then
-  echo "La ruta base $CHROOT_DIR no está montada."
-  if [ -n "$DEVICE" ]; then
-    if [ -b "$DEVICE" ]; then
-      echo "Montando el dispositivo $DEVICE en $CHROOT_DIR..."
-      mount "$DEVICE" "$CHROOT_DIR"
-      echo "Partición $DEVICE montada en $CHROOT_DIR."
-      BASE_MOUNTED=true
-    else
-      echo "Error: Dispositivo $DEVICE no válido."
-      exit 1
-    fi
-  else
-    read -p "¿Desea montar una partición en $CHROOT_DIR? (s/n): " confirm
-    if [[ "$confirm" =~ ^[sS]$ ]]; then
-      read -p "Introduzca el dispositivo a montar (ejemplo: /dev/nvme1n1p2): " device_input
-      if [ -b "$device_input" ]; then
-        mount "$device_input" "$CHROOT_DIR"
-        echo "Partición $device_input montada en $CHROOT_DIR."
-        BASE_MOUNTED=true
-      else
-        echo "Error: Dispositivo $device_input no válido."
+case "$1" in
+    enter|"")
+        enter_chroot
+        ;;
+    exit|umount)
+        unmount_gentoo
+        ;;
+    *)
+        echo "Uso: $0 [enter|exit]"
+        echo "  enter  - Monta y entra en chroot (por defecto)"
+        echo "  exit   - Desmonta Gentoo"
         exit 1
-      fi
-    else
-      echo "El directorio base no está montado. Abortando."
-      exit 1
-    fi
-  fi
-fi
-
-# Comprobar si las subrutas necesarias están montadas
-check_mounts() {
-  for dir in /dev /proc /sys /run; do
-    if mountpoint -q "$CHROOT_DIR$dir"; then
-      echo "La ruta $CHROOT_DIR$dir ya está montada."
-    else
-      echo "La ruta $CHROOT_DIR$dir no está montada. Procediendo a montar."
-      return 1
-    fi
-  done
-  return 0
-}
-
-# Función para montar sistemas de archivos
-mount_chroot() {
-  echo "Montando sistemas de archivos en $CHROOT_DIR..."
-  mount --rbind /dev "$CHROOT_DIR/dev"
-  mount --rbind /proc "$CHROOT_DIR/proc"
-  mount --rbind /sys "$CHROOT_DIR/sys"
-  mount --rbind /run "$CHROOT_DIR/run"
-  echo "Montaje completado."
-}
-
-# Función para desmontar sistemas de archivos
-umount_chroot() {
-  echo "Desmontando sistemas de archivos de $CHROOT_DIR..."
-  umount -l "$CHROOT_DIR/dev" || true
-  umount -l "$CHROOT_DIR/proc" || true
-  umount -l "$CHROOT_DIR/sys" || true
-  umount -l "$CHROOT_DIR/run" || true
-  if [ "$BASE_MOUNTED" = true ]; then
-    umount -l "$CHROOT_DIR" || true
-    echo "Partición base desmontada de $CHROOT_DIR."
-  fi
-  echo "Desmontaje completado."
-}
-
-# Asegurarse de desmontar al salir
-trap umount_chroot EXIT
-
-# Verificar y montar si es necesario
-if ! check_mounts; then
-  mount_chroot
-else
-  echo "Todos los sistemas de archivos ya están montados."
-fi
-
-# Entrar al chroot
-echo "Entrando en el chroot en $CHROOT_DIR..."
-chroot "$CHROOT_DIR" /bin/bash
-
-# Cuando el usuario salga del chroot, se ejecutará el trap para desmontar
+        ;;
+esac
