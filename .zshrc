@@ -72,6 +72,7 @@ function zle-line-finish {
 zle -N zle-line-finish
 
 # Autocompletado básico
+fpath=(~/.local/share/zsh/site-functions $fpath)
 autoload -U compinit
 compinit
 zstyle ':completion:*' menu select
@@ -90,8 +91,7 @@ bindkey -M vicmd 'k' up-line-or-beginning-search
 bindkey -M vicmd 'j' down-line-or-beginning-search
 
 # Plugins
-source ~/dotfiles/zsh/custom/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.plugin.zsh
-
+source /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 # Definir estilos para zsh-syntax-highlighting (usando índices de color Gruvbox)
 ZSH_HIGHLIGHT_STYLES[command]='fg=10'        # bright_green (b8bb26) para comandos válidos
 ZSH_HIGHLIGHT_STYLES[alias]='fg=10'
@@ -119,8 +119,6 @@ if command -v fzf &> /dev/null; then
   # Configuración adicional (opcional)
   export FZF_DEFAULT_OPTS='--height 40% --layout=reverse --border'
 fi
-
-[ -r ~/dotfiles/zsh/custom/colores.sh ] && . ~/dotfiles/zsh/custom/colores.sh
 
 # Configurar colores según Gruvbox (índices 0-15)
 USER_PROMPT='%B%F{2}%n%f%b'       # Nombre usuario (bright_green - b8bb26)
