@@ -39,6 +39,28 @@ Documentación de extensiones y atajos de búsqueda personalizados.
 
 ## Atajos de Búsqueda
 
+### Traductores
+
+#### Elhuyar Hiztegiak
+
+| Nombre | Palabra clave | URL |
+|--------|---------------|-----|
+| Euskera → Español | `eues` | `https://hiztegiak.elhuyar.eus/eu_es/%s` |
+| Español → Euskera | `eseu` | `https://hiztegiak.elhuyar.eus/es_eu/%s` |
+
+#### Traductores Automáticos
+
+| Nombre | Palabra clave | URL |
+|--------|---------------|-----|
+| Elia (Gobierno Vasco) | `elia` | `https://elia.eus/traductor?text=%s` |
+| Google Traductor | `gt` | `https://translate.google.com/?sl=auto&tl=es&text=%s` |
+
+#### Diccionarios
+
+| Nombre | Palabra clave | URL |
+|--------|---------------|-----|
+| WordReference Español | `wres` | `https://www.wordreference.com/definicion/%s` |
+
 ### Multimedia y Mapas
 
 | Nombre | Palabra clave | URL |
