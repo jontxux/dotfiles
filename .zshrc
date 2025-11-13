@@ -10,6 +10,9 @@ export GPG_TTY=$TTY
 # Aliases
 [ -r ~/.aliases ] && . ~/.aliases
 
+# Colores personalizados (LS_COLORS)
+[ -f ~/dotfiles/scripts/colores.sh ] && source ~/dotfiles/scripts/colores.sh
+
 # Historial
 HISTFILE=~/.zsh_history
 HISTSIZE=10000
