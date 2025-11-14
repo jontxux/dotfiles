@@ -9,12 +9,60 @@ BLUE='\033[0;34m'
 NC='\033[0m'
 export RUST_LOG=error
 
+# Valores por defecto
+current_folder="INBOX"
+filter=""
+show_folder_selector=false
+only_unread=false
+
+# Función de ayuda
+show_help() {
+    cat << EOF
+${BLUE}📧 Organizador interactivo de correo Himalaya${NC}
+
+Uso: $0 [OPCIONES]
+
+Opciones:
+  -b, --buzon          Mostrar selector de carpetas/buzones
+  -u, --no-leidos      Filtrar solo correos no leídos
+  -h, --help           Mostrar esta ayuda
+
+Ejemplos:
+  $0                   # INBOX, todos los correos
+  $0 --buzon           # Seleccionar carpeta, todos los correos
+  $0 --no-leidos       # INBOX, solo no leídos
+  $0 -b -u             # Seleccionar carpeta, solo no leídos
+
+EOF
+    exit 0
+}
+
+# Parsear argumentos
+while [[ $# -gt 0 ]]; do
+    case $1 in
+        -b|--buzon)
+            show_folder_selector=true
+            shift
+            ;;
+        -u|--no-leidos)
+            only_unread=true
+            shift
+            ;;
+        -h|--help)
+            show_help
+            ;;
+        *)
+            echo -e "${RED}❌ Opción desconocida: $1${NC}"
+            echo "Usa -h o --help para ver las opciones disponibles"
+            exit 1
+            ;;
+    esac
+done
+
 echo -e "${BLUE}📧 Organizador interactivo de correo Himalaya${NC}\n"
 
-# 0. Seleccionar carpeta inicial
-current_folder="INBOX"
-read -p "¿Quieres listar otra carpeta distinta a INBOX? (s/N): " change_folder
-if [[ "$change_folder" =~ ^[sS]$ ]]; then
+# 0. Seleccionar carpeta si se especificó --buzon
+if [ "$show_folder_selector" = true ]; then
     echo -e "${YELLOW}⏳ Obteniendo lista de carpetas...${NC}"
     folders=$(himalaya folder list -o json | jq -r '.[].name')
     current_folder=$(echo "$folders" | fzf --height=60% --border --prompt="Carpeta > " --header="Selecciona carpeta de origen")
@@ -23,15 +71,14 @@ if [[ "$change_folder" =~ ^[sS]$ ]]; then
         exit 1
     fi
 fi
-echo -e "${GREEN}✓${NC} Carpeta actual: ${BLUE}$current_folder${NC}\n"
+echo -e "${GREEN}✓${NC} Carpeta actual: ${BLUE}$current_folder${NC}"
 
-# 1. Filtro opcional (solo no leídos)
-read -p "¿Mostrar solo correos no leídos? (s/N): " only_unread
-if [[ "$only_unread" =~ ^[sS]$ ]]; then
+# 1. Aplicar filtro si se especificó --no-leidos
+if [ "$only_unread" = true ]; then
     filter="not flag seen"
-    echo -e "${YELLOW}Mostrando solo correos no leídos...${NC}\n"
+    echo -e "${GREEN}✓${NC} Filtrando solo correos no leídos\n"
 else
-    filter=""
+    echo -e "${GREEN}✓${NC} Mostrando todos los correos\n"
 fi
 
 # 2. Obtener lista de correos
