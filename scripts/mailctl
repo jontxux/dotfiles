@@ -17,23 +17,20 @@ only_unread=false
 
 # Función de ayuda
 show_help() {
-    cat << EOF
-${BLUE}📧 Organizador interactivo de correo Himalaya${NC}
-
-Uso: $0 [OPCIONES]
-
-Opciones:
-  -b, --buzon          Mostrar selector de carpetas/buzones
-  -u, --no-leidos      Filtrar solo correos no leídos
-  -h, --help           Mostrar esta ayuda
-
-Ejemplos:
-  $0                   # INBOX, todos los correos
-  $0 --buzon           # Seleccionar carpeta, todos los correos
-  $0 --no-leidos       # INBOX, solo no leídos
-  $0 -b -u             # Seleccionar carpeta, solo no leídos
-
-EOF
+    echo -e "${BLUE}📧 Organizador interactivo de correo Himalaya${NC}\n"
+    echo "Uso: $0 [OPCIONES]"
+    echo ""
+    echo "Opciones:"
+    echo "  -b, --buzon          Mostrar selector de carpetas/buzones"
+    echo "  -u, --no-leidos      Filtrar solo correos no leídos"
+    echo "  -h, --help           Mostrar esta ayuda"
+    echo ""
+    echo "Ejemplos:"
+    echo "  $0                   # INBOX, todos los correos"
+    echo "  $0 --buzon           # Seleccionar carpeta, todos los correos"
+    echo "  $0 --no-leidos       # INBOX, solo no leídos"
+    echo "  $0 -b -u             # Seleccionar carpeta, solo no leídos"
+    echo ""
     exit 0
 }
 
