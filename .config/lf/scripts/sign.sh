@@ -4,51 +4,55 @@ source "$(dirname "${BASH_SOURCE[0]}")/liblf.sh"
 main() {
     require_command "gpg"
 
-    local lf_id="$1"
-    local file="$2"
+    # 1. Cargar y validar archivos (Usa variables globales para seguridad)
+    load_files "$@"
+    filter_valid_files
+    validate_not_empty
 
-    if [ ! -f "$file" ]; then
-        print_error "Archivo no válido"
-        wait_enter 1
-    fi
-
-    show_header "FIRMAR ARCHIVO"
-    printf "  %s\n" "$file"
+    # 2. UI
+    show_header "FIRMAR ARCHIVO(S)" "${#VALID_FILES[@]}"
+    show_file_list
     show_footer 50
 
-    printf "%bClaves secretas disponibles:%b\n" "${BOLD}" "${RESET}"
-    gpg --list-secret-keys --keyid-format LONG 2>/dev/null | awk '
-        /^sec/ {
-            if (key_id) printf "  %s - %s\n", key_id, uid
-            key_id = $2; sub(/.*\//, "", key_id); uid = ""
-        }
-        /^uid/ {
-            uid = substr($0, index($0, "]") + 2)
-            if (uid == "") uid = substr($0, 5)
-        }
-        END { if (key_id) printf "  %s - %s\n", key_id, uid }
-    '
+    show_gpg_keys "secret"
+    echo ""
 
+    # 3. Solicitar clave
     local key_id
-    key_id=$(prompt_text "ID de clave (vacío = predeterminada)" "")
+    key_id=$(prompt_text "ID de clave para firmar (Enter = Default)")
 
-    if ! confirm "¿Firmar el archivo?"; then
+    # 4. Confirmación (Enter = SI)
+    echo ""
+    if ! confirm "¿Firmar archivos?" "y"; then
         print_error "Operación cancelada"
-        wait_enter
+        wait_enter 0
     fi
 
-    local cmd output_file
-    if [ -z "$key_id" ]; then
-        cmd="gpg --detach-sign --armor \"$file\""
-        output_file="$file.asc"
-    else
-        cmd="gpg --detach-sign --armor -u \"$key_id\" \"$file\""
-        output_file="$file.$key_id.asc"
+    # 5. Procesar
+    local cmd_base="gpg --detach-sign --armor"
+    if [ -n "$key_id" ]; then
+        cmd_base="$cmd_base -u \"$key_id\""
     fi
 
-    if run_with_progress "Firmando" bash -c "$cmd"; then
-        print_success "Firma creada: $output_file"
-        [ -n "$lf_id" ] && lf -remote "send $lf_id load" 2>/dev/null
+    local success_count=0
+    for file in "${VALID_FILES[@]}"; do
+        local output_file
+        if [ -z "$key_id" ]; then
+            output_file="$file.asc"
+        else
+            output_file="$file.$key_id.asc"
+        fi
+
+        if eval $cmd_base --output "\"$output_file\"" "\"$file\"" 2>/dev/null; then
+            print_success "Firmado: $(basename "$output_file")"
+            ((success_count++))
+        else
+            print_error "Fallo al firmar: $(basename "$file")"
+        fi
+    done
+
+    if [ "$success_count" -gt 0 ]; then
+        lf -remote "send load" 2>/dev/null
     fi
 
     wait_enter

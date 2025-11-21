@@ -2,21 +2,17 @@
 source "$(dirname "${BASH_SOURCE[0]}")/liblf.sh"
 
 main() {
-    # Procesar argumentos
-    local files
-    files=($(process_arguments "$@"))
+    # 1. Cargar y validar
+    load_files "$@"
+    filter_valid_files
+    validate_not_empty
 
-    # Validar existencia
-    local valid_files
-    valid_files=($(validate_files "${files[@]}"))
-    validate_not_empty valid_files
-
-    # Interfaz visual
-    show_header "COMPRIMIR ARCHIVOS" "${#valid_files[@]}"
-    show_file_list "${valid_files[@]}"
+    # 2. UI
+    show_header "COMPRIMIR ARCHIVOS" "${#VALID_FILES[@]}"
+    show_file_list
     show_footer 50
 
-    # Solicitar nombre
+    # 3. Solicitar nombre
     local nombre_comprimido
     nombre_comprimido=$(prompt_text "Nombre del archivo comprimido")
 
@@ -25,15 +21,15 @@ main() {
         wait_enter 1
     fi
 
-    # Preparar rutas relativas para evitar estructura de carpetas absoluta en el zip/tar
+    # 4. Rutas relativas
     local current_dir
     current_dir=$(pwd)
     local relative_files=()
-    for file in "${valid_files[@]}"; do
+    for file in "${VALID_FILES[@]}"; do
         relative_files+=("$(realpath --relative-to="$current_dir" "$file")")
     done
 
-    # Determinar comando según extensión
+    # 5. Determinar comando
     local cmd=()
     case "$nombre_comprimido" in
         *.zip)            cmd=(zip -r "$nombre_comprimido" "${relative_files[@]}") ;;
@@ -49,7 +45,7 @@ main() {
             ;;
     esac
 
-    # Ejecutar
+    # 6. Ejecutar
     if run_with_progress "Comprimiendo archivos" "${cmd[@]}"; then
         print_success "Archivo creado: $nombre_comprimido"
         lf -remote "send load" 2>/dev/null
