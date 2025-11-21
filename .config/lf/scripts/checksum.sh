@@ -1,88 +1,65 @@
 #!/usr/bin/env bash
+source "$(dirname "${BASH_SOURCE[0]}")/liblf.sh"
 
-# Recibir archivos como parámetros
-files="$1"
+main() {
+    # Procesar argumentos
+    local files
+    files=($(process_arguments "$@"))
 
-# Si solo hay un parámetro y contiene saltos de línea, dividirlo
-if [ ${#files[@]} -eq 1 ] && [[ "${files[0]}" == *$'\n'* ]]; then
-    IFS=$'\n' read -d '' -r -a files <<< "${files[0]}"
-fi
+    # Validar
+    local valid_files
+    valid_files=($(validate_files "${files[@]}"))
+    validate_not_empty valid_files
 
-# Configuración de estilos
-BOLD=$(tput bold)
-BLUE=$(tput setaf 4)
-MAGENTA=$(tput setaf 5)
-CYAN=$(tput setaf 6)
-GREEN=$(tput setaf 2)
-RED=$(tput setaf 1)
-RESET=$(tput sgr0)
-CHECK=$'\u2713'  # ✓
-CROSS=$'\u2717'  # ✗
+    # UI
+    show_header "CALCULAR CHECKSUM" "${#valid_files[@]}"
+    show_file_list "${valid_files[@]}"
+    show_footer 50
 
-clear
-set -f
+    # Menú de selección
+    print_info "Seleccione algoritmo:"
+    printf "  1) MD5\n  2) SHA256\n  3) SHA1\n\n"
 
-# Validar que existan archivos
-if [ ${#files[@]} -eq 0 ]; then
-    printf "%b%s %b%s%b\n" "${RED}${BOLD}" "${CROSS}" "${RESET}" "Error: No hay archivos para procesar"
-    read -p "${BOLD}${MAGENTA}Presione Enter para continuar...${RESET}"
-    exit 1
-fi
+    local algo
+    algo=$(prompt_text "Opción")
+    local checksum_cmd=""
 
-# Encabezado
-printf "%b%s%b\n" "${BOLD}${BLUE}╭── CALCULAR CHECKSUM ──${RESET}"
-printf "%bArchivos seleccionados:%b\n" "${BOLD}" "${RESET}"
-for file in "${files[@]}"; do
-    printf "  %s\n" "$file"
-done
-printf "%b%s%b\n" "${BOLD}${BLUE}╰────────────────────────${RESET}"
+    case $algo in
+        1) checksum_cmd="md5sum" ;;
+        2) checksum_cmd="sha256sum" ;;
+        3) checksum_cmd="sha1sum" ;;
+        *)
+            print_error "Opción inválida"
+            wait_enter 1
+            ;;
+    esac
 
-# Selección de algoritmo
-printf "\nSeleccione algoritmo:\n"
-printf "1) MD5\n"
-printf "2) SHA256\n"
-printf "3) SHA1\n"
-read -p "${BOLD}${MAGENTA}Opción: ${RESET}" algo
+    # Procesar
+    print_info "Calculando checksums..."
+    local all_success=true
+    local result
 
-case $algo in
-    1) checksum="md5sum" ;;
-    2) checksum="sha256sum" ;;
-    3) checksum="sha1sum" ;;
-    *)
-        printf "\n%b%s %b%s%b\n" "${RED}${BOLD}" "${CROSS}" "${RESET}" "Error: Opción inválida"
-        read -p "${BOLD}${MAGENTA}Presione Enter para continuar...${RESET}"
-        exit 1
-        ;;
-esac
+    for file in "${valid_files[@]}"; do
+        # Usamos awk para obtener solo el hash
+        result=$($checksum_cmd "$file" 2>/dev/null | awk '{print $1}')
 
-# Procesar archivos
-printf "\n%b%s%b\n" "${CYAN}⌛ Calculando checksums...${RESET}"
-all_success=true
-for file in "${files[@]}"; do
-    if [ ! -e "$file" ]; then
-        printf "\n%b%s %b%s%b\n" "${RED}${BOLD}" "${CROSS}" "${RESET}" "Error: Archivo no encontrado: $file"
-        all_success=false
-        continue
-    fi
-    
-    result=$($checksum "$file" 2>/dev/null | awk '{print $1}')
-    if [ $? -eq 0 ]; then
-        printf "\n%b%s%b\n" "${BOLD}${CYAN}$file:${RESET}"
-        printf "%s\n" "$result"
+        if [ $? -eq 0 ]; then
+            # Formato personalizado: Nombre archivo -> Hash
+            printf "%b%s:%b %s\n" "${BOLD}${CYAN}" "$(basename "$file")" "${RESET}" "$result"
+        else
+            print_error "Fallo al calcular: $file"
+            all_success=false
+        fi
+    done
+
+    echo "" # Salto de línea estético
+    if [ "$all_success" = true ]; then
+        print_success "Todos los checksums calculados con éxito"
     else
-        printf "\n%b%s %b%s%b\n" "${RED}${BOLD}" "${CROSS}" "${RESET}" "Error: Fallo al calcular $file"
-        all_success=false
+        print_warning "Hubo errores en algunos archivos"
     fi
-done
 
-# Mensaje final
-if [ "$all_success" = true ]; then
-    printf "\n%b%s %b%s%b\n" "${GREEN}${BOLD}" "${CHECK}" "${RESET}" "Todos los checksums calculados con éxito"
-else
-    printf "\n%b%s %b%s%b\n" "${RED}${BOLD}" "${CROSS}" "${RESET}" "Hubo errores en algunos archivos"
-fi
+    wait_enter
+}
 
-# Actualizar interfaz y salir
-read -p "${BOLD}${MAGENTA}Presione Enter para continuar...${RESET}"
-lf -remote "send load"
-exit 0
+main "$@"

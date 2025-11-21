@@ -1,42 +1,14 @@
 #!/usr/bin/env bash
+source "$(dirname "${BASH_SOURCE[0]}")/liblf.sh"
 
-# Recibir archivo como parámetro
-f="$1"
+list_gpg_keys() {
+    local key_type="$1"  # "public" o "secret"
 
-# Configuración de estilos
-BOLD=$(tput bold)
-BLUE=$(tput setaf 4)
-MAGENTA=$(tput setaf 5)
-CYAN=$(tput setaf 6)
-GREEN=$(tput setaf 2)
-RED=$(tput setaf 1)
-RESET=$(tput sgr0)
-CHECK=$'\u2713'  # ✓
-CROSS=$'\u2717'  # ✗
-
-clear
-
-# Verificar si GPG está instalado
-if ! command -v gpg &>/dev/null; then
-    printf "%b%s%b\n" "${RED}${BOLD}" "${CROSS} Error: GPG no está instalado" "${RESET}"
-    read -p "${BOLD}${MAGENTA}Presione Enter para continuar...${RESET}"
-    exit 1
-fi
-
-# Encabezado
-printf "%b%s%b\n" "${BOLD}${BLUE}╭── ENCRIPTAR ARCHIVO ───${RESET}"
-printf "%bArchivo seleccionado:%b\n" "${BOLD}" "${RESET}"
-echo "  $f"
-printf "%b%s%b\n" "${BOLD}${BLUE}╰────────────────────────${RESET}"
-
-# Mostrar claves públicas disponibles
-printf "%bClaves públicas disponibles:%b\n" "${BOLD}" "${RESET}"
-gpg --list-public-keys --keyid-format LONG | 
-    awk '
-        /^pub/ {
+    gpg --list-"${key_type}"-keys --keyid-format LONG 2>/dev/null | awk '
+        /^(pub|sec)/ {
             if (key_id) printf "  %s - %s\n", key_id, uid
             key_id = $2
-            sub(/.*\//, "", key_id)   # Extraer solo el ID corto
+            sub(/.*\//, "", key_id)
             uid = ""
         }
         /^uid/ {
@@ -47,30 +19,45 @@ gpg --list-public-keys --keyid-format LONG |
             if (key_id) printf "  %s - %s\n", key_id, uid
         }
     '
+}
 
-# Solicitar ID de clave del destinatario
-read -p "${BOLD}${MAGENTA}ID de clave (corto) o correo: ${RESET}" key_id
+main() {
+    require_command "gpg"
 
-if [ -z "$key_id" ]; then
-    printf "%b%s%b\n" "${RED}${BOLD}" "${CROSS} Error: Debe especificar un destinatario" "${RESET}"
-    read -p "${BOLD}${MAGENTA}Presione Enter para continuar...${RESET}"
-    exit 1
-fi
-
-# Confirmar encriptación
-read -p "${BOLD}${MAGENTA}¿Encriptar el archivo? [y/N]: ${RESET}" ans
-if [ "$ans" = "y" ]; then
-    output_file="$f.gpg"
-    printf "%b%s%b\n" "${CYAN}⌛ Encriptando archivo...${RESET}"
-    
-    if gpg --encrypt --armor -r "$key_id" -o "$output_file" "$f"; then
-        printf "\r%b%-50s %b%s%b\n" "${GREEN}" "${CHECK} Éxito: " "${RESET}" "Archivo encriptado: $output_file"
-        lf -remote "send load"
-    else
-        printf "\r%b%-50s %b%s%b\n" "${RED}" "${CROSS} Error: " "${RESET}" "Fallo en la encriptación"
+    local file="$1"
+    if [ ! -f "$file" ]; then
+        print_error "Archivo no válido"
+        wait_enter 1
     fi
-else
-    printf "%b%s%b\n" "${MAGENTA}" "${CROSS} Operación cancelada" "${RESET}"
-fi
 
-read -p "${BOLD}${MAGENTA}Presione Enter para continuar...${RESET}"
+    show_header "ENCRIPTAR ARCHIVO"
+    printf "  %s\n" "$file"
+    show_footer 50
+
+    printf "%bClaves públicas disponibles:%b\n" "${BOLD}" "${RESET}"
+    list_gpg_keys "public"
+
+    local key_id
+    key_id=$(prompt_text "ID de clave (corto) o correo")
+
+    if [ -z "$key_id" ]; then
+        print_error "Debe especificar un destinatario"
+        wait_enter 1
+    fi
+
+    if ! confirm "¿Encriptar el archivo?"; then
+        print_error "Operación cancelada"
+        wait_enter
+    fi
+
+    local output_file="$file.gpg"
+    if run_with_progress "Encriptando" \
+        gpg --encrypt --armor -r "$key_id" -o "$output_file" "$file"; then
+        print_success "Archivo encriptado: $output_file"
+        lf -remote "send load" 2>/dev/null
+    fi
+
+    wait_enter
+}
+
+main "$@"

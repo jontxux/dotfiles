@@ -1,78 +1,64 @@
 #!/usr/bin/env bash
+source "$(dirname "${BASH_SOURCE[0]}")/liblf.sh"
 
-# Recibir archivo como parámetro
-fx="$1"
+get_extract_command() {
+    local file="$1"
+    local dest="$2"
 
-# Configuración de estilos (se mantienen igual)
-BOLD=$(tput bold)
-BLUE=$(tput setaf 4)
-MAGENTA=$(tput setaf 5)
-CYAN=$(tput setaf 6)
-GREEN=$(tput setaf 2)
-RED=$(tput setaf 1)
-RESET=$(tput sgr0)
-CHECK=$'\u2713'  # ✓
-CROSS=$'\u2717'  # ✗
-
-clear
-set -f
-
-# Encabezado
-printf "%b%s%b\n" "${BOLD}${BLUE}╭── EXTRAER ARCHIVO ───${RESET}"
-printf "%bArchivo seleccionado:%b\n" "${BOLD}" "${RESET}"
-echo "  $fx"
-printf "%b%s%b\n" "${BOLD}${BLUE}╰──────────────────────${RESET}"
-
-# Confirmación
-read -p "${BOLD}${MAGENTA}¿Extraer archivo? [y/N]: ${RESET}" ans
-
-if [ "$ans" = "y" ]; then
-    # Directorio destino
-    read -p "${BOLD}${MAGENTA}Ruta destino (dejar vacío para actual): ${RESET}" directorio_destino
-
-    # Validación y formato del directorio
-    directorio_destino="${directorio_destino:-./}"
-    [[ "$directorio_destino" != */ ]] && directorio_destino+="/"
-
-    # Crear directorio si no existe
-    if [ ! -d "$directorio_destino" ]; then
-        printf "%bCreando directorio: %s%b\n" "${CYAN}" "$directorio_destino" "${RESET}"
-        mkdir -p "$directorio_destino" || {
-            printf "%b%s %b%s%b\n" "${RED}${BOLD}" "${CROSS}" "${RESET}" "Error creando directorio"
-            read -p "${BOLD}${MAGENTA}Presione Enter para continuar...${RESET}"
-            exit 1
-        }
-    fi
-
-    # Proceso de extracción
-    printf "\n%b%s%b\n" "${CYAN}⌛ Extrayendo archivos...${RESET}"
-
-    case "$fx" in
-        *.tar.bz2|*.tbz2)  cmd="tar xjvf '${fx}' -C '${directorio_destino}'" ;;
-        *.tar.gz|*.tgz)    cmd="tar xzvf '${fx}' -C '${directorio_destino}'" ;;
-        *.bz2)             cmd="bunzip2 -kc '${fx}' > '${directorio_destino}${fx##*/}'" ;;
-        *.rar)             cmd="unrar x '${fx}' '${directorio_destino}'" ;;
-        *.gz)              cmd="gunzip -c '${fx}' > '${directorio_destino}${fx##*/}'" ;;
-        *.tar)             cmd="tar xvf '${fx}' -C '${directorio_destino}'" ;;
-        *.zip)             cmd="unzip -q '${fx}' -d '${directorio_destino}'" ;;
-        *.Z)               cmd="uncompress -c '${fx}' > '${directorio_destino}${fx##*/}'" ;;
-        *.7z)              cmd="7z x -y '${fx}' -o'${directorio_destino}'" ;;
-        *.tar.xz)          cmd="tar xvf '${fx}' -C '${directorio_destino}'" ;;
-        *)                 cmd="echo 'Formato no soportado'" ;;
+    case "$file" in
+        *.tar.bz2|*.tbz2)  echo "tar xjvf '$file' -C '$dest'" ;;
+        *.tar.gz|*.tgz)    echo "tar xzvf '$file' -C '$dest'" ;;
+        *.bz2)             echo "bunzip2 -kc '$file' > '$dest${file##*/}'" ;;
+        *.rar)             echo "unrar x '$file' '$dest'" ;;
+        *.gz)              echo "gunzip -c '$file' > '$dest${file##*/}'" ;;
+        *.tar)             echo "tar xvf '$file' -C '$dest'" ;;
+        *.zip)             echo "unzip -q '$file' -d '$dest'" ;;
+        *.Z)               echo "uncompress -c '$file' > '$dest${file##*/}'" ;;
+        *.7z)              echo "7z x -y '$file' -o'$dest'" ;;
+        *.tar.xz)          echo "tar xvf '$file' -C '$dest'" ;;
+        *)                 return 1 ;;
     esac
+}
 
-    # Ejecutar y mostrar resultado
-    if eval "$cmd"; then
-        printf "\r%b%-50s %b%s%b\n" "${GREEN}" "${CHECK} Éxito: " "${RESET}" "Extracción completada"
-        read -p "${BOLD}${MAGENTA}Presione Enter para continuar...${RESET}"
-        lf -remote "send load"
-    else
-        printf "\r%b%-50s %b%s%b\n" "${RED}" "${CROSS} Error: " "${RESET}" "Fallo en la extracción"
-        read -p "${BOLD}${MAGENTA}Presione Enter para continuar...${RESET}"
-        exit 1
+main() {
+    local file="$1"
+
+    if [ ! -f "$file" ]; then
+        print_error "Archivo no válido: $file"
+        wait_enter 1
     fi
-else
-    printf "%b%s%b\n" "${MAGENTA}" "${CROSS} Operación cancelada" "${RESET}"
-    sleep 1
-    exit 0
-fi
+
+    show_header "EXTRAER ARCHIVO"
+    printf "  %s\n" "$file"
+    show_footer 50
+
+    if ! confirm "¿Extraer archivo?"; then
+        print_error "Operación cancelada"
+        wait_enter
+    fi
+
+    local dest
+    dest=$(prompt_text "Ruta destino" "./")
+    dest="${dest%/}/"
+
+    if [ ! -d "$dest" ]; then
+        print_info "Creando directorio: $dest"
+        mkdir -p "$dest" || { print_error "Error creando directorio"; wait_enter 1; }
+    fi
+
+    local cmd
+    cmd=$(get_extract_command "$file" "$dest")
+    if [ $? -ne 0 ]; then
+        print_error "Formato no soportado: $file"
+        wait_enter 1
+    fi
+
+    if run_with_progress "Extrayendo" bash -c "$cmd"; then
+        print_success "Extracción completada"
+        lf -remote "send load" 2>/dev/null
+    fi
+
+    wait_enter
+}
+
+main "$@"

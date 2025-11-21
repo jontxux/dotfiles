@@ -1,105 +1,63 @@
 #!/usr/bin/env bash
+source "$(dirname "${BASH_SOURCE[0]}")/liblf.sh"
 
-# Recibir múltiples archivos como parámetros
-files=("$@")
+main() {
+    # Procesar argumentos
+    local files
+    files=($(process_arguments "$@"))
 
-# Si solo hay un parámetro y contiene saltos de línea, dividirlo
-if [ ${#files[@]} -eq 1 ] && [[ "${files[0]}" == *$'\n'* ]]; then
-    IFS=$'\n' read -d '' -r -a files <<< "${files[0]}"
-fi
+    # Validar existencia
+    local valid_files
+    valid_files=($(validate_files "${files[@]}"))
+    validate_not_empty valid_files
 
-# Configuración de estilos
-BOLD=$(tput bold)
-BLUE=$(tput setaf 4)
-MAGENTA=$(tput setaf 5)
-CYAN=$(tput setaf 6)
-GREEN=$(tput setaf 2)
-RED=$(tput setaf 1)
-RESET=$(tput sgr0)
-CHECK=$'\u2713'  # ✓
-CROSS=$'\u2717'  # ✗
+    # Interfaz visual
+    show_header "COMPRIMIR ARCHIVOS" "${#valid_files[@]}"
+    show_file_list "${valid_files[@]}"
+    show_footer 50
 
-clear
-set -f
+    # Solicitar nombre
+    local nombre_comprimido
+    nombre_comprimido=$(prompt_text "Nombre del archivo comprimido")
 
-# Validar que se haya proporcionado al menos un archivo
-if [ ${#files[@]} -eq 0 ]; then
-    printf "%b%s %b%s%b\n" "${RED}${BOLD}" "${CROSS}" "${RESET}" "Error: No se proporcionó ningún archivo"
-    read -p "${BOLD}${MAGENTA}Presione Enter para continuar...${RESET}"
-    exit 1
-fi
-
-# Validar que los archivos existan
-valid_files=()
-for file in "${files[@]}"; do
-    if [ ! -e "$file" ]; then
-        printf "%b%s %b%s%b\n" "${RED}${BOLD}" "${CROSS}" "${RESET}" "Error: El archivo no existe: $file"
-    else
-        valid_files+=("$file")
+    if [ -z "$nombre_comprimido" ]; then
+        print_error "Nombre no proporcionado"
+        wait_enter 1
     fi
-done
 
-# Si no hay archivos válidos, salir
-if [ ${#valid_files[@]} -eq 0 ]; then
-    read -p "${BOLD}${MAGENTA}Presione Enter para continuar...${RESET}"
-    exit 1
-fi
+    # Preparar rutas relativas para evitar estructura de carpetas absoluta en el zip/tar
+    local current_dir
+    current_dir=$(pwd)
+    local relative_files=()
+    for file in "${valid_files[@]}"; do
+        relative_files+=("$(realpath --relative-to="$current_dir" "$file")")
+    done
 
-# Encabezado
-printf "%b%s%b\n" "${BOLD}${BLUE}╭── COMPRIMIR ARCHIVOS ──${RESET}"
-printf "%bArchivos seleccionados (%d):%b\n" "${BOLD}" "${#valid_files[@]}" "${RESET}"
+    # Determinar comando según extensión
+    local cmd=()
+    case "$nombre_comprimido" in
+        *.zip)            cmd=(zip -r "$nombre_comprimido" "${relative_files[@]}") ;;
+        *.tar.gz|*.tgz)   cmd=(tar -czvf "$nombre_comprimido" "${relative_files[@]}") ;;
+        *.tar.xz)         cmd=(tar -cJvf "$nombre_comprimido" "${relative_files[@]}") ;;
+        *.tar.bz2|*.tbz2) cmd=(tar -cjvf "$nombre_comprimido" "${relative_files[@]}") ;;
+        *.7z)             cmd=(7z a "$nombre_comprimido" "${relative_files[@]}") ;;
+        *.rar)            cmd=(rar a "$nombre_comprimido" "${relative_files[@]}") ;;
+        *)
+            print_error "Extensión no soportada"
+            print_info "Formatos: .zip, .tar.gz, .tgz, .tar.xz, .tar.bz2, .tbz2, .7z, .rar"
+            wait_enter 1
+            ;;
+    esac
 
-# Mostrar lista de archivos
-for ((i=0; i<${#valid_files[@]}; i++)); do
-    printf "  %2d) %s\n" $((i+1)) "${valid_files[i]}"
-done
+    # Ejecutar
+    if run_with_progress "Comprimiendo archivos" "${cmd[@]}"; then
+        print_success "Archivo creado: $nombre_comprimido"
+        lf -remote "send load" 2>/dev/null
+    else
+        print_error "Fallo en la compresión"
+    fi
 
-printf "%b%s%b\n" "${BOLD}${BLUE}╰──────────────────────────${RESET}"
+    wait_enter
+}
 
-# Solicitar nombre del comprimido
-read -p "${BOLD}${MAGENTA}Nombre del archivo comprimido: ${RESET}" nombre_comprimido
-
-if [ -z "$nombre_comprimido" ]; then
-    printf "\n%b%s %b%s%b\n" "${RED}${BOLD}" "${CROSS}" "${RESET}" "Error: Nombre no proporcionado"
-    read -p "${BOLD}${MAGENTA}Presione Enter para continuar...${RESET}"
-    exit 1
-fi
-
-# Convertir a rutas relativas
-current_dir=$(pwd)
-relative_files=()
-for file in "${valid_files[@]}"; do
-    relative_files+=("$(realpath --relative-to="$current_dir" "$file")")
-done
-
-# Determinar comando según extensión
-case "$nombre_comprimido" in
-    *.zip)      cmd=(zip -r "$nombre_comprimido" "${relative_files[@]}") ;;
-    *.tar.gz|*.tgz) cmd=(tar -czvf "$nombre_comprimido" "${relative_files[@]}") ;;
-    *.tar.xz)   cmd=(tar -cJvf "$nombre_comprimido" "${relative_files[@]}") ;;
-    *.tar.bz2|*.tbz2) cmd=(tar -cjvf "$nombre_comprimido" "${relative_files[@]}") ;;
-    *.7z)       cmd=(7z a "$nombre_comprimido" "${relative_files[@]}") ;;
-    *.rar)      cmd=(rar a "$nombre_comprimido" "${relative_files[@]}") ;;
-    *)
-        printf "\n%b%s %b%s%b\n" "${RED}${BOLD}" "${CROSS}" "${RESET}" "Error: Extensión no soportada"
-        printf "%bFormatos válidos: .zip, .tar.gz, .tgz, .tar.xz, .tar.bz2, .tbz2, .7z, .rar%b\n" "${CYAN}" "${RESET}"
-        read -p "${BOLD}${MAGENTA}Presione Enter para continuar...${RESET}"
-        exit 1
-        ;;
-esac
-
-# Ejecutar compresión
-printf "\n%b%s%b\n" "${CYAN}⌛ Comprimiendo archivos...${RESET}"
-if "${cmd[@]}" 2>/dev/null; then
-    printf "\r%b%s %b%s%b\n" "${GREEN}${BOLD}" "${CHECK}" "${RESET}" "Éxito: Archivo creado: $nombre_comprimido"
-else
-    error_msg=$("${cmd[@]}" 2>&1)
-    printf "\r%b%s %b%s%b\n" "${RED}${BOLD}" "${CROSS}" "${RESET}" "Error: Fallo en la compresión"
-    printf "\n%bDetalles:%b\n" "${BOLD}" "${RESET}"
-    echo "$error_msg" | sed 's/^/  /'
-fi
-
-# Actualizar interfaz y salir
-read -p "${BOLD}${MAGENTA}Presione Enter para continuar...${RESET}"
-lf -remote "send load"
-exit 0
+main "$@"

@@ -1,43 +1,34 @@
-#!/bin/bash
+#!/usr/bin/env bash
+source "$(dirname "${BASH_SOURCE[0]}")/liblf.sh"
 
-# Obtener ID de lf
-lf_id="$1"
+main() {
+    local lf_id="$1"
 
-# Generar códigos ANSI
-BOLD=$(tput bold)
-BLUE=$(tput setaf 4)
-MAGENTA=$(tput setaf 5)
-CYAN=$(tput setaf 6)
-GREEN=$(tput setaf 2)
-RESET=$(tput sgr0)
-CHECK=$'\u2713'  # ✓
-CROSS=$'\u2717'  # ✗
+    show_header "NUEVO ARCHIVO"
+    local nombre
+    nombre=$(prompt_text "Nombre del archivo")
+    show_footer 50
 
-clear
-printf "%b%s%b\n" "${BOLD}${BLUE}╭── NUEVO ARCHIVO ────${RESET}"
-read -p "${BOLD}${MAGENTA}Nombre del archivo: ${RESET}" nombre_archivo
-printf "%b%s%b\n" "${BOLD}${BLUE}╰─────────────────────${RESET}"
+    if [ -z "$nombre" ]; then
+        print_error "Nombre no válido"
+        wait_enter 1
+    fi
 
-if [ -z "$nombre_archivo" ]; then
-    printf "\n%b%-50s %b%s%b\n" "${CYAN}" "${CROSS} Error: " "${RESET}" "Nombre no válido"
-    read -p "${BOLD}${MAGENTA}Presione Enter para continuar...${RESET}"
-    exit 1
-fi
+    if [ -e "$nombre" ]; then
+        print_error "El archivo ya existe"
+        wait_enter 1
+    fi
 
-if [ -e "$nombre_archivo" ]; then
-    printf "\n%b%-50s %b%s%b\n" "${CYAN}" "${CROSS} Error: " "${RESET}" "El archivo ya existe"
-    read -p "${BOLD}${MAGENTA}Presione Enter para continuar...${RESET}"
-    exit 1
-fi
+    if touch "$nombre"; then
+        print_success "Archivo creado: $nombre"
+        [ -n "$lf_id" ] && lf -remote "send $lf_id select \"$nombre\""
+        lf -remote "send load" 2>/dev/null
+    else
+        print_error "No se pudo crear el archivo"
+        wait_enter 1
+    fi
 
-if touch "$nombre_archivo"; then
-    printf "\n%b%-50s %b%s%b\n" "${GREEN}" "${CHECK} Éxito: " "${RESET}" "Archivo creado: $nombre_archivo"
-    read -p "${BOLD}${MAGENTA}Presione Enter para continuar...${RESET}"
-    # Enviar comandos a lf
-    lf -remote "send $lf_id select \"$nombre_archivo\""
-    lf -remote "send load"
-else
-    printf "\n%b%-50s %b%s%b\n" "${CYAN}" "${CROSS} Error: " "${RESET}" "No se pudo crear el archivo"
-    read -p "${BOLD}${MAGENTA}Presione Enter para continuar...${RESET}"
-    exit 1
-fi
+    wait_enter
+}
+
+main "$@"
