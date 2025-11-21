@@ -6,8 +6,15 @@ export VISUAL="vim"
 export LANG="es_ES.UTF-8"
 export LC_ALL="es_ES.UTF-8"
 
-# Configuración para GPG
+# Configurar gpg-agent como SSH agent
+unset SSH_AGENT_PID
+if [ "${gnupg_SSH_AUTH_SOCK_by:-0}" -ne $$ ]; then
+  export SSH_AUTH_SOCK="$(gpgconf --list-dirs agent-ssh-socket)"
+fi
+
+# Configurar TTY correcto para pinentry
 export GPG_TTY=$(tty)
+gpg-connect-agent updatestartuptty /bye >/dev/null
 
 # Configuración para Qt6
 export QT_QPA_PLATFORMTHEME=qt6ct
@@ -53,9 +60,9 @@ export XDG_DATA_DIRS="/usr/share:/usr/local/share:$HOME/.local/share/flatpak/exp
 export XDG_CURRENT_DESKTOP=sway
 
 # Iniciar ssh-agent SOLO si no está corriendo (sin cargar claves aún)
-if [ -z "$SSH_AUTH_SOCK" ]; then
-  eval "$(ssh-agent -s)" >/dev/null 2>&1
-fi
+# if [ -z "$SSH_AUTH_SOCK" ]; then
+#   eval "$(ssh-agent -s)" >/dev/null 2>&1
+# fi
 
 # Iniciar sway en la primera terminal virtual si no está en Wayland
 if [ -z "${WAYLAND_DISPLAY}" ] && [ "$(tty | grep -o '[0-9]*$')" -eq 1 ]; then
