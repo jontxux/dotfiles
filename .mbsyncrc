@@ -1,0 +1,23 @@
+IMAPAccount gmail
+Host imap.gmail.com
+Port 993
+User jonbergerandi@gmail.com
+AuthMechs XOAUTH2
+TLSType IMAPS
+PassCmd "/home/jb/dotfiles/scripts/oauth2.sh -r"
+
+IMAPStore gmail-remote
+Account gmail
+
+MaildirStore gmail-local
+Path ~/Mail/gmail/
+Inbox ~/Mail/gmail/INBOX
+SubFolders Verbatim
+
+Channel gmail
+Far :gmail-remote:
+Near :gmail-local:
+Patterns *
+Create Both
+SyncState *
+

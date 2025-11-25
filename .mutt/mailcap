@@ -1,0 +1,6 @@
+text/plain; vim %s ;
+text/html; w3m -I %{charset} -dump -T text/html; copiousoutput;
+application/pdf; /usr/bin/zathura %s; /usr/bin/firefox %s;
+image/*; imv -f %s; needsterminal=no; description=Image Viewer
+video/*; mpv --force-window=yes %s; needsterminal=no; description=Video Player
+audio/*; mpv %s; needsterminal=no; description=Audio Player

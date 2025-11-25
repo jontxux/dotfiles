@@ -1,0 +1,3 @@
+# Ignorar enlaces automáticos creados por systemd
+default.target.wants/
+

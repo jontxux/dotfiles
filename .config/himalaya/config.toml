@@ -1,0 +1,106 @@
+################################################################################
+###[ Global configuration ]#####################################################
+################################################################################
+display-name = "Jon Bergerandi"
+downloads-dir = "~/Descargas"
+
+################################################################################
+###[ Cuenta Local - Maildir ]###################################################
+################################################################################
+[accounts.local]
+default = false
+email = "jonbergerandi@gmail.com"
+
+# Aliases de carpetas
+folder.aliases.inbox = "INBOX"
+folder.aliases.sent = "[Gmail]/Enviados"
+folder.aliases.drafts = "[Gmail]/Borradores"
+folder.aliases.trash = "[Gmail]/Papelera"
+
+# Configuración de visualización
+envelope.list.page-size = 20
+envelope.list.datetime-fmt = "%d/%m/%Y %H:%M"
+envelope.list.datetime-local-tz = true
+
+message.read.headers = ["From", "To", "Cc", "Subject", "Date"]
+message.read.format = "auto"
+message.write.headers = ["From", "To", "Cc", "Subject"]
+message.send.save-copy = false
+
+# Estilo de respuesta
+template.reply.posting-style = "top"
+template.reply.signature-style = "below-quote"
+template.reply.quote-headline-fmt = "El %d/%m/%Y a las %H:%M, {senders} escribió:\n"
+
+# Backend Maildir
+backend.type = "maildir"
+backend.root-dir = "~/Mail/gmail"
+backend.maildirpp = false
+
+# SMTP con msmtp
+message.send.backend.type = "sendmail"
+message.send.backend.cmd = "/usr/bin/msmtp -t"
+
+################################################################################
+###[ Cuenta Gmail - IMAP con OAuth2 ]###########################################
+################################################################################
+[accounts.gmail]
+default = true
+email = "jonbergerandi@gmail.com"
+
+# Aliases de carpetas
+folder.aliases.inbox = "INBOX"
+folder.aliases.sent = "[Gmail]/Enviados"
+folder.aliases.drafts = "[Gmail]/Borradores"
+folder.aliases.trash = "[Gmail]/Papelera"
+
+# Configuración de visualización
+envelope.list.page-size = 20
+envelope.list.datetime-fmt = "%d/%m/%Y %H:%M"
+envelope.list.datetime-local-tz = true
+
+message.read.headers = ["From", "To", "Cc", "Subject", "Date"]
+message.read.format = "auto"
+message.write.headers = ["From", "To", "Cc", "Subject"]
+message.send.save-copy = false
+
+# Estilo de respuesta
+template.reply.posting-style = "top"
+template.reply.signature-style = "below-quote"
+template.reply.quote-headline-fmt = "El %d/%m/%Y a las %H:%M, {senders} escribió:\n"
+
+# Backend IMAP con OAuth2
+backend.type = "imap"
+backend.host = "imap.gmail.com"
+backend.port = 993
+backend.encryption.type = "tls"
+backend.login = "jonbergerandi@gmail.com"
+
+backend.auth.type = "oauth2"
+backend.auth.client-id = "pass show google-oauth/client_id"
+backend.auth.client-secret.cmd = "pass show google-oauth/client_secret"
+backend.auth.method = "xoauth2"
+backend.auth.auth-url = "https://accounts.google.com/o/oauth2/v2/auth"
+backend.auth.token-url = "https://oauth2.googleapis.com/token"
+backend.auth.access-token.cmd = "bash ~/dotfiles/scripts/claude_oauth2.sh -r"
+backend.auth.refresh-token.cmd = "pass show google-oauth/tokens | jq -r '.refresh_token'"
+backend.auth.pkce = true
+backend.auth.scopes = ["https://mail.google.com/"]
+
+# Backend SMTP con OAuth2
+message.send.backend.type = "smtp"
+message.send.backend.host = "smtp.gmail.com"
+message.send.backend.port = 587
+message.send.backend.encryption.type = "start-tls"
+message.send.backend.login = "jonbergerandi@gmail.com"
+
+message.send.backend.auth.type = "oauth2"
+message.send.backend.auth.client-id = "pass show google-oauth/client_id"
+message.send.backend.auth.client-secret.cmd = "pass show google-oauth/client_secret"
+message.send.backend.auth.method = "xoauth2"
+message.send.backend.auth.auth-url = "https://accounts.google.com/o/oauth2/v2/auth"
+message.send.backend.auth.token-url = "https://oauth2.googleapis.com/token"
+message.send.backend.auth.access-token.cmd = "bash ~/dotfiles/scripts/claude_oauth2.sh -r"
+message.send.backend.auth.refresh-token.cmd = "pass show google-oauth/tokens | jq -r '.refresh_token'"
+message.send.backend.auth.pkce = true
+message.send.backend.auth.scopes = ["https://mail.google.com/"]

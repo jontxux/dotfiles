@@ -1,0 +1,363 @@
+# vim:ft=conf
+
+# These examples require Nerd Fonts or a compatible font to be used.
+# See https://www.nerdfonts.com for more information.
+
+# default values from lf (with matching order)
+# ln      l       # LINK
+# or      l       # ORPHAN
+# tw      t       # STICKY_OTHER_WRITABLE
+# ow      d       # OTHER_WRITABLE
+# st      t       # STICKY
+# di      d       # DIR
+# pi      p       # FIFO
+# so      s       # SOCK
+# bd      b       # BLK
+# cd      c       # CHR
+# su      u       # SETUID
+# sg      g       # SETGID
+# ex      x       # EXEC
+# fi      -       # FILE
+
+# file types (with matching order)
+ln      🔗  # LINK
+or      ❓  # ORPHAN
+tw      📝  # STICKY_OTHER_WRITABLE
+ow      🌐  # OTHER_WRITABLE
+st      📌  # STICKY
+di      📁  # DIR
+pi      🚰  # FIFO
+so      🔌  # SOCK
+bd      💽  # BLK
+cd      💾  # CHR
+su      🔑  # SETUID
+sg      👥  # SETGID
+ex      🚀  # EXEC
+fi      📄  # FILE
+
+# file extensions (vim-devicons)
+*.styl          👗
+*.sass          👗
+*.scss          👗
+*.htm           🌐
+*.html          🌐
+*.slim          🌐
+*.haml          🌐
+*.ejs           🌐
+*.css           👗
+*.less          👗
+*.md            📝
+*.mdx           📝
+*.markdown      📝
+*.rmd           📝
+*.json          🗂️
+*.webmanifest   🗂️
+*.js            📜
+*.mjs           📜
+*.jsx           📜
+*.rb            💎
+*.gemspec       💎
+*.rake          💎
+*.php           🐘
+*.py            🐍
+*.pyc           🐍
+*.pyo           🐍
+*.pyd           🐍
+*.coffee        ☕
+*.mustache      📃
+*.hbs           📃
+*.conf          ⚙️
+*.ini           ⚙️
+*.yml           ⚙️
+*.yaml          ⚙️
+*.toml          ⚙️
+*.bat           🖥️
+*.mk            🖥️
+*.jpg           🖼️
+*.jpeg          🖼️
+*.bmp           🖼️
+*.png           🖼️
+*.webp          🖼️
+*.gif           🖼️
+*.ico           🖼️
+*.twig          🌿
+*.cpp           🛠️
+*.c++           🛠️
+*.cxx           🛠️
+*.cc            🛠️
+*.cp            🛠️
+*.c             💻
+*.cs            💻
+*.h             📚
+*.hh            📚
+*.hpp           📚
+*.hxx           📚
+*.hs            🔤
+*.lhs           🔤
+*.nix           ❄️
+*.lua           🌙
+*.java          ☕
+*.sh            🐚
+*.fish          🐚
+*.bash          🐚
+*.zsh           🐚
+*.ksh           🐚
+*.csh           🐚
+*.awk           🐚
+*.ps1           🐚
+*.ml            λ
+*.mli           λ
+*.diff          📊
+*.db            🗃️
+*.sql           🗃️
+*.dump          🗃️
+*.clj           🍀
+*.cljc          🍀
+*.cljs          🍀
+*.edn           🍀
+*.scala         ♟️
+*.go            🐹
+*.dart          🎯
+*.xul           🌐
+*.sln           🔗
+*.suo           🔗
+*.pl            🐪
+*.pm            🐪
+*.t             🐪
+*.rss           📡
+'*.f#'          🔢
+*.fsscript      🔢
+*.fsx           🔢
+*.fs            🔢
+*.fsi           🔢
+*.rs            🦀
+*.rlib          🦀
+*.d             🎲
+*.erl           📟
+*.hrl           📟
+*.ex            💧
+*.exs           💧
+*.eex           💧
+*.leex          💧
+*.heex          💧
+*.vim           🖮
+*.ai            🎨
+*.psd           🖌️
+*.psb           🖌️
+*.ts            🛠️
+*.tsx           🛠️
+*.jl            🔬
+*.pp            📦
+*.vue           🖼️
+*.elm           🌳
+*.swift         🐦
+*.xcplayground  🐦
+*.tex           📄
+*.r             📊
+*.rproj         📊
+*.sol           📄
+*.pem           🔑
+
+# file names (vim-devicons) (case-insensitive not supported in lf)
+*gruntfile.coffee       🤖  # Grunt, una herramienta de construcción, representada por un robot
+*gruntfile.js           🤖
+*gruntfile.ls           🤖
+*gulpfile.coffee        🛠️  # Gulp, una herramienta de flujo de trabajo, representada por herramientas
+*gulpfile.js            🛠️
+*gulpfile.ls            🛠️
+*mix.lock               🔒  # Mix, una herramienta de Elixir, representada por un candado
+*dropbox                📦  # Dropbox, el servicio de almacenamiento en la nube, representado por una caja
+*.ds_store              🗑️  # Archivos DS_Store, a menudo considerados no deseados, representados por una papelera
+*.gitconfig             🔧  # Configuración de Git, representada por una herramienta
+*.gitignore             🙈  # Gitignore, para ignorar archivos, representado por "no ver el mal"
+*.gitattributes         📝  # Gitattributes, representado por un documento
+*.gitlab-ci.yml         🏗️  # GitLab CI, representado por una construcción
+*.bashrc                🐚  # Archivos de configuración de shell, representados por una concha
+*.zshrc                 🐚
+*.zshenv                🐚
+*.zprofile              🐚
+*.vimrc                 📝  # Configuración de Vim, representada por un documento
+*.gvimrc                📝
+*_vimrc                 📝
+*_gvimrc                📝
+*.bashprofile           🐚
+*favicon.ico            🌐  # Favicon, representado por el globo de internet
+*license                📄  # Archivo de licencia, representado por un documento
+*node_modules           📦  # Node modules, representado por una caja
+*react.jsx              ⚛️  # React, representado por el átomo de React
+*procfile               📜  # Procfile, utilizado en aplicaciones web, representado por un rollo de papel
+*dockerfile             🐳  # Dockerfile, representado por la ballena de Docker
+*docker-compose.yml     🐳
+*docker-compose.yaml    🐳
+*compose.yml            🐳
+*compose.yaml           🐳
+*rakefile               🛠️  # Rake, herramienta de construcción en Ruby, representada por herramientas
+*config.ru              💎  # Configuración de Rack para Ruby, representada por un diamante
+*gemfile                💎  # Gemfile para Ruby, también representado por un diamante
+*makefile               🛠️  # Makefile, representado por herramientas
+*cmakelists.txt         🛠️  # CMake, representado por herramientas
+*robots.txt             🤖  # Robots.txt, representado por un robot
+
+# file names (case-sensitive adaptations)
+*Gruntfile.coffee       🤖  # Grunt, representado por un robot
+*Gruntfile.js           🤖
+*Gruntfile.ls           🤖
+*Gulpfile.coffee        🛠️  # Gulp, representado por herramientas
+*Gulpfile.js            🛠️
+*Gulpfile.ls            🛠️
+*Dropbox                📦  # Dropbox, representado por una caja
+*.DS_Store              🗑️  # Archivos DS_Store, representados por una papelera
+*LICENSE                📄  # Archivo de licencia, representado por un documento
+*React.jsx              ⚛️  # React, representado por el átomo de React
+*Procfile               📜  # Procfile, utilizado en aplicaciones web, representado por un rollo de papel
+*Dockerfile             🐳  # Dockerfile, representado por la ballena de Docker
+*Docker-compose.yml     🐳
+*Docker-compose.yaml    🐳
+*Rakefile               🛠️  # Rake, herramienta de construcción en Ruby, representada por herramientas
+*Gemfile                💎  # Gemfile para Ruby, representado por un diamante
+*Makefile               🛠️  # Makefile, representado por herramientas
+*CMakeLists.txt         🛠️  # CMake, representado por herramientas
+
+
+# file patterns (vim-devicons) (patterns not supported in lf)
+# .*jquery.*\.js$         
+# .*angular.*\.js$        
+# .*backbone.*\.js$       
+# .*require.*\.js$        
+# .*materialize.*\.js$    
+# .*materialize.*\.css$   
+# .*mootools.*\.js$       
+# .*vimrc.*               
+# Vagrantfile$            
+
+# file patterns (file name adaptations)
+*jquery.min.js          🔮
+*angular.min.js         🔺
+*backbone.min.js        🦴
+*require.min.js         📦
+*materialize.min.js     🎨
+*materialize.min.css    🎨
+*mootools.min.js        🐄
+*vimrc                  🖮
+Vagrantfile             📦
+
+# archives or compressed (extensions from dircolors defaults)
+*.tar   📦
+*.tgz   📦
+*.arc   📦
+*.arj   📦
+*.taz   📦
+*.lha   📦
+*.lz4   📦
+*.lzh   📦
+*.lzma  📦
+*.tlz   📦
+*.txz   📦
+*.tzo   📦
+*.t7z   📦
+*.zip   📦
+*.z     📦
+*.dz    📦
+*.gz    📦
+*.lrz   📦
+*.lz    📦
+*.lzo   📦
+*.xz    📦
+*.zst   📦
+*.tzst  📦
+*.bz2   📦
+*.bz    📦
+*.tbz   📦
+*.tbz2  📦
+*.tz    📦
+*.deb   📦
+*.rpm   📦
+*.jar   📦
+*.war   📦
+*.ear   📦
+*.sar   📦
+*.rar   📦
+*.alz   📦
+*.ace   📦
+*.zoo   📦
+*.cpio  📦
+*.7z    📦
+*.rz    📦
+*.cab   📦
+*.wim   📦
+*.swm   📦
+*.dwm   📦
+*.esd   📦
+
+# image formats (extensions from dircolors defaults)
+*.jpg   🖼️
+*.jpeg  🖼️
+*.mjpg  🖼️
+*.mjpeg 🖼️
+*.gif   🖼️
+*.bmp   🖼️
+*.pbm   🖼️
+*.pgm   🖼️
+*.ppm   🖼️
+*.tga   🖼️
+*.xbm   🖼️
+*.xpm   🖼️
+*.tif   🖼️
+*.tiff  🖼️
+*.png   🖼️
+*.svg   🖼️
+*.svgz  🖼️
+*.mng   🖼️
+*.pcx   🖼️
+*.xcf   🖼️
+*.xwd   🖼️
+*.yuv   🖼️
+*.cgm   🖼️
+*.emf   🖼️
+*.mov   🎬
+*.mpg   🎬
+*.mpeg  🎬
+*.m2v   🎬
+*.mkv   🎬
+*.webm  🎬
+*.ogm   🎬
+*.mp4   🎬
+*.m4v   🎬
+*.mp4v  🎬
+*.vob   🎬
+*.qt    🎬
+*.nuv   🎬
+*.wmv   🎬
+*.asf   🎬
+*.rm    🎬
+*.rmvb  🎬
+*.flc   🎬
+*.avi   🎬
+*.fli   🎬
+*.flv   🎬
+*.gl    🎬
+*.dl    🎬
+*.ogv   🎬
+*.ogx   🎬
+
+
+# audio formats (extensions from dircolors defaults)
+*.aac   🎵
+*.au    🎵
+*.flac  🎵
+*.m4a   🎵
+*.mid   🎵
+*.midi  🎵
+*.mka   🎵
+*.mp3   🎵
+*.mpc   🎵
+*.ogg   🎵
+*.ra    🎵
+*.wav   🎵
+*.oga   🎵
+*.opus  🎵
+*.spx   🎵
+*.xspf  🎵
+
+# other formats
+*.pdf   📚

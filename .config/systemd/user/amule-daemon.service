@@ -1,0 +1,14 @@
+[Unit]
+Description=aMule daemon (usuario jb)
+After=network-online.target
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/amuled --config-dir=%h/.aMule
+Restart=on-failure
+RestartSec=10
+TimeoutStopSec=5s
+WorkingDirectory=%h
+
+[Install]
+WantedBy=default.target

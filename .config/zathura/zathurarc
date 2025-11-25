@@ -1,0 +1,39 @@
+set database sqlite
+
+# Colores base
+set default-bg          "#282828"   # background
+set default-fg          "#d5c4a1"   # foreground
+
+# Interfaz
+set statusbar-bg        "#3c3836"   # selection-background
+set statusbar-fg        "#d5c4a1"   # selection-foreground
+set inputbar-bg         "#3c3836"   # selection-background
+set inputbar-fg         "#fbf1c7"   # bright7 (texto brillante)
+set notification-bg     "#3c3836"   # selection-background
+set notification-fg     "#d5c4a1"   # foreground
+
+# 🔽 CORRECCIÓN PRINCIPAL: Cambiar colores de selección 🔽
+# Colores de selección estilo Gruvbox
+set highlight-color        "rgba(142,192,124,0.4)"  # aqua con opacidad (fondo de selección)
+set highlight-active-color "rgba(184,187,38,0.4)"   # verde con opacidad (activo, si aplica)
+
+# Recolor activado para aplicar tema
+set recolor                "true"
+set recolor-lightcolor     "#282828"                # fondo oscuro
+set recolor-darkcolor      "#d5c4a1"                # texto claro (Gruvbox fg)
+
+# Elementos interactivos
+set recolor-lightcolor  "#282828"   # background
+set recolor-darkcolor   "#d5c4a1"   # foreground
+set completion-bg       "#3c3836"   # selection-background
+set completion-fg       "#d5c4a1"   # foreground
+set completion-highlight-bg "#504945"  # Gris intermedio
+set completion-highlight-fg "#fbf1c7"  # bright7
+
+# Renderizado (opcional)
+set render-loading-bg   "#282828"   # background
+set render-loading-fg   "#d5c4a1"   # foreground
+
+# Comportamiento recomendado
+set recolor             "false"     # Desactiva recoloreado para mantener colores originales
+set scroll-step         100

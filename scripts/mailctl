@@ -1,0 +1,164 @@
+#!/bin/bash
+set -e
+
+# Colores
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+YELLOW='\033[1;33m'
+BLUE='\033[0;34m'
+NC='\033[0m'
+export RUST_LOG=error
+
+# Valores por defecto
+current_folder="INBOX"
+filter=""
+show_folder_selector=false
+only_unread=false
+
+# Función de ayuda
+show_help() {
+    echo -e "${BLUE}📧 Organizador interactivo de correo Himalaya${NC}\n"
+    echo "Uso: $0 [OPCIONES]"
+    echo ""
+    echo "Opciones:"
+    echo "  -b, --buzon          Mostrar selector de carpetas/buzones"
+    echo "  -u, --no-leidos      Filtrar solo correos no leídos"
+    echo "  -h, --help           Mostrar esta ayuda"
+    echo ""
+    echo "Ejemplos:"
+    echo "  $0                   # INBOX, todos los correos"
+    echo "  $0 --buzon           # Seleccionar carpeta, todos los correos"
+    echo "  $0 --no-leidos       # INBOX, solo no leídos"
+    echo "  $0 -b -u             # Seleccionar carpeta, solo no leídos"
+    echo ""
+    exit 0
+}
+
+# Parsear argumentos
+while [[ $# -gt 0 ]]; do
+    case $1 in
+        -b|--buzon)
+            show_folder_selector=true
+            shift
+            ;;
+        -u|--no-leidos)
+            only_unread=true
+            shift
+            ;;
+        -h|--help)
+            show_help
+            ;;
+        *)
+            echo -e "${RED}❌ Opción desconocida: $1${NC}"
+            echo "Usa -h o --help para ver las opciones disponibles"
+            exit 1
+            ;;
+    esac
+done
+
+echo -e "${BLUE}📧 Organizador interactivo de correo Himalaya${NC}\n"
+
+# 0. Seleccionar carpeta si se especificó --buzon
+if [ "$show_folder_selector" = true ]; then
+    echo -e "${YELLOW}⏳ Obteniendo lista de carpetas...${NC}"
+    folders=$(himalaya folder list -o json | jq -r '.[].name')
+    current_folder=$(echo "$folders" | fzf --height=60% --border --prompt="Carpeta > " --header="Selecciona carpeta de origen")
+    if [ -z "$current_folder" ]; then
+        echo -e "${RED}❌ No se seleccionó ninguna carpeta${NC}"
+        exit 1
+    fi
+fi
+echo -e "${GREEN}✓${NC} Carpeta actual: ${BLUE}$current_folder${NC}"
+
+# 1. Aplicar filtro si se especificó --no-leidos
+if [ "$only_unread" = true ]; then
+    filter="not flag seen"
+    echo -e "${GREEN}✓${NC} Filtrando solo correos no leídos\n"
+else
+    echo -e "${GREEN}✓${NC} Mostrando todos los correos\n"
+fi
+
+# 2. Obtener lista de correos
+echo -e "${YELLOW}⏳ Obteniendo lista de correos...${NC}"
+if [ -n "$filter" ]; then
+    emails_json=$(himalaya envelope list -f "$current_folder" --page-size=10000 -o json "$filter")
+else
+    emails_json=$(himalaya envelope list -f "$current_folder" --page-size=10000 -o json)
+fi
+
+if [ -z "$emails_json" ] || [ "$emails_json" = "[]" ]; then
+    echo -e "${RED}❌ No se encontraron correos${NC}"
+    exit 1
+fi
+
+emails_formatted=$(echo "$emails_json" | jq -r --arg folder "$current_folder" '.[] | "\(.id)|\($folder)|\(.from.addr)|\(.subject)"')
+email_count=$(echo "$emails_formatted" | wc -l)
+echo -e "${GREEN}✓${NC} Encontrados $email_count correos\n"
+
+# 3. Mostrar lista en fzf con preview del mensaje
+echo -e "${BLUE}Selecciona los correos (TAB para múltiple, ENTER para confirmar):${NC}"
+
+selected_emails=$(echo "$emails_formatted" | \
+    awk -F'|' '{printf "%-8s %-12s %-35s %s\n", $1, $2, substr($3,1,35), substr($4,1,80)}' | \
+    fzf --multi \
+        --height=80% \
+        --border \
+        --prompt="Correos > " \
+        --header="ID      Carpeta      De                                 Asunto" \
+        --preview='id=$(echo {} | awk "{print \$1}"); folder=$(echo {} | awk "{print \$2}"); himalaya message read -f "$folder" "$id" | head -n 40' \
+        --preview-window=down:70% \
+        --bind 'ctrl-a:select-all,ctrl-d:deselect-all')
+
+if [ -z "$selected_emails" ]; then
+    echo -e "${RED}❌ No se seleccionó ningún correo${NC}"
+    exit 1
+fi
+
+selected_ids=$(echo "$selected_emails" | awk '{print $1}')
+selected_count=$(echo "$selected_ids" | wc -l)
+echo -e "\n${GREEN}✓${NC} Seleccionados $selected_count correo(s)\n"
+
+# 4. Elegir acción
+echo -e "${BLUE}¿Qué acción deseas realizar?${NC}"
+action=$(printf "Mover\nMarcar como leído\nLeer correo\nCancelar" | fzf --prompt="Acción > ")
+
+case "$action" in
+    "Mover")
+        echo -e "\n${YELLOW}⏳ Obteniendo carpetas...${NC}"
+        folders=$(himalaya folder list -o json | jq -r '.[].name')
+        [ -z "$folders" ] && { echo -e "${RED}❌ No se encontraron carpetas${NC}"; exit 1; }
+
+        echo -e "${BLUE}Selecciona la carpeta de destino:${NC}"
+        target_folder=$(echo "$folders" | fzf --height=40% --border --prompt="Carpeta > ")
+        [ -z "$target_folder" ] && { echo -e "${RED}❌ No se seleccionó ninguna carpeta${NC}"; exit 1; }
+
+        echo -e "\n${YELLOW}📦 Moviendo correos a:${NC} ${BLUE}$target_folder${NC}\n"
+        echo "$selected_ids" | xargs -I{} -P 8 sh -c "himalaya message move -f \"$current_folder\" '$target_folder' '{}' && echo '  ${GREEN}✓${NC} Movido: {}'"
+        echo -e "\n${GREEN}✅ Proceso completado!${NC}"
+        ;;
+
+    "Marcar como leído")
+        echo -e "\n${YELLOW}🔖 Marcando como leído...${NC}\n"
+        echo "$selected_emails" | while read -r line; do
+            id=$(echo "$line" | awk '{print $1}')
+            folder=$(echo "$line" | awk '{print $2}')
+            [ -z "$folder" ] && folder="$current_folder"
+            himalaya flag add -f "$folder" seen "$id" && \
+                echo -e "  ${GREEN}✓${NC} Marcado como leído: $id"
+        done
+        echo -e "\n${GREEN}✅ Correos marcados como leídos${NC}"
+        ;;
+
+    "Leer correo")
+        echo -e "\n${BLUE}Selecciona un correo para leer:${NC}\n"
+        id_to_read=$(echo "$selected_ids" | fzf --prompt="Correo > ")
+        [ -z "$id_to_read" ] && exit 0
+        echo -e "\n${YELLOW}📖 Leyendo correo ${NC}$id_to_read${NC}\n"
+        himalaya message read -f "$current_folder" "$id_to_read" | less -R
+        ;;
+
+    "Cancelar"|"")
+        echo -e "${RED}❌ Operación cancelada${NC}"
+        exit 0
+        ;;
+esac

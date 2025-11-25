@@ -1,0 +1,63 @@
+#!/bin/sh
+
+# Manejador de previsualización de archivos para lf
+
+# Restablece el delimitador de campo interno por defecto
+IFS="$(printf '%b_' '\n')"; IFS="${IFS%_}"
+
+# Función para detectar si usar 'bat', 'batcat' o 'cat'
+use_pager() {
+    if command -v bat >/dev/null 2>&1; then
+        bat -p --theme ansi --terminal-width "$(($4-2))" -f "$1"
+    elif command -v batcat >/dev/null 2>&1; then
+        batcat -p --theme ansi --terminal-width "$(($4-2))" -f "$1"
+    else
+        cat "$1" | head -n 100
+    fi
+}
+
+# Crear el directorio ~/.cache/lf si no existe
+cache_dir="${XDG_CACHE_HOME:-$HOME/.cache}/lf"
+mkdir -p "$cache_dir"
+# Previsualización de archivos
+CACHE="${XDG_CACHE_HOME:-$HOME/.cache}/lf/thumb.$(stat --printf '%n\0%i\0%F\0%s\0%W\0%Y' -- "$(readlink -f "$1")" | sha256sum | cut -d' ' -f1)"
+case "$(file --dereference --brief --mime-type -- "$1")" in
+    image/*)
+        chafa -f sixel -s "$2x$3" --animate off --polite on "$1"
+        exit 1
+        ;;
+    application/x-bittorrent)
+        # Usamos transmission-show para archivos .torrent
+        transmission-show "$1"
+        ;;
+    text/html) lynx -width="$4" -display_charset=utf-8 -dump "$1" ;;
+    text/* | */xml | application/json | application/x-ndjson | application/x-wine-extension-ini | application/pgp-*)
+        # Usamos 'head' para mostrar solo las primeras 100 líneas
+        use_pager "$1" ;;
+    video/*)
+        [ ! -f "$CACHE" ] && ffmpegthumbnailer -i "$1" -o "$CACHE" -s 0
+        chafa -f sixel -s "$2x$3" --animate off --polite on "$CACHE"
+        ;;
+    */pdf)
+        [ ! -f "$CACHE.jpg" ] && pdftoppm -jpeg -f 1 -singlefile "$1" "$CACHE"
+        chafa -f sixel -s "$2x$3" --animate off --polite on "$CACHE.jpg"
+        ;;
+    application/zip)
+        unzip -l "$1" ;;
+    application/gzip)
+        tar -ztvf "$1" ;;
+    application/x-xz)
+        tar -Jtvf "$1" ;;
+    application/x-bzip2)
+        tar -jtvf "$1" ;;
+    application/x-7z-compressed)
+        7z l "$1" ;;
+    application/x-rar)
+        unrar l "$1" ;;
+    inode/x-empty)
+        echo "archivo vacio" ;;
+    *)
+        echo "Previsualización no soportada para este tipo de archivo." ;;
+esac
+
+exit 0

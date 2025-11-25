@@ -1,0 +1,201 @@
+# ==============================================
+# Configuración básica
+# ==============================================
+set realname = "Jon Bergerandi Loidi"
+set from = "jonbergerandi@gmail.com"
+set editor = "vim"  # o tu editor preferido
+
+# ==============================================
+# Configuración SMTP
+# ==============================================
+set sendmail = "/usr/bin/msmtp"
+set use_from = yes
+set envelope_from = yes
+
+# ==============================================
+# Carpetas especiales Gmail
+# ==============================================
+set mbox_type = Maildir
+set folder = "~/Mail/gmail"
+set spoolfile = "+INBOX"
+set postponed = "+[Gmail]/Borradores"
+set record = "+[Gmail]/Enviados"
+set trash = "+[Gmail]/Papelera"
+
+# ==============================================
+# Interfaz y visualización
+# ==============================================
+set pager_index_lines = 10   # Mostrar 10 líneas de índice
+set pager_context = 5        # Contexto al navegar
+set menu_scroll = yes        # Scroll suave
+set sort = threads           # Ordenar por hilos
+set sort_aux = reverse-date  # Más recientes primero
+
+# ==============================================
+# Sidebar Configuration
+# ==============================================
+set sidebar_visible = yes       # Mostrar panel lateral
+set sidebar_width = 30          # Ancho del panel
+set sidebar_folder_indent = yes # Indentar subcarpetas
+set sidebar_format = "%B%?F? [%F]? %* %?N?%N/?%S" # Formato
+
+mailboxes = +INBOX \
+            "+[Gmail]/Todos" \
+            "+[Gmail]/Borradores" \
+            "+[Gmail]/Enviados" \
+            "+[Gmail]/Papelera" \
+            "+[Gmail]/Spam" \
+            "+[Gmail]/Destacados" \
+            +*
+
+# Navegación sidebar
+bind index,pager <left> sidebar-prev
+bind index,pager <right> sidebar-next
+bind index,pager <return> sidebar-open
+
+# Cambiar carpeta seleccionada
+macro index,pager \` "<enter-command>sidebar-toggle-visible<enter>" "Toggle sidebar"
+
+# ==============================================
+# Atajos personalizados (Gmail style)
+# ==============================================
+
+# Navegación rápida
+macro index,pager \Cu "<sidebar-prev>" "Carpeta anterior"
+macro index,pager \Cd "<sidebar-next>" "Carpeta siguiente"
+
+# =====================================================================
+# DESHABILITAR TECLAS POR DEFECTO
+# =====================================================================
+bind index,pager i noop        # Deshabilita 'i'
+bind index,pager g noop        # Deshabilita 'g'
+bind index \Cf noop            # Deshabilita Ctrl+F
+bind index,pager M noop        # Deshabilita 'M'
+bind index,pager C noop        # Deshabilita 'C'
+
+# =====================================================================
+# NAVEGACIÓN TIPO VIM (INDEX/PAGER)
+# =====================================================================
+bind index gg first-entry      # gg: Primer mensaje
+bind index j next-entry        # j: Mensaje siguiente
+bind index k previous-entry    # k: Mensaje anterior
+bind index G last-entry        # G: Último mensaje
+bind index l display-message   # l: Mostrar mensaje completo
+
+bind pager j next-line         # j: Bajar línea (mensaje abierto)
+bind pager k previous-line     # k: Subir línea (mensaje abierto)
+bind pager gg top              # gg: Inicio del mensaje
+bind pager G bottom            # G: Fin del mensaje
+bind pager h exit              # h: Salir del visor de mensajes
+
+# =====================================================================
+# GESTIÓN DE MENSAJES
+# =====================================================================
+bind index D delete-message    # D: Eliminar mensaje
+bind index U undelete-message  # U: Recuperar mensaje
+bind index L limit             # L: Filtrar mensajes
+bind index,query <space> tag-entry  # Espacio: Seleccionar mensaje
+bind index,pager S sync-mailbox     # S: Sincronizar buzón
+bind index,pager R group-reply      # R: Responder a todos
+# bind index,pager H view-raw-message # H: Ver código fuente del mensaje
+
+# =====================================================================
+# ADJUNTOS
+# =====================================================================
+bind attach <return> view-mailcap  # Enter: Ver adjunto con mailcap
+bind attach l view-mailcap         # l: Ver adjunto
+bind pager l view-attachments      # l: Listar adjuntos (desde mensaje)
+
+# =====================================================================
+# NAVEGACIÓN ENTRE CARPETAS (BROWSER)
+# =====================================================================
+bind browser l select-entry    # l: Entrar en carpeta
+bind browser gg top-page       # gg: Primera carpeta
+bind browser G bottom-page     # G: Última carpeta
+macro browser h '<change-dir><kill-line>..<enter>' # h: Subir carpeta
+
+# =====================================================================
+# SCROLL Y VISUALIZACIÓN AVANZADA
+# =====================================================================
+bind index,pager,browser d half-down  # d: Media página abajo
+bind index,pager,browser u half-up    # u: Media página arriba
+
+# Soporte para rueda del ratón
+bind index \031 previous-undeleted  # Scroll ↑: Mensaje anterior
+bind index \005 next-undeleted      # Scroll ↓: Mensaje siguiente
+bind pager \031 previous-line       # Scroll ↑: Subir línea
+bind pager \005 next-line           # Scroll ↓: Bajar línea
+
+# =====================================================================
+# EDITOR DE MENSAJES
+# =====================================================================
+bind editor <Tab> complete-query  # Tab: Autocompletar
+bind editor <space> noop          # Deshabilita espacio en editor
+
+# =====================================================================
+# ACCIONES DESHABILITADAS
+# =====================================================================
+bind index h noop  # h: Sin función (reservado para navegación)
+
+# ==============================================
+# Seguridad y certificados
+# ==============================================
+set certificate_file = ~/.mutt/certificates
+
+# ==============================================
+# Visualización mejorada de correos
+# ==============================================
+
+# Orden de preferencia para tipos MIME
+alternative_order text/plain text/enriched text/html
+
+# Procesar HTML con w3m (instalar primero: sudo apt install w3m)
+auto_view text/html
+set mailcap_path = ~/.mutt/mailcap
+
+# Mapear G para ir al final
+bind index gg first-entry
+bind index G last-entry
+
+ignore *
+unignore from date subject to cc
+
+# ==============================================
+# Configuración de colores (basada en foot.ini)
+# ==============================================
+
+# Colores base
+color normal          color7 color0   # Texto normal (d5c4a1 sobre 282828)
+color indicator       color3 color8   # Indicador de scroll (fabd2f sobre 665c54)
+color status          color0 color4   # Barra de estado (282828 sobre 83a598)
+color tree            color6 color0   # Árbol de hilos (8ec07c sobre 282828)
+color sidebar_highlight color0 color4 # Carpeta seleccionada en sidebar
+color sidebar_divider color8 color0   # Divisor de sidebar (665c54)
+
+# Cabeceras de correo
+color header          color4 color0 "From:"     # Azul para Remitente
+color header          color4 color0 "Subject:"  # Azul para Asunto
+color header          color5 color0 "Date:"     # Magenta para Fecha
+
+# Lista de mensajes (índice)
+color index           color4 color0 "~N"       # Nuevos mensajes en azul
+color index           color3 color0 "~U"       # No leídos en amarillo
+color index           color1 color0 "~F"       # Marcados en rojo
+color index           color8 color0 "~D"       # Borradores en gris
+
+# Cuerpo del mensaje
+color quoted          color8 color0   # Cita nivel 1 (gris)
+color quoted1         color2 color0   # Cita nivel 2 (verde)
+color quoted2         color5 color0   # Cita nivel 3 (magenta)
+color quoted3         color6 color0   # Cita nivel 4 (cyan)
+color signature       color2 color0   # Firma en verde (b8bb26)
+
+# Elementos especiales
+color attachment      color5 color0   # Adjuntos en magenta
+color search          color0 color3   # Búsqueda (fondo amarillo)
+color progress        color8 color0   # Barra de progreso en gris
+
+# Alertas importantes
+color error           color1 color0   # Errores en rojo
+color message         color3 color0   # Mensajes informativos en amarillo
+color tilde           color8 color0   # Espacio vacío al final (gris) color sidebar_highlight $color_blue default

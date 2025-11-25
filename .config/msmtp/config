@@ -1,0 +1,15 @@
+defaults
+auth            oauthbearer
+tls             on
+tls_trust_file  /etc/ssl/certs/ca-certificates.crt
+logfile         ~/.msmtp.log
+
+account         gmail
+host            smtp.gmail.com
+port            587
+from            jonbergerandi@gmail.com
+user            jonbergerandi@gmail.com
+passwordeval    /home/jb/dotfiles/scripts/oauth2.sh -r
+
+account default : gmail
+

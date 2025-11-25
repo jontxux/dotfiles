@@ -1,0 +1,125 @@
+## Variables reutilizables
+font: &font "DejaVuSansM Nerd Font:pixelsize=26"
+fg: &fg "d5c4a1ff"
+bg: &bg "282828ff"
+focused_bg: &focused_bg "fabd2fff"
+focused_fg: &focused_fg "282828ff"
+urgent_bg: &urgent_bg "fb4934ff"
+margin: &margin 12
+onclick: &onclick "swaymsg --quiet workspace {name}"
+
+# Textos de volumen con placeholder
+vol_low_text: &vol_low_text "  {percent}%"
+vol_mid_text: &vol_mid_text "  {percent}%"
+vol_high_text: &vol_high_text "  {percent}%"
+vol_max_text: &vol_max_text " {percent}%"
+mute_text: &mute_text "  {percent}%"
+
+bar:
+  height: 46
+  location: top
+  background: *bg
+
+  left:
+    - i3:
+        sort: ascending
+        strip-workspace-numbers: true
+        content:
+          "":
+            map:
+              default:
+                - string:
+                    text: "{name}"
+                    font: *font
+                    margin: *margin
+                    foreground: *fg
+                    on-click: *onclick
+                    deco:
+                      background:
+                        color: *bg
+              conditions:
+                state == focused:
+                  - string:
+                      text: "{name}"
+                      font: *font
+                      margin: *margin
+                      foreground: *focused_fg
+                      on-click: *onclick
+                      deco:
+                        background:
+                          color: *focused_bg
+                state == urgent:
+                  - string:
+                      text: "{name}"
+                      font: *font
+                      margin: *margin
+                      foreground: *focused_fg
+                      on-click: *onclick
+                      deco:
+                        background:
+                          color: *urgent_bg
+
+  center:
+    - foreign-toplevel:
+        content:
+          map:
+            conditions:
+              ~activated: {empty: {}}
+              activated:
+                - string:
+                    text: "{title}"
+                    font: *font
+                    max: 110
+                    foreground: *fg
+
+  right:
+    - alsa:
+        card: sysdefault:CARD=Generic
+        mixer: Master
+        content:
+          map:
+            conditions:
+              muted:
+                string:
+                  text: *mute_text
+                  font: *font
+                  margin: *margin
+                  foreground: *focused_fg
+                  deco:
+                    background:
+                      color: *urgent_bg
+              ~muted:
+                ramp:
+                  tag: percent
+                  min: 0
+                  max: 100
+                  items:
+                    - string:
+                        text: *vol_low_text
+                        font: *font
+                        margin: *margin
+                        foreground: *fg
+                    - string:
+                        text: *vol_mid_text
+                        font: *font
+                        margin: *margin
+                        foreground: *fg
+                    - string:
+                        text: *vol_high_text
+                        font: *font
+                        margin: *margin
+                        foreground: *fg
+                    - string:
+                        text: *vol_max_text
+                        font: *font
+                        margin: *margin
+                        foreground: *fg
+    - clock:
+        time-format: "%H:%M:%S"
+        date-format: "%Y-%m-%d"
+        content:
+          string:
+            text: "{date} {time}"
+            font: *font
+            margin: *margin
+            foreground: *fg

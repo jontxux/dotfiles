@@ -1,0 +1,147 @@
+# A valid snippet should starts with:
+#
+#		snippet trigger_word [ "description" [ options ] ]
+#
+# and end with:
+#
+#		endsnippet
+#
+# Snippet options:
+#
+#		b - Beginning of line.
+#		i - In-word expansion.
+#		w - Word boundary.
+#		r - Regular expression
+#		e - Custom context snippet
+#		A - Snippet will be triggered automatically, when condition matches.
+#
+# Basic example:
+#
+#		snippet emitter "emitter properties" b
+#		private readonly ${1} = new Emitter<$2>()
+#		public readonly ${1/^_(.*)/$1/}: Event<$2> = this.$1.event
+#		endsnippet
+#
+# Online reference: https://github.com/SirVer/ultisnips/blob/master/doc/UltiSnips.txt
+snippet uniq "filtrar elementos únicos" b
+my @${1:unicos} = do { 
+    my %vistos; 
+    grep { !\$vistos{\$_}++ } @${2:array};
+};
+endsnippet
+
+snippet map "transformación con map"
+my @${1:nuevo_array} = map { ${2:transformación} } @${3:array};
+endsnippet
+
+snippet grep "filtrar elementos con grep"
+my @${1:filtrados} = grep { ${2:condición} } @${3:array};
+endsnippet
+
+snippet while "bucle while"
+while (${1:condición}) {
+    ${2:# código...}
+}
+endsnippet
+
+snippet whilefh "leer archivo línea por línea"
+while (my \$${1:linea} = <${2:fh}>) {
+    ${3:# procesar línea...}
+}
+endsnippet
+
+snippet for "bucle foreach"
+for my \$${1:elemento} (@${2:array}) {
+    ${3:# código...}
+}
+endsnippet
+
+snippet forc "bucle for estilo C"
+for (my \$${1:i} = 0; $1 < ${2:limite}; $1++ ) {
+    ${3:# código...}
+}
+endsnippet
+
+snippet if "condicional if"
+if (${1:condición}) {
+    ${2:# código...}
+}
+endsnippet
+
+snippet ife "bloque if-elsif-else"
+if (${1:condición}) {
+    ${2:# código...}
+} elsif (${3:condición}) {
+    ${4:# código...}
+} else {
+    ${5:# código...}
+}
+endsnippet
+
+snippet xunless "Condicional de una línea (unless)"
+${1:expresión} unless ${2:condición};
+
+endsnippet
+
+snippet xif "Condicional de una línea (if)"
+${1:expresión} if ${2:condición};
+
+endsnippet
+
+
+snippet xfore "Bucle de una línea (foreach)"
+${1:expresión} foreach @${2:array};
+
+endsnippet
+
+snippet xwhile "Bucle de una línea (while)"
+${1:expresión} while ${2:condición};
+
+endsnippet
+
+snippet strict "usar strict y warnings" b
+use strict;
+use warnings;
+endsnippet
+
+snippet try "manejo de errores con Try::Tiny" b
+use Try::Tiny;
+try {
+    ${1:# código...}
+} catch {
+    ${2:# manejar error...}
+};
+endsnippet
+
+snippet sub "definir subrutina"
+sub ${1:nombre} {
+    my (${2:@parametros}) = @_;
+    ${3:# código...}
+}
+endsnippet
+
+snippet print "imprimir con salto de línea"
+print ${1:"${2:texto}\\n"};
+endsnippet
+
+snippet shebang "línea shebang para Perl" b
+#!/usr/bin/env perl
+use strict;
+use warnings;
+${1}
+endsnippet
+
+snippet open "apertura y cierre seguro de archivo" b
+open(my \$${1:fh}, '<', ${2:\$archivo}) or die "No se pudo abrir $2: \$!";
+${3:# código...}
+close \$$1 or warn "No se pudo cerrar el archivo: \$!";
+endsnippet
+
+snippet slurp "slurp"
+my $${1:var} = do { local $/ = undef; open my $fh, '<', ${2:$file}; <$fh> };
+endsnippet
+
+snippet dumper "Utilizar Data::Dumper" b
+use Data::Dumper;
+print Dumper(\$${1:variable});
+endsnippet

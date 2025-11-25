@@ -1,0 +1,217 @@
+# Ajustes Generales
+set preview true
+set icons
+set hidden
+set ignorecase true
+set drawbox true
+set sixel true
+set previewer '~/dotfiles/.config/lf/preview'
+
+# Comandos Personalizados
+
+# Búsqueda con FZF
+cmd fzf_search ${{
+    RG_PREFIX="rg --column --line-number --no-heading --color=always --smart-case "
+    res="$(
+        FZF_DEFAULT_COMMAND="$RG_PREFIX ''" \
+            fzf --bind "change:reload:$RG_PREFIX {q} || true" \
+            --ansi --layout=reverse --header 'Search in files' \
+            | cut -d':' -f1 | sed 's/\\/\\\\/g;s/"/\\"/g'
+    )"
+    [ -n "$res" ] && lf -remote "send $id select \"$res\""
+}}
+
+# Salto con FZF
+cmd fzf_jump ${{
+    res="$(fd . | fzf --reverse --header='Jump to location')"
+    if [ -n "$res" ]; then
+        if [ -d "$res" ]; then
+            cmd="cd"
+        else
+            cmd="select"
+        fi
+        res="$(printf '%s' "$res" | sed 's/\\/\\\\/g;s/"/\\"/g')"
+        lf -remote "send $id $cmd \"$res\""
+    fi
+}}
+
+# Integración con zoxide
+cmd z %{{
+    result="$(zoxide query --exclude $PWD $@ | sed 's/\\/\\\\/g;s/"/\\"/g')"
+    lf -remote "send $id cd \"$result\""
+}}
+cmd zi ${{
+    result="$(zoxide query -i | sed 's/\\/\\\\/g;s/"/\\"/g')"
+    lf -remote "send $id cd \"$result\""
+}}
+cmd on-cd &{{
+        zoxide add "$PWD"
+}}
+
+# Apertura de archivos basada en MIME
+cmd open ${{
+    case $(file --mime-type -b "$f") in
+        text/*|application/json|application/pgp-*|inode/x-empty) $EDITOR "$f" ;;
+        application/pdf) setsid -f zathura "$f" >/dev/null 2>&1 & ;;
+        audio/*|video/*) setsid -f mpv -- "$f" >/dev/null 2>&1 & ;;
+        image/*) setsid -f imv "$f" >/dev/null 2>&1 & ;;
+        *) setsid -f xdg-open "$f" >/dev/null 2>&1 & ;;
+    esac
+}}
+
+# Creación de directorios
+cmd mkdir $mkdir -p "$@"
+
+# Extracción de archivos
+cmd extract ${{
+    bash ~/.config/lf/scripts/extract.sh "$fx"
+}}
+
+# Compresión de archivos
+cmd comprimir ${{
+    bash ~/.config/lf/scripts/compress.sh "$fx"
+}}
+
+# Creación de nuevos archivos
+cmd nuevo ${{
+    bash ~/.config/lf/scripts/new.sh "$id"
+}}
+
+# Eliminación de archivos
+cmd delete ${{
+    bash ~/.config/lf/scripts/delete.sh "$fx"
+}}
+
+cmd checksum ${{
+    bash ~/.config/lf/scripts/checksum.sh "$fx"
+}}
+
+cmd permissions ${{
+
+    # Definir colores y estilos
+    BOLD=$(tput bold)
+    BLUE=$(tput setaf 4)
+    MAGENTA=$(tput setaf 5)
+    CYAN=$(tput setaf 6)
+    YELLOW=$(tput setaf 3)
+    RED=$(tput setaf 1)
+    GREEN=$(tput setaf 2)
+    RESET=$(tput sgr0)
+    CHECK=$'\u2713'  # ✓
+    CROSS=$'\u2717'  # ✗
+
+    # Verificar que se haya seleccionado al menos un archivo
+    if [ -z "$fx" ]; then
+        printf "%b%s %b%s%b\n" "${RED}${BOLD}" "${CROSS}" "${RESET}" "Error: Debe seleccionar al menos un archivo"
+        printf "\n%bPresione cualquier tecla para continuar...%b" "${BOLD}${MAGENTA}" "${RESET}"
+        read -n1 -s
+        return 1
+    fi
+
+    clear
+
+    # Encabezado principal
+    printf "%b%s%b\n" "${BOLD}${BLUE}╭── PERMISOS DE ARCHIVOS ──${RESET}"
+    printf "%bArchivos seleccionados:%b %d\n\n" "${BOLD}${CYAN}" "${RESET}" $(echo "$fx" | wc -l)
+
+    # Procesar cada archivo
+    for file in $fx; do
+        # Verificar que el archivo existe
+        if [ ! -e "$file" ]; then
+            printf "%b%s %b%s '%s'%b\n" "${RED}${BOLD}" "${CROSS}" "${RESET}" "Error: El archivo" "${YELLOW}$file${RESET}" "no existe"
+            continue
+        fi
+
+        # Encabezado para cada archivo
+        printf "%b%s:%b\n" "${BOLD}${GREEN}" "$file" "${RESET}"
+
+        # Obtener los datos con stat
+        stats=$(stat -c $'  Permisos: %A\n  Tamaño: %s bytes\n  Dueño: %U:%G\n  Último acceso: %x\n  Última modificación: %y' "$file")
+
+        # Formatear cada línea con colores y simplificar fechas
+        while IFS= read -r line; do
+            if [[ "$line" =~ ^([^:]+):[[:space:]]*(.*)$ ]]; then
+                label="${BOLD}${CYAN}${BASH_REMATCH[1]}${RESET}"
+                value="${BASH_REMATCH[2]}"
+
+                # Simplificar fechas (eliminar fracciones de segundo y zona horaria)
+                if [[ "$line" == *"acceso"* || "$line" == *"modificación"* ]]; then
+                    value=$(echo "$value" | awk '{print $1, $2}' | cut -d. -f1)
+                fi
+
+                # Color especial para permisos
+                if [[ "$line" == *"Permisos:"* ]]; then
+                    value="${BOLD}${MAGENTA}${value}${RESET}"
+                fi
+
+                printf "%-18s %s\n" "$label" "$value"
+            else
+                printf "%s\n" "$line"
+            fi
+        done <<< "$stats"
+
+        echo ""  # Espacio entre archivos
+    done
+
+    # Pie de sección
+    printf "%b%s%b\n" "${BOLD}${BLUE}╰──────────────────────────${RESET}"
+
+    # Mensaje final con estilo consistente
+    printf "\n%bPresione cualquier tecla para continuar...%b" "${BOLD}${MAGENTA}" "${RESET}"
+    read -n1 -s
+}}
+
+# Comando para firmar archivos con GPG
+cmd firmar ${{
+    bash ~/.config/lf/scripts/sign.sh "$id" "$f"
+}}
+
+# Comando para encriptar archivos con GPG
+cmd encriptar ${{
+    bash ~/.config/lf/scripts/encrypt.sh "$fx"
+}}
+
+# Seleccionar múltiples archivos con FZF
+cmd seleccionar_fzf ${{
+    res="$(fd --type f --hidden --exclude .git . | fzf --multi --reverse --header='Selecciona archivos (TAB)')"
+    if [ -n "$res" ]; then
+        # lf -remote "send $id unselect"
+        printf '%s\n' "$res" | while IFS= read -r file; do
+            lf -remote "send $id select \"$PWD/$file\""
+            lf -remote "send $id toggle"
+        done
+    fi
+}}
+
+# Mapeo de Teclas
+map <enter> open
+map D delete
+map E extract
+map Z comprimir
+map T nuevo
+
+# Mapeos de teclas para operaciones comunes
+map <f-7> push :mkdir<space>""<left>
+map <c-r> reload
+map <c-s> set hidden!
+map x $$f
+map X !$f
+
+# Mapeos de teclas para renombrar
+map A :rename; cmd-end
+map C push A<c-u>
+map I :rename; cmd-home
+map i :rename
+map a :rename; cmd-right
+
+# Navegación y operaciones misceláneas
+map <c-n> down
+map <c-p> up
+map V push :!vim<space>
+map Y $printf "%s" "$fx" | wl-copy
+map gs :fzf_search
+map gf :fzf_jump
+map S firmar
+map M seleccionar_fzf
+map <c-e> encriptar
+

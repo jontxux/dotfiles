@@ -1,0 +1,314 @@
+# ============================================================================
+# CONFIGURACIÓN DE SWAY
+# ============================================================================
+# Copia este archivo a ~/.config/sway/config
+# Lee `man 5 sway` para documentación completa
+
+# ============================================================================
+# PALETA DE COLORES (Gruvbox)
+# ============================================================================
+set $color_bg           #282828
+set $color_bg_dark      #1c1c1c
+set $color_bg_darker    #323232
+set $color_fg           #ebdbb2
+set $color_fg_dark      #666666
+set $color_fg_darker    #444444
+set $color_accent       #fe8019
+set $color_urgent       #fb4934
+set $color_urgent_dark  #900000
+set $color_black        #000000
+
+# ============================================================================
+# VARIABLES PRINCIPALES
+# ============================================================================
+# Tecla modificadora (Mod4 = tecla Super/Windows)
+set $mod Mod4
+
+# Distribución de teclado español
+input * xkb_layout es
+
+# Habilitar Bloq Num al inicio
+input type:keyboard xkb_numlock enabled
+
+# Teclas de dirección estilo Vim
+set $left h
+set $down j
+set $up k
+set $right l
+
+# Terminal preferido (usa foot con servidor para mejor rendimiento)
+set $term footclient
+
+# Menú dmenu básico (se sobreescribe más abajo con bemenu)
+set $menu dmenu_path | wmenu | xargs swaymsg exec --
+
+# ============================================================================
+# APARIENCIA: ESPACIADO Y BORDES
+# ============================================================================
+# Espaciado entre ventanas
+gaps inner 3
+gaps outer 3
+
+# Grosor del borde de las ventanas
+default_border pixel 3
+
+# Ocultar bordes cuando solo hay una ventana en el workspace
+smart_borders on
+
+# Colores de los bordes de ventanas
+client.focused          $color_accent $color_accent $color_bg $color_accent
+client.focused_inactive #333333 #333333 $color_fg_dark #222222
+client.unfocused        $color_bg_dark $color_bg_dark $color_fg_darker $color_black
+client.urgent           $color_urgent_dark $color_urgent_dark #ff0000 $color_urgent_dark
+
+# ============================================================================
+# CONFIGURACIÓN DE PANTALLAS
+# ============================================================================
+# Fondo de pantalla (color sólido gris oscuro)
+output * bg #404040 solid_color
+
+# Escala de pantalla (125% para mejor legibilidad en pantallas HiDPI)
+output * scale 1.25
+
+# ============================================================================
+# APLICACIONES AL INICIO
+# ============================================================================
+# Servidor de terminal foot (permite reutilizar instancias)
+exec foot --server
+
+# Autotiling: organiza ventanas automáticamente en horizontal/vertical
+# Requiere: https://github.com/ammgws/autotiling-rs
+exec autotiling-rs
+
+# Bloqueo automático de pantalla tras inactividad
+exec swayidle -w \
+    timeout 900 'swaylock -f -c 000000' \
+    timeout 901 'swaymsg "output * dpms off"' \
+    resume 'swaymsg "output * dpms on"'
+
+# Aplicaciones opcionales (descomentadas)
+# exec pulseaudio --start
+# exec transmission-daemon
+# exec amuled
+
+# ============================================================================
+# ATAJOS DE TECLADO: APLICACIONES
+# ============================================================================
+# Abrir terminal
+bindsym $mod+Return exec $term
+
+# Cerrar ventana enfocada
+bindsym $mod+Shift+q kill
+
+# Calculadora en terminal
+bindsym $mod+c exec $term -e qalc
+
+# Lanzador de aplicaciones (bemenu con tema Gruvbox)
+set $launcher bemenu-run -H '23' -i \
+  --fn 'DejaVuSansM Nerd Font 11' \
+  --tb '$color_bg' --tf '$color_fg' \
+  --fb '$color_bg' --ff '$color_fg' \
+  --nb '$color_bg' --nf '$color_fg' \
+  --hb '$color_accent' --hf '$color_bg' \
+  --sb '$color_accent' --sf '$color_bg' \
+  --ab '$color_bg' --af '$color_fg' \
+  --hp 10 \
+  -p 'Run: '
+
+bindsym $mod+d exec $launcher
+bindsym $mod+Shift+d exec $menu
+
+# Bloquear pantalla manualmente
+bindsym $mod+Shift+x exec swaylock -c 000000
+
+# ============================================================================
+# ATAJOS DE TECLADO: CAPTURAS DE PANTALLA
+# ============================================================================
+# Captura de toda la pantalla
+bindsym $mod+Print exec grim ~/Imágenes/screenshot-$(date +'%Y-%m-%d-%H%M%S').png
+
+# Captura de área seleccionada (guardada)
+bindsym $mod+Shift+Print exec grim -g "$(slurp)" ~/Imágenes/screenshot-$(date +'%Y-%m-%d-%H%M%S').png
+
+# Captura de área seleccionada (al portapapeles)
+bindsym Ctrl+Print exec grim -g "$(slurp)" - | wl-copy --type image/png
+
+# ============================================================================
+# ATAJOS DE TECLADO: CONTROL DE AUDIO
+# ============================================================================
+# Subir volumen 5%
+bindsym Ctrl+Shift+Mod4+Up exec pactl set-sink-volume @DEFAULT_SINK@ +5%
+
+# Bajar volumen 5%
+bindsym Ctrl+Shift+Mod4+Down exec pactl set-sink-volume @DEFAULT_SINK@ -5%
+
+# Silenciar/desilenciar
+bindsym Ctrl+Shift+Mod4+m exec pactl set-sink-mute @DEFAULT_SINK@ toggle
+
+# ============================================================================
+# ATAJOS DE TECLADO: NAVEGACIÓN ENTRE VENTANAS
+# ============================================================================
+# Mover foco con teclas Vim (h,j,k,l)
+bindsym $mod+$left focus left
+bindsym $mod+$down focus down
+bindsym $mod+$up focus up
+bindsym $mod+$right focus right
+
+# Mover foco con flechas
+bindsym $mod+Left focus left
+bindsym $mod+Down focus down
+bindsym $mod+Up focus up
+bindsym $mod+Right focus right
+
+# Mover ventanas con teclas Vim + Shift
+bindsym $mod+Shift+$left move left
+bindsym $mod+Shift+$down move down
+bindsym $mod+Shift+$up move up
+bindsym $mod+Shift+$right move right
+
+# Mover ventanas con flechas + Shift
+bindsym $mod+Shift+Left move left
+bindsym $mod+Shift+Down move down
+bindsym $mod+Shift+Up move up
+bindsym $mod+Shift+Right move right
+
+# ============================================================================
+# ATAJOS DE TECLADO: WORKSPACES
+# ============================================================================
+# Cambiar a workspace específico
+bindsym $mod+1 workspace number 1
+bindsym $mod+2 workspace number 2
+bindsym $mod+3 workspace number 3
+bindsym $mod+4 workspace number 4
+bindsym $mod+5 workspace number 5
+bindsym $mod+6 workspace number 6
+bindsym $mod+7 workspace number 7
+bindsym $mod+8 workspace number 8
+bindsym $mod+9 workspace number 9
+bindsym $mod+0 workspace number 10
+
+# Navegar entre workspaces (Control+h/l)
+bindsym $mod+Control+h workspace prev
+bindsym $mod+Control+l workspace next
+
+# Mover ventana a workspace específico
+bindsym $mod+Shift+1 move container to workspace number 1
+bindsym $mod+Shift+2 move container to workspace number 2
+bindsym $mod+Shift+3 move container to workspace number 3
+bindsym $mod+Shift+4 move container to workspace number 4
+bindsym $mod+Shift+5 move container to workspace number 5
+bindsym $mod+Shift+6 move container to workspace number 6
+bindsym $mod+Shift+7 move container to workspace number 7
+bindsym $mod+Shift+8 move container to workspace number 8
+bindsym $mod+Shift+9 move container to workspace number 9
+bindsym $mod+Shift+0 move container to workspace number 10
+
+# ============================================================================
+# ATAJOS DE TECLADO: DISEÑO DE VENTANAS
+# ============================================================================
+# Dividir horizontalmente
+bindsym $mod+b splith
+
+# Dividir verticalmente
+bindsym $mod+v splitv
+
+# Cambiar modo de diseño
+bindsym $mod+s layout stacking
+bindsym $mod+w layout tabbed
+bindsym $mod+e layout toggle split
+
+# Pantalla completa
+bindsym $mod+f fullscreen
+
+# Alternar entre ventana flotante y en mosaico
+bindsym $mod+Shift+space floating toggle
+
+# Cambiar foco entre ventanas flotantes y en mosaico
+bindsym $mod+space focus mode_toggle
+
+# Enfocar contenedor padre
+bindsym $mod+a focus parent
+
+# ============================================================================
+# SCRATCHPAD (VENTANAS OCULTAS)
+# ============================================================================
+# Mover ventana al scratchpad
+bindsym $mod+Shift+minus move scratchpad
+
+# Mostrar/ocultar ventana del scratchpad
+bindsym $mod+minus scratchpad show
+
+# ============================================================================
+# MODO REDIMENSIÓN
+# ============================================================================
+mode "resize" {
+    # Redimensionar con teclas Vim
+    bindsym $left resize shrink width 10px
+    bindsym $down resize grow height 10px
+    bindsym $up resize shrink height 10px
+    bindsym $right resize grow width 10px
+
+    # Redimensionar con flechas
+    bindsym Left resize shrink width 10px
+    bindsym Down resize grow height 10px
+    bindsym Up resize shrink height 10px
+    bindsym Right resize grow width 10px
+
+    # Salir del modo redimensión
+    bindsym Return mode "default"
+    bindsym Escape mode "default"
+}
+
+bindsym $mod+r mode "resize"
+
+# ============================================================================
+# CONFIGURACIÓN DEL RATÓN
+# ============================================================================
+# Mover/redimensionar ventanas con Super + ratón
+floating_modifier $mod normal
+
+# Tema del cursor
+seat seat0 xcursor_theme Adwaita 24
+
+# ============================================================================
+# REGLAS PARA VENTANAS ESPECÍFICAS
+# ============================================================================
+# Firefox: indicador de compartición de pantalla flotante
+for_window [title="Firefox - Indicador de compartición"] floating enable
+
+# ============================================================================
+# SISTEMA: RECARGAR Y SALIR
+# ============================================================================
+# Recargar configuración
+bindsym $mod+Shift+c reload
+
+# Salir de Sway (con confirmación)
+bindsym $mod+Shift+e exec swaynag -t warning -m 'You pressed the exit shortcut. Do you really want to exit sway? This will end your Wayland session.' -B 'Yes, exit sway' 'swaymsg exit'
+
+# ============================================================================
+# BARRA DE ESTADO
+# ============================================================================
+bar {
+    position top
+    font pango:DejaVuSansM Nerd Font 10
+
+    # Script personalizado para la barra de estado
+    status_command ~/.config/sway/barra
+
+    colors {
+        statusline $color_fg
+        background $color_bg
+
+        # Colores de los workspaces
+        focused_workspace  $color_accent $color_accent $color_bg
+        active_workspace   $color_bg_darker $color_bg_darker $color_fg
+        inactive_workspace $color_bg $color_bg $color_fg
+        urgent_workspace   $color_urgent $color_urgent $color_bg
+    }
+}
+
+# ============================================================================
+# CONFIGURACIONES ADICIONALES
+# ============================================================================
+include /etc/sway/config-vars.d/*
+# include /etc/sway/config.d/*

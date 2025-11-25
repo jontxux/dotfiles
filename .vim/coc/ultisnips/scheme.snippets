@@ -1,0 +1,168 @@
+# A valid snippet should starts with:
+#
+#		snippet trigger_word [ "description" [ options ] ]
+#
+# and end with:
+#
+#		endsnippet
+#
+# Snippet options:
+#
+#		b - Beginning of line.
+#		i - In-word expansion.
+#		w - Word boundary.
+#		r - Regular expression
+#		e - Custom context snippet
+#		A - Snippet will be triggered automatically, when condition matches.
+#
+# Basic example:
+#
+#		snippet emitter "emitter properties" b
+#		private readonly ${1} = new Emitter<$2>()
+#		public readonly ${1/^_(.*)/$1/}: Event<$2> = this.$1.event
+#		endsnippet
+#
+# Online reference: https://github.com/SirVer/ultisnips/blob/master/doc/UltiSnips.txt
+# Aritmética básica con múltiples operandos
+snippet + "Suma múltiple"
+(+ ${1:primer-num}
+   ${2:segundo-num}
+   ${0:resto})
+endsnippet
+
+snippet - "Resta múltiple"
+(- ${1:primer-num}
+   ${2:segundo-num}
+   ${0:resto})
+endsnippet
+
+snippet * "Multiplicación múltiple"
+(* ${1:primer-num}
+   ${2:segundo-num}
+   ${0:resto})
+endsnippet
+
+snippet / "División múltiple"
+(/ ${1:primer-num}
+   ${2:segundo-num}
+   ${0:resto})
+endsnippet
+
+# Definiciones
+snippet def "Definir función"
+(define (${1:nombre} ${2:parámetros})
+  ${3:;; Cuerpo de la función}
+  ${0:retorno})
+endsnippet
+
+snippet defl "Definir lambda"
+(define ${1:nombre}
+  (lambda (${2:parámetros})
+    ${3:;; Cuerpo lambda}
+    ${0:retorno}))
+endsnippet
+
+snippet defv "Definir variable"
+(define ${1:nombre} ${2:valor})
+endsnippet
+
+# Condicionales
+snippet cond "Condicional múltiple"
+(cond
+  (${1:predicado-1} ${2:acción-1})
+  (${3:predicado-2} ${4:acción-2})
+  (else ${0:acción-final}))
+endsnippet
+
+snippet if "If simple"
+(if (${1:condición})
+    ${2:verdadero}
+    ${0:falso})
+endsnippet
+
+# Manejo de archivos
+snippet slurp "Leer archivo completo"
+(import scheme
+        (chicken io))  ; carga read-string
+
+(define (slurp ruta)
+  (call-with-input-file ruta
+    (lambda (port)
+      (read-string #f port))))
+endsnippet
+
+snippet spew "Escribir archivo completo"
+(import scheme
+        (chicken io))   ; carga write-string
+
+(define (spew ruta contenido)
+  (call-with-output-file ruta
+    (lambda (port)
+      (write-string contenido #f port))))
+endsnippet
+
+snippet with-in "Abrir archivo lectura"
+(with-input-from-file "${1:ruta}"
+  (lambda ()
+    ${2:;; Operaciones de lectura}
+    ${0}))
+endsnippet
+
+snippet with-out "Abrir archivo escritura"
+(with-output-to-file "${1:ruta}"
+  (lambda ()
+    ${2:;; Operaciones de escritura}
+    ${0}))
+endsnippet
+
+# Listas y secuencias
+snippet map "Mapear lista"
+(map (lambda (${1:elem})
+       ${2:transformación})
+     ${3:lista})
+endsnippet
+
+snippet filter "Filtrar lista"
+(filter (lambda (${1:elem})
+          ${2:condición})
+        ${3:lista})
+endsnippet
+
+# Funciones anónimas
+snippet λ "Lambda corto"
+(lambda (${1:args}) ${2:body})
+endsnippet
+
+snippet lambda "Lambda completo"
+(lambda (${1:parámetros})
+  ${2:;; Cuerpo de la función}
+  ${0:retorno})
+endsnippet
+
+# Bucles
+snippet letloop "Let loop con acumulador"
+(let loop ((${1:var} ${2:inicial}) (${3:acum} ${4:inicial}))
+  (if (${5:condición})
+      ${6:resultado}
+      (loop (${7:actualiza-var}) (${8:actualiza-acum}))))
+endsnippet
+
+# Registros
+snippet rec "Registro con campos"
+(define-record ${1:Nombre} 
+  ${2:campo1}
+  ${3:campo2}
+  ${0:resto-campos})
+endsnippet
+
+# Comentarios útiles
+snippet ;; "Comentario destacado"
+;; ${1:Texto del comentario} ${0}
+endsnippet
+
+snippet comm "Bloque comentario"
+#|
+${1:Comentario
+multilínea}
+|#
+endsnippet
