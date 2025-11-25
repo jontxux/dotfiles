@@ -42,7 +42,7 @@ authorize() {
 
     data="code=$code&client_id=$id&client_secret=$secret&redirect_uri=$redirect_uri&grant_type=authorization_code"
     response=$(curl -s -X POST -d "$data" "$tkn_uri")
-    
+
     # Guardar con timestamp
     tokens_json=$(save_tokens "$response")
     echo "✓ Tokens guardados en pass: $PASS_TOKENS"
@@ -53,7 +53,7 @@ is_token_expired() {
     tokens_json="$1"
     issued_at=$(echo "$tokens_json" | jq -r '.issued_at')
     expires_in=$(echo "$tokens_json" | jq -r '.expires_in')
-    
+
     if [[ "$issued_at" == "null" || -z "$issued_at" ]]; then
         echo "true"
         return
@@ -61,7 +61,7 @@ is_token_expired() {
 
     current_time=$(date +%s)
     expiration_time=$((issued_at + expires_in))
-    
+
     if (( current_time > (expiration_time - MARGIN) )); then
         echo "true"
     else
@@ -101,7 +101,7 @@ refresh() {
 case "$1" in
     -a) authorize ;;
     -r) refresh ;;
-    *) 
+    *)
         echo "Uso: ${0##*/} [-a|-r]"
         echo "  -a  Autorización inicial (obtener tokens)"
         echo "  -r  Refrescar access token"
