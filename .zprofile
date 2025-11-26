@@ -59,11 +59,6 @@ export MOZ_ENABLE_WAYLAND=1
 export XDG_DATA_DIRS="/usr/share:/usr/local/share:$HOME/.local/share/flatpak/exports/share:/var/lib/flatpak/exports/share"
 export XDG_CURRENT_DESKTOP=sway
 
-# Iniciar ssh-agent SOLO si no está corriendo (sin cargar claves aún)
-# if [ -z "$SSH_AUTH_SOCK" ]; then
-#   eval "$(ssh-agent -s)" >/dev/null 2>&1
-# fi
-
 # Iniciar sway en la primera terminal virtual si no está en Wayland
 if [ -z "${WAYLAND_DISPLAY}" ] && [ "$(tty | grep -o '[0-9]*$')" -eq 1 ]; then
   echo "Iniciando sway..."
