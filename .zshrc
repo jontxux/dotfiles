@@ -6,9 +6,6 @@ case $- in
     *) return;;
 esac
 
-# ===== VARIABLES DE ENTORNO =====
-export GPG_TTY=$TTY
-
 # ===== CONFIGURACIÓN DEL HISTORIAL =====
 HISTFILE=~/.zsh_history
 HISTSIZE=10000
