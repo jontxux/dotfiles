@@ -1,89 +1,49 @@
-# Si no se está ejecutando de forma interactiva, no hacer nada
+# ===== CONFIGURACIÓN BÁSICA =====
+
+# Solo ejecutar en shells interactivos
 case $- in
     *i*) ;;
     *) return;;
 esac
 
-# Configuración GPG: establecer la terminal actual para que la use GPG
+# ===== VARIABLES DE ENTORNO =====
 export GPG_TTY=$TTY
 
-# Aliases
-[ -r ~/.aliases ] && . ~/.aliases
-
-# Colores personalizados (LS_COLORS)
-[ -f ~/dotfiles/scripts/colores.sh ] && source ~/dotfiles/scripts/colores.sh
-
-# Historial
+# ===== CONFIGURACIÓN DEL HISTORIAL =====
 HISTFILE=~/.zsh_history
 HISTSIZE=10000
 SAVEHIST=10000
 
-# Historial options
-setopt append_history       # Añadir al historial en vez de sobrescribirlo
-setopt share_history        # Compartir el historial entre todas las sesiones de zsh
-setopt hist_ignore_all_dups # Ignorar duplicados en todo el historial
-setopt hist_ignore_dups     # Ignorar duplicados sucesivos
-setopt hist_find_no_dups    # No mostrar duplicados al buscar en el historial
-setopt hist_reduce_blanks   # Eliminar espacios en blanco redundantes
-setopt hist_verify          # Editar línea de historial antes de aceptar
-setopt extended_history     # Almacenar timestamp del comando en el historial
-setopt hist_ignore_space    # No guardar comandos que comiencen con un espacio
+# Opciones del historial
+setopt append_history           # Añadir en lugar de sobrescribir
+setopt share_history            # Compartir historial entre sesiones
+setopt hist_ignore_all_dups     # Ignorar duplicados en todo el historial
+setopt hist_ignore_dups         # Ignorar duplicados sucesivos
+setopt hist_find_no_dups        # No mostrar duplicados al buscar
+setopt hist_reduce_blanks       # Eliminar espacios en blanco redundantes
+setopt hist_verify              # Editar antes de ejecutar
+setopt extended_history         # Guardar timestamps
+setopt hist_ignore_space        # Ignorar comandos que empiezan con espacio
 
-# Modo vi
+# ===== CONFIGURACIÓN DE TECLADO Y MODO VI =====
 bindkey -v
 export KEYTIMEOUT=1
 
-# Asignar la tecla Backspace para borrar el carácter anterior en todos los modos relevantes
+# Configuración de teclas
 bindkey -M viins '^H' backward-delete-char
 bindkey -M viins '^?' backward-delete-char
 bindkey -M vicmd '^H' backward-delete-char
 bindkey -M vicmd '^?' backward-delete-char
-
-# Asignar la tecla Delete para borrar el carácter adelante
 bindkey -M viins '^[[3~' delete-char
 bindkey '^[[3~' delete-char
 
-# Función para editar la línea de comandos
+# Editar línea de comandos
 autoload -Uz edit-command-line
 zle -N edit-command-line
 bindkey '^v' edit-command-line
 bindkey -M vicmd 'v' edit-command-line
 
-# Cambio de forma del cursor para diferentes modos vi
-function zle-keymap-select {
-    case "${KEYMAP}" in
-        vicmd | block) echo -ne '\e[2 q' ;;  # Cursor de bloque para modo comando
-        main | viins | '' | beam) echo -ne '\e[6 q' ;;  # Cursor de subrayado para modo inserción
-    esac
-    zle reset-prompt  # Redibujar el prompt
-}
-zle -N zle-keymap-select
-
-# Inicializar con el cursor en modo inserción
-function zle-line-init {
-    ultimo_error="$?"  # Capturar el estado de salida
-    zle -K viins  # Iniciar con keymap de inserción
-    echo -ne '\e[6 q'  # Cursor de subrayado
-    zle reset-prompt  # Redibujar el prompt
-}
-zle -N zle-line-init
-
-# Finalizar con el cursor en modo comando
-function zle-line-finish {
-    echo -ne '\e[2 q'  # Cursor de bloque
-}
-zle -N zle-line-finish
-
-# Autocompletado básico
-fpath=(~/.local/share/zsh/site-functions $fpath)
-autoload -U compinit
-compinit
-zstyle ':completion:*' menu select
-zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}'
-zmodload zsh/complist
-_comp_options+=(globdots)  # Incluir archivos ocultos
-
-# Búsqueda en el historial
+# Búsqueda en historial
 autoload -U up-line-or-beginning-search
 autoload -U down-line-or-beginning-search
 zle -N up-line-or-beginning-search
@@ -93,80 +53,130 @@ bindkey "^[[B" down-line-or-beginning-search
 bindkey -M vicmd 'k' up-line-or-beginning-search
 bindkey -M vicmd 'j' down-line-or-beginning-search
 
-# Plugins
-source /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-# Definir estilos para zsh-syntax-highlighting (usando índices de color Gruvbox)
-ZSH_HIGHLIGHT_STYLES[command]='fg=10'        # bright_green (b8bb26) para comandos válidos
-ZSH_HIGHLIGHT_STYLES[alias]='fg=10'
-ZSH_HIGHLIGHT_STYLES[builtin]='fg=10'
-ZSH_HIGHLIGHT_STYLES[function]='fg=10'
-ZSH_HIGHLIGHT_STYLES[unknown-token]='fg=9'   # bright_red (fb4934) para comandos inválidos
+# Cursor para diferentes modos vi
+function zle-keymap-select {
+    case "${KEYMAP}" in
+        vicmd|block) echo -ne '\e[2 q' ;;     # Bloque en modo comando
+        main|viins|''|beam) echo -ne '\e[6 q' # Subrayado en modo inserción
+    esac
+    zle reset-prompt
+}
+zle -N zle-keymap-select
 
-# Configuración para FZF (Fuzzy Finder)
-if command -v fzf &> /dev/null; then
-  # Verificar posibles ubicaciones del archivo de key-bindings
-  local fzf_key_bindings=(
-    "/usr/share/fzf/key-bindings.zsh"                # Linux estándar
-    "/usr/local/share/fzf/key-bindings.zsh"          # macOS (Homebrew)
-    "${HOME}/.fzf/shell/key-bindings.zsh"            # Instalación manual/git
-    "/usr/share/doc/fzf/examples/key-bindings.zsh"   # Debian/Ubuntu
-  )
+function zle-line-init {
+    ultimo_error="$?"
+    zle -K viins
+    echo -ne '\e[6 q'
+    zle reset-prompt
+}
+zle -N zle-line-init
 
-  for file in "${fzf_key_bindings[@]}"; do
-    if [[ -f "$file" ]]; then
-      source "$file"
-      break
-    fi
-  done
+function zle-line-finish {
+    echo -ne '\e[2 q'
+}
+zle -N zle-line-finish
 
-  # Configuración adicional (opcional)
-  export FZF_DEFAULT_OPTS='--height 40% --layout=reverse --border'
+# ===== AUTOCOMPLETADO =====
+fpath=(~/.local/share/zsh/site-functions $fpath)
+autoload -U compinit
+compinit
+
+# Estilos de autocompletado
+zstyle ':completion:*' menu select
+zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}'
+zmodload zsh/complist
+_comp_options+=(globdots)  # Incluir archivos ocultos
+
+# ===== PLUGINS Y HERRAMIENTAS EXTERNAS =====
+
+# Syntax highlighting
+if [[ -f /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh ]]; then
+    source /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+    # Configuración de colores (índices Gruvbox)
+    ZSH_HIGHLIGHT_STYLES[command]='fg=10'
+    ZSH_HIGHLIGHT_STYLES[alias]='fg=10'
+    ZSH_HIGHLIGHT_STYLES[builtin]='fg=10'
+    ZSH_HIGHLIGHT_STYLES[function]='fg=10'
+    ZSH_HIGHLIGHT_STYLES[unknown-token]='fg=9'
 fi
 
-# Configurar colores según Gruvbox (índices 0-15)
-USER_PROMPT='%B%F{2}%n%f%b'       # Nombre usuario (bright_green - b8bb26)
-CWD_PROMPT='%B%F{12}%~%f%b'        # Directorio (bright_blue - 83a598)
+# FZF (Fuzzy Finder)
+if command -v fzf &> /dev/null; then
+    local fzf_key_bindings=(
+        "/usr/share/fzf/key-bindings.zsh"
+        "/usr/local/share/fzf/key-bindings.zsh"
+        "${HOME}/.fzf/shell/key-bindings.zsh"
+        "/usr/share/doc/fzf/examples/key-bindings.zsh"
+    )
+
+    for file in "${fzf_key_bindings[@]}"; do
+        if [[ -f "$file" ]]; then
+            source "$file"
+            break
+        fi
+    done
+
+    export FZF_DEFAULT_OPTS='--height 40% --layout=reverse --border'
+fi
+
+# Zoxide
+if command -v zoxide &> /dev/null; then
+    eval "$(zoxide init zsh)"
+fi
+
+# ===== ARCHIVOS EXTERNOS =====
+
+# Aliases
+[[ -r ~/.aliases ]] && source ~/.aliases
+
+# Configuración de colores
+[[ -f ~/dotfiles/scripts/colores.sh ]] && source ~/dotfiles/scripts/colores.sh
+
+# ===== CONFIGURACIÓN DEL PROMPT =====
+
+# Colores según Gruvbox (índices 0-15)
+USER_PROMPT='%B%F{2}%n%f%b'        # bright_green (b8bb26)
+CWD_PROMPT='%B%F{12}%~%f%b'         # bright_blue (83a598)
 
 # Función para el símbolo de prompt ($/#)
 function prompt_status {
     local underline=""
-    if [ -n "$(jobs | sed -n '$=')" ]; then
-        underline="%U"  # Subrayado si hay jobs
+    if [[ -n $(jobs | sed -n '$=') ]]; then
+        underline="%U"  # Subrayado si hay jobs en segundo plano
     fi
 
-    local color=2                   # Color base: regular2 (neutral_green - 98971a)
-    if [ "$ultimo_error" -ne 0 ]; then
-        color=1                     # Cambia a regular1 (neutral_red - cc241d) en error
+    local color=2
+    if [[ "$ultimo_error" -ne 0 ]]; then
+        color=1  # Cambiar a rojo en caso de error
     fi
 
     printf '%s' "${underline}%F{${color}}%(!.#.$)%f%u"
 }
 
-# Función para modo de teclado (VI)
+# Función para modo de teclado VI
 function prompt_keymap {
     local icono_modo="▶"
-    [ "$KEYMAP" = 'vicmd' ] && icono_modo="■"
+    [[ "$KEYMAP" = 'vicmd' ]] && icono_modo="■"
     printf '%%F{15}%s%%f' "$icono_modo"  # Color bright7 (fbf1c7)
 }
 
 # Función para rama Git
 function prompt_git {
     local nombre_rama=$(git rev-parse --abbrev-ref HEAD 2>/dev/null)
-    if [ -n "$nombre_rama" ]; then
-        if [ -n "$(git status --porcelain 2>/dev/null)" ]; then
-            printf '%%F{1}%s%%f ' "$nombre_rama"  # bright_red (fb4934)
+    if [[ -n "$nombre_rama" ]]; then
+        if [[ -n $(git status --porcelain 2>/dev/null) ]]; then
+            printf '%%F{1}%s%%f ' "$nombre_rama"  # bright_red (fb4934) si hay cambios
         else
-            printf '%%F{2}%s%%f ' "$nombre_rama"  # bright_green (b8bb26)
+            printf '%%F{2}%s%%f ' "$nombre_rama"  # bright_green (b8bb26) si está limpio
         fi
     fi
 }
 
 # Capturar último código de error antes de cada prompt
-precmd() {
+function precmd {
     ultimo_error=$?
 }
 
 setopt prompt_subst
 PROMPT='${USER_PROMPT} ${CWD_PROMPT} $(prompt_status) $(prompt_git)$(prompt_keymap) '
-
-eval "$(zoxide init zsh)"
+PROMPT_EOL_MARK=''
