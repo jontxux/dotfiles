@@ -163,7 +163,7 @@ cmd permissions ${{
 
 # Comando para firmar archivos con GPG
 cmd firmar ${{
-    bash ~/.config/lf/scripts/sign.sh "$id" "$f"
+    bash ~/.config/lf/scripts/sign.sh "$fx"
 }}
 
 # Comando para encriptar archivos con GPG
