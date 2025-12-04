@@ -14,11 +14,29 @@ declare -a VALID_FILES
 # Cargar argumentos en array global FILES
 load_files() {
     FILES=()
-    # Si lf pasa una lista separada por saltos de línea en un solo argumento
-    if [ $# -eq 1 ] && [[ "$1" == *$'\n'* ]]; then
-        IFS=$'\n' read -d '' -r -a FILES <<< "$1"
+
+    # Primero filtramos argumentos que sean sólo números (LF server id)
+    local raw_args=("$@")
+    local args=()
+    for a in "${raw_args[@]}"; do
+        if [[ "$a" =~ ^[0-9]+$ ]]; then
+            # ignorar ids numéricos que LF pudiera pasar
+            continue
+        fi
+        args+=("$a")
+    done
+
+    # Si no hay argumentos tras filtrar, dejamos FILES vacío
+    if [ ${#args[@]} -eq 0 ]; then
+        FILES=()
+        return
+    fi
+
+    # Si LF pasa una lista en un solo argumento con saltos de línea, expandimos
+    if [ ${#args[@]} -eq 1 ] && [[ "${args[0]}" == *$'\n'* ]]; then
+        IFS=$'\n' read -d '' -r -a FILES <<< "${args[0]}"
     else
-        FILES=("$@")
+        FILES=("${args[@]}")
     fi
 }
 

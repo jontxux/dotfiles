@@ -18,8 +18,15 @@ main() {
     echo ""
 
     # 3. Solicitar clave
+    local default_key
+    default_key=$(gpg --list-secret-keys --keyid-format LONG 2>/dev/null | awk '/^sec/ { sub(/.*\//, "", $2); print $2; exit }')
+
     local key_id
-    key_id=$(prompt_text "ID de clave para firmar (Enter = Default)")
+    if [ -n "$default_key" ]; then
+        key_id=$(prompt_text "ID de clave para firmar (Enter = $default_key)" "$default_key")
+    else
+        key_id=$(prompt_text "ID de clave para firmar (Enter = Default)")
+    fi
 
     # 4. Confirmación (Enter = SI)
     echo ""
