@@ -16,15 +16,7 @@ load_files() {
     FILES=()
 
     # Primero filtramos argumentos que sean sólo números (LF server id)
-    local raw_args=("$@")
-    local args=()
-    for a in "${raw_args[@]}"; do
-        if [[ "$a" =~ ^[0-9]+$ ]]; then
-            # ignorar ids numéricos que LF pudiera pasar
-            continue
-        fi
-        args+=("$a")
-    done
+    local args=("$@")
 
     # Si no hay argumentos tras filtrar, dejamos FILES vacío
     if [ ${#args[@]} -eq 0 ]; then
