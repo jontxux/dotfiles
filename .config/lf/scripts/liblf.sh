@@ -116,28 +116,71 @@ calculate_total_size() {
 # VISUALIZACIÓN
 # ============================================================================
 
+DEFAULT_BOX_WIDTH=${DEFAULT_BOX_WIDTH:-50}
+FILE_LIST_INDENT="${FILE_LIST_INDENT:-  }"
+
 show_header() {
     local title="$1"
     local count="${2:-0}"
+    local width="${3:-$DEFAULT_BOX_WIDTH}"
+
+    local title_text="$title"
+    if [[ -n "$count" && "$count" -gt 0 ]]; then
+        title_text="$title ($count)"
+    fi
+
     clear
-    printf "%b╭── %s %s──%b\n" "${BOLD}${BLUE}" "$title" "$([ $count -gt 0 ] && echo "($count) " || echo "")" "${RESET}"
-    printf "%bArchivos seleccionados:%b\n" "${BOLD}" "${RESET}"
+
+    # Construimos la parte inicial que irá tras el '╭'
+    local prefix="── "
+    local content="${prefix}${title_text}"
+    local content_len=${#content}
+
+    # Queremos que el contenido tras el '╭' mida exactamente (width - 1)
+    local target=$(( width - 1 ))
+    if [ "$content_len" -gt "$target" ]; then
+        # Si el título es más largo que el objetivo, ampliamos el objetivo
+        target=$content_len
+        width=$(( target + 1 ))
+    fi
+
+    local pad=$(( target - content_len ))
+    local dashes=""
+    if [ "$pad" -gt 0 ]; then
+        printf -v dashes '%*s' "$pad"
+        dashes=${dashes// /─}
+    fi
+
+    content="${content}${dashes}"
+
+    # Imprimimos la línea superior y la etiqueta de archivos con la indentación
+    printf "%b╭%s%b\n" "${BOLD}${BLUE}" "$content" "${RESET}"
+    printf "%s%bArchivos seleccionados:%b\n" "$FILE_LIST_INDENT" "${BOLD}" "${RESET}"
+
+    # Guardar ancho actual para que show_footer lo use si no se pasa explicitamente
+    export LAST_HEADER_WIDTH="$width"
 }
 
 show_footer() {
-    local width="${1:-70}"
-    local dashes=$((width - 1))
+    local width="${1:-${LAST_HEADER_WIDTH:-$DEFAULT_BOX_WIDTH}}"
+    local len=$(( width - 1 ))
+    if [ "$len" -lt 0 ]; then len=0; fi
+
     local line=""
-    for ((i = 0; i < dashes; i++)); do line="${line}─"; done
+    if [ "$len" -gt 0 ]; then
+        printf -v line '%*s' "$len"
+        line=${line// /─}
+    fi
+
     printf "%b╰%s%b\n" "${BOLD}${BLUE}" "$line" "${RESET}"
 }
 
 show_file_list() {
-    local files=("${VALID_FILES[@]}") # Usa la global si no se pasan argumentos
+    local files=("${VALID_FILES[@]}")
     if [ $# -gt 0 ]; then files=("$@"); fi
 
     for ((i = 0; i < ${#files[@]}; i++)); do
-        printf "  %2d) %s\n" $((i + 1)) "${files[i]}"
+        printf "%s%2d) %s\n" "$FILE_LIST_INDENT" $((i + 1)) "${files[i]}"
     done
 }
 

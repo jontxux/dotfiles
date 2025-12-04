@@ -19,7 +19,7 @@ main() {
     show_footer 50
 
     # 4. Confirmación
-    if ! confirm "¿Eliminar permanentemente?" "n"; then
+    if ! confirm "¿Eliminar permanentemente?" "y"; then
         print_error "Operación cancelada"
         wait_enter 0
     fi
