@@ -68,6 +68,8 @@
                    "eza"
                    "fd"
                    "zoxide"
+                   "lf"
+                   "diff-so-fancy"
 
                    ;; Wayland/Screenshot
                    "grim"
@@ -88,8 +90,8 @@
                    "btop"
 
                    ;; Viewers
-                   ;; "zathura"
-                   ;; "zathura-pdf-mupdf"
+                   "zathura"
+                   "zathura-pdf-poppler"
 
                    ;; Multiplexer/Terminal
                    "foot"
