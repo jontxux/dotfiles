@@ -75,6 +75,10 @@ zle -N zle-line-finish
 
 # ===== AUTOCOMPLETADO =====
 fpath=(~/.local/share/zsh/site-functions $fpath)
+# Completado de Guix para Zsh
+if [ -d "$HOME/.config/guix/current/share/zsh/site-functions" ]; then
+    fpath=("$HOME/.config/guix/current/share/zsh/site-functions" $fpath)
+fi
 autoload -U compinit
 compinit
 

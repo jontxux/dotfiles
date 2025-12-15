@@ -51,6 +51,24 @@ fi
 # Añadir /sbin y /usr/sbin al PATH
 PATH=$PATH:/sbin:/usr/sbin
 
+# Configuración de Guix
+# Priorizar el Guix instalado en el perfil de usuario (~/.config/guix/current)
+if [ -d "$HOME/.config/guix/current" ]; then
+    export GUIX_PROFILE="$HOME/.config/guix/current"
+    . "$GUIX_PROFILE/etc/profile"
+fi
+
+# Cargar el perfil de Guix Home (tiene prioridad sobre el perfil manual)
+if [ -d "$HOME/.guix-home/profile" ]; then
+    export GUIX_PROFILE="$HOME/.guix-home/profile"
+    . "$GUIX_PROFILE/etc/profile"
+fi
+
+# Configurar locales de Guix si están instaladas
+if [ -d "$HOME/.guix-home/profile/lib/locale" ]; then
+    export GUIX_LOCPATH="$HOME/.guix-home/profile/lib/locale"
+fi
+
 # Exportar PATH
 export PATH
 export MOZ_ENABLE_WAYLAND=1
