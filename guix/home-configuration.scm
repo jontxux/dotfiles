@@ -19,17 +19,29 @@
 ;;; HELPERS PARA GESTIÓN DE ARCHIVOS
 ;;; ============================================================================
 
-; (define (config-file path)
-;   "Crea entrada para ~/.config/PATH desde dotfiles/.config/PATH"
-;   (list path (local-file (string-append %dotfiles-dir "/.config/" path))))
 (define (config-file path)
   "Crea entrada para ~/.config/PATH desde dotfiles/.config/PATH"
   (list path (local-file (string-append %dotfiles-dir "/.config/" path)
-                         #:recursive? #t))) ;; Usa recursive #t si apuntas a carpetas
+                         #:recursive? #t)))
 
 (define (home-file path)
   "Crea entrada para ~/PATH desde dotfiles/PATH"
-  (list path (local-file (string-append %dotfiles-dir "/" path))))
+  ;; Quita el punto inicial para el nombre en el store
+  (let ((store-name (if (string-prefix? "." path)
+                        (string-drop path 1)
+                        path)))
+    (list path (local-file (string-append %dotfiles-dir "/" path)
+                           store-name))))
+
+(define (home-directory path)
+  "Crea entrada para ~/PATH (directorio completo) desde dotfiles/PATH"
+  ;; Quita el punto inicial para el nombre en el store
+  (let ((store-name (if (string-prefix? "." path)
+                        (string-drop path 1)
+                        path)))
+    (list path (local-file (string-append %dotfiles-dir "/" path)
+                           store-name
+                           #:recursive? #t))))
 
 ;;; ============================================================================
 ;;; DEFINICIÓN DE APPS A PORTAR
@@ -41,15 +53,32 @@
     "imv/config"
     "foot/foot.ini"
     "zathura/zathurarc"
-    "msmtp/config"))
+    "msmtp/config"
+    "newsboat/config"
+    "newsboat/urls"))
 
-;; Apps con directorios completos (para portar más adelante)
+;; Apps con directorios completos
 (define %complex-configs
   '("btop"              ; tiene subdirectorios con themes
     "lf"                ; tiene scripts/ separado
     "mpv"               ; tiene fonts/, scripts/, script-opts/
-    ;; "sway"              ; compilado en C, necesita tratamiento especial
-    ;; "systemd"           ; servicios, necesita home-shepherd o similar
+    "coc"
+    ;; "sway"           ; compilado en C, necesita tratamiento especial
+    ;; "systemd"        ; servicios, necesita home-shepherd o similar
+    ))
+
+;; Dotfiles de la raíz del home (~/)
+(define %home-dotfiles
+  '(".gitconfig"
+    ".aliases"
+    ".mbsyncrc"
+    ;; ".asoundrc"        ; descomenta cuando lo portes
+    ))
+
+;; Directorios completos del home que necesitan copiarse recursivamente
+(define %home-directories
+  '(".vim"                ; vimrc, coc, ultisnips, etc
+    ".mutt"               ; muttrc y configuraciones
     ))
 
 ;;; ============================================================================
@@ -74,6 +103,7 @@
                    ;; Wayland/Screenshot
                    "grim"
                    "slurp"
+                   "wl-clipboard"
 
                    ;; Media
                    "yt-dlp"
@@ -82,9 +112,14 @@
 
                    ;; Development
                    "guile"
+                   "vim-full"
 
-                   ;; Mail / MTA
+                   ;; Mail / MTA / News
                    "msmtp"
+                   "mutt"
+                   "isync"
+                   "nss-certs" ;; instalado para que funcione newsboat
+                   "newsboat"
 
                    ;; System / Monitoring
                    "btop"
@@ -107,21 +142,29 @@
     ;;; ------------------------------------------------------------------------
     (simple-service 'xdg-configs
                     home-xdg-configuration-files-service-type
-                    (append 
+                    (append
                       (map config-file %simple-configs)
-                      (map config-file %complex-configs))) ;; Añadimos las complejas aquí
+                      (map config-file %complex-configs)))
 
     ;;; ------------------------------------------------------------------------
     ;;; HOME FILES (~/.*)
     ;;; ------------------------------------------------------------------------
-    ;; Cuando portes dotfiles de la raíz (.zshrc, .aliases, etc)
-    ;; (simple-service 'home-dotfiles
-    ;;                 home-files-service-type
-    ;;                 (map home-file
-    ;;                      '(".aliases"
-    ;;                        ".gitconfig"
-    ;;                        ".asoundrc"
-    ;;                        ".mbsyncrc")))
+    (simple-service 'home-dotfiles
+                    home-files-service-type
+                    (append
+                      (map home-file %home-dotfiles)
+                      (map home-directory %home-directories)))
+
+    ;; ------------------------------------------------------------------------
+    ;; Variables de entorno para que las apps encuentren el CA bundle de Guix
+    ;; (export SSL_CERT_FILE, SSL_CERT_DIR, CURL_CA_BUNDLE, GIT_SSL_CAINFO)
+    ;; Ajusta la ruta si usas otro perfil distinto a ~/.guix-home/profile
+    (simple-service 'profile-env-vars
+                    home-environment-variables-service-type
+                    `(("SSL_CERT_DIR" . ,(string-append (getenv "HOME") "/.guix-home/profile/etc/ssl/certs"))
+                      ("SSL_CERT_FILE" . ,(string-append (getenv "HOME") "/.guix-home/profile/etc/ssl/certs/ca-certificates.crt"))
+                      ("CURL_CA_BUNDLE" . ,(string-append (getenv "HOME") "/.guix-home/profile/etc/ssl/certs/ca-certificates.crt"))
+                      ("GIT_SSL_CAINFO" . ,(string-append (getenv "HOME") "/.guix-home/profile/etc/ssl/certs/ca-certificates.crt"))))
 
     ;;; ------------------------------------------------------------------------
     ;;; SHELL (ZSH)
