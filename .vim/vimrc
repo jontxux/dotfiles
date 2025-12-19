@@ -21,9 +21,9 @@ set nobackup
 set nowritebackup
 set noswapfile
 
-" Verificar si existe el directorio 'undodir' y crearlo si no existe
-if !isdirectory($HOME . '/.vim/undodir')
-  call mkdir($HOME . '/.vim/undodir', 'p')
+" Directorio de undo en ubicación escribible (no en .vim inmutable)
+if !isdirectory($HOME . '/.cache/vim/undodir')
+  call mkdir($HOME . '/.cache/vim/undodir', 'p')
 endif
 
 set undofile
