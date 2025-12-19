@@ -1,0 +1,9 @@
+# Ignorar datos generados por coc
+extensions/
+mru
+lists/
+commands
+
+# Solo trackear config y snippets
+!coc-settings.json
+!ultisnips/

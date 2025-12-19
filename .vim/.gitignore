@@ -1,3 +1,8 @@
+# Ignorar todo lo autogenerado por vim-plug
 autoload/
 plugged/
 undodir/
+
+# Solo trackear vimrc
+!vimrc
+!.gitignore
