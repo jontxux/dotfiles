@@ -27,7 +27,7 @@ if !isdirectory($HOME . '/.cache/vim/undodir')
 endif
 
 set undofile
-set undodir=~/.vim/undodir
+set undodir=~/.cache/vim/undodir
 set secure
 set modelines=0
 
