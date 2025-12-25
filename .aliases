@@ -18,7 +18,7 @@ alias fgrep='fgrep --color=auto'
 alias fca='fd -tf -x sh -c "echo {}; cat {}"'
 
 # Alias para ver procesos
-alias psg='ps aux | grep'
+alias psg='ps aux | grep -v grep | grep'
 
 # Gestión de Paquetes Debian (APT)
 alias actualizar='doas apt update && doas apt full-upgrade -y'
