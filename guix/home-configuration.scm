@@ -99,6 +99,11 @@
                    "zoxide"
                    "lf"
                    "diff-so-fancy"
+                   "jq"
+                   "gron"
+                   "pup"
+                   "curl"
+                   "wget"
 
                    ;; Wayland/Screenshot
                    "grim"
