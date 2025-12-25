@@ -20,21 +20,34 @@ alias fca='fd -tf -x sh -c "echo {}; cat {}"'
 # Alias para ver procesos
 alias psg='ps aux | grep'
 
-# Alias para emerge
-alias actualizar='doas emerge --sync && doas emerge --ask --verbose --update --deep --newuse @world'
-alias actualizar_sin_sync='doas emerge --ask --verbose --update --deep --newuse @world'
-alias pulir_mundo='doas emerge --ask --emptytree --verbose @world'
-alias recompilar_todo='doas emerge --ask --emptytree --verbose @world'
-alias repo_sync='doas emerge --sync'
-alias instalar='doas emerge -av'
-alias desinstalar='doas emerge --unmerge'
-alias limpiar='doas emerge --depclean'
-alias buscar='emerge --search'
-alias info_paquete='emerge --info'
-alias ver_instalados='eix -I'
+# Gestión de Paquetes Debian (APT)
+alias actualizar='doas apt update && doas apt full-upgrade -y'
+alias instalar='doas apt install'
+alias desinstalar='doas apt remove'
+alias purgar='doas apt purge'              # Desinstala y borra configs
+alias limpiar='doas apt autoremove'        # Borra dependencias huérfanas
+alias buscar='apt search'
+alias info_paquete='apt show'
+alias ver_instalados='dpkg -l'             # O 'apt list --installed'
+alias buscar_archivo='dpkg -S'             # Busca a qué paquete pertenece un archivo
+
+# Gestión de Paquetes Guix (Usuario)
+# Nota: 'guix pull' actualiza las definiciones, 'package -u' actualiza tu perfil
+alias gactualizar='guix pull && guix package -u' 
+alias ginstalar='guix install'
+alias gdesinstalar='guix remove'
+alias gbuscar='guix search'
+alias ginfo='guix show'
+alias glimpiar='guix gc'                   # Garbage Collector (libera espacio)
+alias gver_instalados='guix package -I'
+
+# Gestión de Generaciones (Rollbacks)
+alias grollback='guix package --roll-back'         # Volver al estado anterior
+alias ggeneraciones='guix package --list-generations'
+alias gborrar_gens='guix package --delete-generations' # Borra versiones viejas
 
 # Alias para apagar y reiniciar
-alias shutdown='doas shutdown -h now'
+alias shutdown='doas shutdown'
 alias reboot='doas reboot'
 
 # Alias de Git
