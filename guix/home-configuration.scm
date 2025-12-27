@@ -19,29 +19,28 @@
 ;;; HELPERS PARA GESTIÓN DE ARCHIVOS
 ;;; ============================================================================
 
+(define (sanitize-store-name path)
+  "Convierte 'ruta/.archivo' -> 'archivo' para que sea válido en el store."
+  (let ((base (basename path)))
+    (if (string-prefix? "." base)
+        (string-drop base 1) ; Quita el punto inicial
+        base)))
+
 (define (config-file path)
-  "Crea entrada para ~/.config/PATH desde dotfiles/.config/PATH"
+  "Crea entrada para ~/.config/PATH"
   (list path (local-file (string-append %dotfiles-dir "/.config/" path)
                          #:recursive? #t)))
 
 (define (home-file path)
-  "Crea entrada para ~/PATH desde dotfiles/PATH"
-  ;; Quita el punto inicial para el nombre en el store
-  (let ((store-name (if (string-prefix? "." path)
-                        (string-drop path 1)
-                        path)))
-    (list path (local-file (string-append %dotfiles-dir "/" path)
-                           store-name))))
+  "Crea entrada para ~/PATH. Maneja puntos y rutas correctamente."
+  (list path (local-file (string-append %dotfiles-dir "/" path)
+                         (sanitize-store-name path))))
 
 (define (home-directory path)
-  "Crea entrada para ~/PATH (directorio completo) desde dotfiles/PATH"
-  ;; Quita el punto inicial para el nombre en el store
-  (let ((store-name (if (string-prefix? "." path)
-                        (string-drop path 1)
-                        path)))
-    (list path (local-file (string-append %dotfiles-dir "/" path)
-                           store-name
-                           #:recursive? #t))))
+  "Crea entrada recursiva para ~/PATH."
+  (list path (local-file (string-append %dotfiles-dir "/" path)
+                         (sanitize-store-name path)
+                         #:recursive? #t)))
 
 ;;; ============================================================================
 ;;; DEFINICIÓN DE APPS A PORTAR
@@ -110,6 +109,7 @@
                    "grim"
                    "slurp"
                    "wl-clipboard"
+                   "bemenu"
 
                    ;; Media
                    "yt-dlp"
@@ -140,6 +140,9 @@
                    ;; Security / Password Management
                    "password-store"
                    "browserpass-native"
+
+                   ;; Themes / Icons
+                   "adwaita-icon-theme"
                    )))
 
   ;;; --------------------------------------------------------------------------
