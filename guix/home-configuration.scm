@@ -72,6 +72,7 @@
   '(".gitconfig"
     ".aliases"
     ".mbsyncrc"
+    ".mozilla/native-messaging-hosts/com.github.browserpass.native.json"
     ;; ".asoundrc"        ; descomenta cuando lo portes
     ))
 
@@ -138,6 +139,7 @@
 
                    ;; Security / Password Management
                    "password-store"
+                   "browserpass-native"
                    )))
 
   ;;; --------------------------------------------------------------------------

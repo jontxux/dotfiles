@@ -2,9 +2,12 @@ IMAPAccount gmail
 Host imap.gmail.com
 Port 993
 User jonbergerandi@gmail.com
-AuthMechs XOAUTH2
+# AuthMechs XOAUTH2
+AuthMechs LOGIN
 TLSType IMAPS
-PassCmd "/home/jb/dotfiles/scripts/oauth2.sh -r"
+CertificateFile ~/.guix-home/profile/etc/ssl/certs/ca-certificates.crt
+# PassCmd "/home/jb/dotfiles/scripts/oauth2.sh -r"
+PassCmd "pass google-oauth/app-password-mbsync"
 
 IMAPStore gmail-remote
 Account gmail

@@ -1,0 +1,9 @@
+{
+  "name": "com.github.browserpass.native",
+  "description": "Browserpass native host",
+  "path": "/home/jb/.guix-home/profile/bin/browserpass",
+  "type": "stdio",
+  "allowed_extensions": [
+    "browserpass@maximbaz.com"
+  ]
+}

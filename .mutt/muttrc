@@ -193,7 +193,7 @@ color signature       color2 color0   # Firma en verde (b8bb26)
 # Elementos especiales
 color attachment      color5 color0   # Adjuntos en magenta
 color search          color0 color3   # Búsqueda (fondo amarillo)
-color progress        color8 color0   # Barra de progreso en gris
+# color progress        color8 color0   # Barra de progreso en gris
 
 # Alertas importantes
 color error           color1 color0   # Errores en rojo
