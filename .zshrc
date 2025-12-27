@@ -79,6 +79,7 @@ fpath=(~/.local/share/zsh/site-functions $fpath)
 if [ -d "$HOME/.config/guix/current/share/zsh/site-functions" ]; then
     fpath=("$HOME/.config/guix/current/share/zsh/site-functions" $fpath)
 fi
+fpath=(~/.guix-home/profile/share/zsh/site-functions $fpath)
 autoload -U compinit
 compinit
 

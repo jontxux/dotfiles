@@ -135,6 +135,9 @@
 
                    ;; Multiplexer/Terminal
                    "foot"
+
+                   ;; Security / Password Management
+                   "password-store"
                    )))
 
   ;;; --------------------------------------------------------------------------
