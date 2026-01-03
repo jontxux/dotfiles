@@ -77,8 +77,7 @@ output * scale 1.25
 exec foot --server
 
 # Autotiling: organiza ventanas automáticamente en horizontal/vertical
-# Requiere: https://github.com/ammgws/autotiling-rs
-exec autotiling-rs
+exec autotiling
 
 # Bloqueo automático de pantalla tras inactividad
 exec swayidle -w \

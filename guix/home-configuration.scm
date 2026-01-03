@@ -6,7 +6,12 @@
              (gnu home services shells)
              (gnu home services xdg)
              (guix gexp)
-             (ice-9 ftw))
+             (ice-9 ftw)
+             ;; --- Módulos añadidos para paquetes personalizados ---
+             (guix packages)
+             (guix download)
+             (guix build-system copy)
+             ((guix licenses) #:prefix license:))  ;; <-- AÑADIR #:prefix license:
 
 ;;; ============================================================================
 ;;; CONFIGURACIÓN DE RUTAS
@@ -72,14 +77,52 @@
     ".aliases"
     ".mbsyncrc"
     ".mozilla/native-messaging-hosts/com.github.browserpass.native.json"
-    ;; ".asoundrc"        ; descomenta cuando lo portes
+    ;; ".asoundrc"      ; descomenta cuando lo portes
     ))
 
 ;; Directorios completos del home que necesitan copiarse recursivamente
 (define %home-directories
-  '(".vim"                ; vimrc, coc, ultisnips, etc
-    ".mutt"               ; muttrc y configuraciones
+  '(".vim"              ; vimrc, coc, ultisnips, etc
+    ".mutt"             ; muttrc y configuraciones
     ))
+
+;;; ============================================================================
+;;; PAQUETES PERSONALIZADOS
+;;; ============================================================================
+
+(define-public go-chromecast
+  (package
+    (name "go-chromecast")
+    (version "0.3.4")
+    (source
+     (origin
+       (method url-fetch)
+       (uri (string-append "https://github.com/vishen/go-chromecast/releases/download/v"
+                           version "/go-chromecast_Linux_x86_64.tar.gz"))
+       (sha256
+        (base32 "0zcrp6rv8jjkbg3vj877y4rgqjq35xid1vspy02ig2m5y8ag2ndn"))))
+    (build-system copy-build-system)
+    (arguments
+     '(#:install-plan
+       '(("go-chromecast" "bin/"))
+       #:phases
+       (modify-phases %standard-phases
+         (add-after 'install 'install-completions
+           (lambda* (#:key outputs #:allow-other-keys)
+             (let* ((out (assoc-ref outputs "out"))
+                    (zsh-completion-dir (string-append out "/share/zsh/site-functions"))
+                    (bin (string-append out "/bin/go-chromecast")))
+               ;; Crear directorio para completions de zsh
+               (mkdir-p zsh-completion-dir)
+               ;; Generar y guardar el completion de zsh
+               (with-output-to-file (string-append zsh-completion-dir "/_go-chromecast")
+                 (lambda ()
+                   (invoke bin "completion" "zsh")))
+               #t))))))
+    (home-page "https://github.com/vishen/go-chromecast")
+    (synopsis "CLI for Google Chromecast")
+    (description "Herramienta de línea de comandos para enviar medios a Chromecast.")
+    (license license:asl2.0)))
 
 ;;; ============================================================================
 ;;; HOME ENVIRONMENT
@@ -89,61 +132,71 @@
   ;;; --------------------------------------------------------------------------
   ;;; PAQUETES
   ;;; --------------------------------------------------------------------------
-  (packages (map specification->package
-                 '(;; Core
-                   "glibc-locales"
+  ;; Usamos 'append' para mezclar tu paquete personalizado con los del sistema
+  (packages
+   (append
+    ;; 1. Tu paquete personalizado
+    (list go-chromecast)
 
-                   ;; Shell utilities
-                   "eza"
-                   "fd"
-                   "zoxide"
-                   "lf"
-                   "diff-so-fancy"
-                   "jq"
-                   "gron"
-                   "pup"
-                   "curl"
-                   "wget"
+    ;; 2. Paquetes oficiales de Guix
+    (map specification->package
+         '(;; Core
+           "glibc-locales"
 
-                   ;; Wayland/Screenshot
-                   "grim"
-                   "slurp"
-                   "wl-clipboard"
-                   "bemenu"
+           ;; Shell utilities
+           "eza"
+           "fd"
+           "zoxide"
+           "lf"
+           "diff-so-fancy"
+           "jq"
+           "gron"
+           "pup"
+           "curl"
+           "wget"
 
-                   ;; Media
-                   "yt-dlp"
-                   "imv"
-                   "mpv"
+           ;; Wayland/Screenshot
+           "grim"
+           "slurp"
+           "wl-clipboard"
+           "bemenu"
 
-                   ;; Development
-                   "guile"
-                   "vim-full"
+           ;; Window Management
+           "i3-autotiling"
 
-                   ;; Mail / MTA / News
-                   "msmtp"
-                   "mutt"
-                   "isync"
-                   "nss-certs" ;; instalado para que funcione newsboat
-                   "newsboat"
+           ;; Media
+           "yt-dlp"
+           "imv"
+           "mpv"
 
-                   ;; System / Monitoring
-                   "btop"
+           ;; Development
+           "guile"
+           "vim-full"
 
-                   ;; Viewers
-                   "zathura"
-                   "zathura-pdf-poppler"
+           ;; Mail / MTA / News
+           "msmtp"
+           "mutt"
+           "isync"
+           "nss-certs" ;; instalado para que funcione newsboat
+           "newsboat"
 
-                   ;; Multiplexer/Terminal
-                   "foot"
+           ;; System / Monitoring
+           "btop"
 
-                   ;; Security / Password Management
-                   "password-store"
-                   "browserpass-native"
+           ;; Viewers
+           "zathura"
+           "zathura-pdf-poppler"
 
-                   ;; Themes / Icons
-                   "adwaita-icon-theme"
-                   )))
+           ;; Multiplexer/Terminal
+           "foot"
+
+           ;; Security / Password Management
+           "password-store"
+           "browserpass-native"
+
+           ;; Themes / Icons
+           "adwaita-icon-theme"
+           ))))
 
   ;;; --------------------------------------------------------------------------
   ;;; SERVICIOS
@@ -170,8 +223,6 @@
 
     ;; ------------------------------------------------------------------------
     ;; Variables de entorno para que las apps encuentren el CA bundle de Guix
-    ;; (export SSL_CERT_FILE, SSL_CERT_DIR, CURL_CA_BUNDLE, GIT_SSL_CAINFO)
-    ;; Ajusta la ruta si usas otro perfil distinto a ~/.guix-home/profile
     (simple-service 'profile-env-vars
                     home-environment-variables-service-type
                     `(("SSL_CERT_DIR" . ,(string-append (getenv "HOME") "/.guix-home/profile/etc/ssl/certs"))
@@ -182,9 +233,5 @@
     ;;; ------------------------------------------------------------------------
     ;;; SHELL (ZSH)
     ;;; ------------------------------------------------------------------------
-    ;; Cuando portes zsh completamente:
-    ;; (service home-zsh-service-type
-    ;;          (home-zsh-configuration
-    ;;           (zshrc (list (local-file (string-append %dotfiles-dir "/.zshrc"))))
-    ;;           (zprofile (list (local-file (string-append %dotfiles-dir "/.zprofile"))))))
+    ;; (service home-zsh-service-type ...)
     )))
