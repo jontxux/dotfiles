@@ -11,7 +11,14 @@
              (guix packages)
              (guix download)
              (guix build-system copy)
-             ((guix licenses) #:prefix license:))  ;; <-- AÑADIR #:prefix license:
+             ;; AÑADIR ESTOS PARA CATT:
+             (guix build-system python)    ; Para paquetes setup.py antiguos
+             (guix build-system pyproject) ; Para paquetes modernos (poetry/toml)
+             ((gnu packages python-xyz) #:select (python-ifaddr python-zeroconf python-click python-tqdm))
+             ((gnu packages python-web) #:select (python-requests python-urllib3))
+             ((gnu packages protobuf) #:select (python-protobuf))
+             ((gnu packages video) #:select (yt-dlp))
+             ((guix licenses) #:prefix license:))
 
 ;;; ============================================================================
 ;;; CONFIGURACIÓN DE RUTAS
@@ -124,6 +131,78 @@
     (description "Herramienta de línea de comandos para enviar medios a Chromecast.")
     (license license:asl2.0)))
 
+;; 1. Dependencia de pychromecast (no suele estar en Guix base)
+(define python-casttube
+  (package
+    (name "python-casttube")
+    (version "0.2.1")
+    (source (origin
+              (method url-fetch)
+              (uri (pypi-uri "casttube" version))
+              (sha256
+               (base32 "10pw2sjy648pvp42lbbdmkkx79bqlkq1xcbzp1frraj9g66azljl"))))
+    (build-system python-build-system)
+    (arguments
+     '(#:tests? #f)) ; Desactivar tests
+    (native-inputs (list python-requests))
+    (home-page "https://github.com/ur1katz/casttube")
+    (synopsis "Interact with the YouTube Chromecast API")
+    (description "Librería para interactuar con la API de YouTube en Chromecast.")
+    (license license:expat)))
+
+;; 2. Dependencia principal de CATT
+(define python-pychromecast
+  (package
+    (name "python-pychromecast")
+    (version "13.0.7") ; Versión compatible y estable
+    (source (origin
+              (method url-fetch)
+              (uri (pypi-uri "PyChromecast" version))
+              (sha256
+               (base32 "09031hf8a4lp68jf1jjar90sjnqdmck63cgg87fnjcp4bfg8xs8d"))))
+    (build-system pyproject-build-system)
+    (arguments
+     '(#:tests? #f)) ; Desactivar tests
+    (native-inputs
+     (list (specification->package "python-setuptools")))
+    (propagated-inputs
+     (list python-casttube
+           python-protobuf
+           python-zeroconf
+           python-requests
+           python-ifaddr))
+    (home-page "https://github.com/home-assistant-libs/pychromecast")
+    (synopsis "Library for Python 3 to communicate with the Google Chromecast")
+    (description "Librería de Python para comunicarse con Google Chromecast.")
+    (license license:expat)))
+
+;; 3. La aplicación CATT (Traducida de tu PKGBUILD)
+(define-public catt
+  (package
+    (name "catt")
+    (version "0.13.1")
+    (source (origin
+              (method url-fetch)
+              (uri (string-append "https://github.com/skorokithakis/catt/archive/refs/tags/v"
+                                  version ".tar.gz"))
+              (sha256
+               (base32 "0nka8zc6sicl6pwlyf8380vwah06fqbrha1j2nw6n0i6ijqh0ar1"))))
+    (build-system pyproject-build-system)
+    (arguments
+     '(#:tests? #f)) ; Desactivamos tests porque requieren red
+    (native-inputs
+     (list (specification->package "python-poetry-core"))) ; Build system del PKGBUILD
+    (propagated-inputs
+     (list python-click
+           python-ifaddr
+           python-requests
+           python-pychromecast ; Nuestro paquete definido arriba
+           yt-dlp))
+    (home-page "https://github.com/skorokithakis/catt")
+    (synopsis "Cast All The Things")
+    (description "Envía vídeos desde muchas fuentes online a tu Chromecast.")
+    (license license:bsd-2)))
+
 ;;; ============================================================================
 ;;; HOME ENVIRONMENT
 ;;; ============================================================================
@@ -135,8 +214,9 @@
   ;; Usamos 'append' para mezclar tu paquete personalizado con los del sistema
   (packages
    (append
-    ;; 1. Tu paquete personalizado
-    (list go-chromecast)
+    ;; 1. Tus paquetes personalizados
+    (list go-chromecast
+          catt)
 
     ;; 2. Paquetes oficiales de Guix
     (map specification->package
