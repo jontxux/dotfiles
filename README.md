@@ -1,87 +1,112 @@
-## Configuración de Red con systemd-networkd
+# Dotfiles de JB
 
-### IP Estática
+Configuraciones personales sincronizadas con `/etc/nixos`.
 
-1. **Desactiva el servicio de networking antiguo:**
+## Estructura
+
+```
+dotfiles/
+├── .aliases              # Aliases de shell actualizados para NixOS
+├── .zshrc                # Configuración Zsh con modo VI y prompt personalizado
+├── .gitconfig            # Configuración Git
+├── .vim/                 # Configuración Vim con plugins y CoC
+│   └── vimrc
+├── .config/
+│   └── sway/
+│       └── config        # Configuración Sway (Wayland)
+├── .mozilla/
+│   └── firefox/
+│       └── user.js       # Configuración Firefox (Betterfox)
+├── pkgs/
+│   └── sway-bar/         # Barra personalizada para sway
+│       ├── default.nix   # Definición del paquete Nix
+│       └── src/
+│           └── barra.c   # Código fuente de la barra
+├── scripts/              # Scripts útiles
+│   ├── run.sh           # Ejecutar programas en entorno limpio
+│   ├── nixsh.sh         # Abrir shell con paquete específico
+│   ├── simple-diff.sh   # Comparador de archivos con diff-so-fancy
+│   └── instalar-barra.sh # Instalar barra personalizada
+└── etc/                  # Configuraciones de sistema
+    ├── doas.conf
+    ├── pam.d/
+    ├── systemd/
+    └── udev/
+```
+
+## Configuraciones principales
+
+### Shell (Zsh)
+- Modo VI con cursor visual
+- Prompt personalizado con Git
+- Aliases para NixOS (`aplicar`, `probar`, `refrescar`, etc.)
+- Integración con fzf, zoxide, direnv
+
+### NixOS
+Los aliases más importantes:
+- `aplicar` - Aplicar cambios del sistema
+- `probar` - Probar cambios sin aplicar
+- `refrescar` - Actualizar flake
+- `limpiar` - Limpiar caché y generaciones antiguas
+- `buscar` - Buscar paquetes
+- `conf` - Ir a /etc/nixos
+- `nixedit` - Editar configuración NixOS
+
+### Vim
+- CoC para autocompletado LSP
+- Plugins para productividad (NERDTree, fzf, git, etc.)
+- Temas Gruvbox y Everforest
+- Configuración optimizada para rendimiento
+
+### Sway (Wayland)
+- Teclas estilo Vim (hjkl)
+- Barra personalizada con código fuente en `pkgs/sway-bar/`
+- Atajos para multimedia y captura de pantalla
+- Integración con bemenu, grim, slurp
+
+### Firefox
+- Betterfox para optimización
+- Configuración de privacidad y rendimiento
+- Extensión Gruvbox Dark
+
+## Scripts útiles
+
+### `run.sh`
+Ejecuta programas en entorno limpio sin contaminar configuraciones:
 ```bash
-   sudo systemctl disable networking.service
-   sudo systemctl stop networking.service
+./scripts/run.sh firefox
 ```
 
-2. **Comenta la configuración en `/etc/network/interfaces`:**
+### `nixsh.sh`
+Abre shell temporal con paquete específico:
 ```bash
-   sudo nano /etc/network/interfaces
-```
-   Deja solo:
-```
-   # This file is not used anymore - using systemd-networkd instead
-   # Configuration is in /etc/systemd/network/
-
-   source /etc/network/interfaces.d/*
-
-   auto lo
-   iface lo inet loopback
+./scripts/nixsh.sh python3
 ```
 
-3. **Crea la configuración de red:**
+### `simple-diff.sh`
+Compara archivos, clipboard o strings con diff-so-fancy:
 ```bash
-   sudo nano /etc/systemd/network/20-eth0.network
-```
-   Contenido (adapta interfaz, IP y gateway):
-```ini
-   [Match]
-   Name=enp7s0
-
-   [Network]
-   Address=192.168.1.50/24
-   Gateway=192.168.1.1
-   DNS=1.1.1.1
-   DNS=1.0.0.1
-   DNS=9.9.9.9
-   Domains=lan
-   DHCP=no
+./scripts/simple-diff.sh archivo1.txt archivo2.txt
+./scripts/simple-diff.sh clip archivo.txt
 ```
 
-4. **Ajusta permisos:**
+### `instalar-barra.sh`
+Compila e instala la barra personalizada de sway:
 ```bash
-   sudo chmod 644 /etc/systemd/network/20-eth0.network
+./scripts/instalar-barra.sh
 ```
 
-5. **Habilita e inicia systemd-networkd:**
-```bash
-   sudo systemctl enable systemd-networkd
-   sudo systemctl start systemd-networkd
-```
+## Sincronización
 
-6. **Verifica:**
-```bash
-   networkctl status
-   ping -c 3 1.1.1.1
-```
+Estos dotfiles están sincronizados con la configuración de `/etc/nixos`. Para actualizar:
 
-### systemd-resolved (DNS)
+1. Los cambios en `/etc/nixos` se reflejan aquí
+2. Configuraciones específicas de usuario se mantienen en dotfiles
+3. Los scripts esenciales de NixOS están incluidos
 
-1. **Habilita e inicia el servicio:**
-```bash
-   sudo systemctl enable systemd-resolved
-   sudo systemctl start systemd-resolved
-```
+## Notas
 
-2. **Configura el stub resolver:**
-```bash
-   sudo ln -sf /run/systemd/resolve/stub-resolv.conf /etc/resolv.conf
-```
-
-3. **Verifica:**
-```bash
-   resolvectl status
-   resolvectl query google.com
-```
-
-### Limpieza (Opcional)
-
-Si no necesitas el sistema antiguo:
-```bash
-sudo apt purge ifupdown
-sudo apt autoremove
-```
+- Sistema: NixOS con flakes y home-manager
+- Entorno: Sway (Wayland)
+- Editor: Vim con CoC
+- Shell: Zsh con modo VI

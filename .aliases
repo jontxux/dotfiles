@@ -1,56 +1,43 @@
-# Alias para montar y desmontar USB en español
-alias montarusb='doas mount -v /dev/sdb1 /media/usb'
-alias desmontarusb='doas umount -v /media/usb'
+# ===== LISTADO =====
+alias ls='eza --icons --color=auto --group-directories-first'
+alias la='eza --icons --color=auto --group-directories-first -a'
+alias ll='eza -lah --icons --color=auto --group-directories-first --git'
+alias lt='eza --tree -L 2 --icons --color=auto --group-directories-first'
+alias ltg='eza --tree -L 2 --git-ignore --icons --color=auto'
 
-# Aliases para ls con colores
-alias ls='eza --icons --color=auto --group-directories-first'  # Listado básico con iconos
-alias la='eza --icons --color=auto --group-directories-first -a'  # Listado con iconos
-alias ll='eza -lah --icons --color=auto --group-directories-first --git'  # Listado detallado + git
-alias lt='eza --tree -L 2 --icons --color=auto --group-directories-first'  # Vista árbol
-alias ltg='eza --tree -L 2 --git-ignore --icons --color=auto'  # Vista árbol + git status
+# ===== VISUALIZACIÓN =====
+alias cat='bat'
+alias leer='bat --pager="less -R"'
 
-# Alias para grep con colores
+# ===== GREP =====
 alias grep='grep --color=auto'
 alias egrep='egrep --color=auto'
 alias fgrep='fgrep --color=auto'
 
-# Alias para buscar y mostrar contenido de archivos con fd
+# ===== NIXOS =====
+alias aplicar='sudo nixos-rebuild switch --flake /etc/nixos#nixos'
+alias probar='sudo nixos-rebuild test --flake /etc/nixos#nixos'
+alias refrescar='nix flake update --flake /etc/nixos'
+alias limpiar='sudo nix profile wipe-history --profile /nix/var/nix/profiles/system --older-than 7d && sudo nix store gc && nix store optimise'
+alias basura='sudo nix store gc'
+alias buscar='nix-search'
+alias conf='cd /etc/nixos'
+alias nixedit='vim /etc/nixos'
+
+# ===== SISTEMA =====
+alias montarusb='sudo mount -v /dev/sdb1 /media/usb'
+alias desmontarusb='sudo umount -v /media/usb'
 alias fca='fd -tf -x sh -c "echo {}; cat {}"'
-
-# Alias para ver procesos
 alias psg='ps aux | grep -v grep | grep'
+alias doas='sudo'
+alias weather='curl es.wttr.in/Zarautz'
 
-# Gestión de Paquetes Debian (APT)
-alias actualizar='doas apt update && doas apt full-upgrade -y'
-alias instalar='doas apt install'
-alias desinstalar='doas apt remove'
-alias purgar='doas apt purge'              # Desinstala y borra configs
-alias limpiar='doas apt autoremove'        # Borra dependencias huérfanas
-alias buscar='apt search'
-alias info_paquete='apt show'
-alias ver_instalados='dpkg -l'             # O 'apt list --installed'
-alias buscar_archivo='dpkg -S'             # Busca a qué paquete pertenece un archivo
+# ===== MULTIMEDIA (CHROMECAST) =====
+alias cast='go-chromecast -s 48291 --first load'
+alias cast-salon='go-chromecast -s 48291 -u "a24cd6ba947d71983793a702ad566695" load'
+alias cast-stop='go-chromecast -u "a24cd6ba947d71983793a702ad566695" stop'
 
-# Gestión de Paquetes Guix (Usuario)
-# Nota: 'guix pull' actualiza las definiciones, 'package -u' actualiza tu perfil
-alias gactualizar='guix pull && guix package -u' 
-alias ginstalar='guix install'
-alias gdesinstalar='guix remove'
-alias gbuscar='guix search'
-alias ginfo='guix show'
-alias glimpiar='guix gc'                   # Garbage Collector (libera espacio)
-alias gver_instalados='guix package -I'
-
-# Gestión de Generaciones (Rollbacks)
-alias grollback='guix package --roll-back'         # Volver al estado anterior
-alias ggeneraciones='guix package --list-generations'
-alias gborrar_gens='guix package --delete-generations' # Borra versiones viejas
-
-# Alias para apagar y reiniciar
-alias shutdown='doas shutdown'
-alias reboot='doas reboot'
-
-# Alias de Git
+# ===== GIT =====
 alias gpl='git pull'
 alias gps='git push'
 alias gdf='git diff'
@@ -59,18 +46,17 @@ alias gcm='git commit'
 alias gco='git checkout'
 alias gbr='git branch'
 alias glg='git log --oneline --graph --all --decorate'
-
-# Alias adicionales recomendados
 alias gad='git add'
 alias gaa='git add .'
 alias gca='git commit -a -m'
 alias gamend='git commit --amend'
 alias gundo='git reset --soft HEAD~1'
 
-alias sudo='doas'
-alias weather='curl es.wttr.in/Zarautz'
+# ===== NAVEGACIÓN =====
+alias '..'='cd ..'
+alias '...'='cd ../..'
 
-#fzf
+# ===== FZF =====
 alias rmfzf='fzf -m --print0 | xargs -0 rm -v'
 alias cpfzf='fzf -m --print0 | xargs -0 -I {} cp -rv "{}"'
 

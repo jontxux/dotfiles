@@ -1,6 +1,6 @@
 [user]
 	email = jonbergerandi@gmail.com
-	name = jontxux
+	name = Jon Bergerandi
 [core]
 	pager = diff-so-fancy | less --tabs=4 -RFX
 [interactive]

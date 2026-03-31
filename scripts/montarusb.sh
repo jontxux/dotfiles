@@ -5,7 +5,7 @@ if [ "$1" == "add" ]; then
     TYPE=$(blkid -o value -s TYPE /dev/$2 2>/dev/null) || exit 1
     DIR="/media/usb"
     N=2
-    while mountpoint -q "$DIR" 2>/dev/null; do 
+    while mountpoint -q "$DIR" 2>/dev/null; do
         DIR="/media/usb$N"
         N=$((N+1))
     done
